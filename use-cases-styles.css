@@ -1,0 +1,488 @@
+/* 
+ * AgenticX5 Use Cases Stylesheet
+ * Style Wope - Dark Theme with Purple/Pink Gradients
+ * Version: 1.0
+ * © 2025 GenAISafety
+ */
+
+/* ================================
+   1. RESET & BASE STYLES
+   ================================ */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    background: linear-gradient(135deg, #0a0a1a 0%, #1a0a2e 50%, #16213e 100%);
+    color: #e0e0e0;
+    min-height: 100vh;
+    line-height: 1.6;
+}
+
+/* ================================
+   2. TOP NAVIGATION
+   ================================ */
+
+.top-nav {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(167, 139, 250, 0.2);
+    padding: 15px 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.top-nav .container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.back-link {
+    color: #a78bfa;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.back-link:hover {
+    color: #ec4899;
+}
+
+/* ================================
+   3. CONTAINER & LAYOUT
+   ================================ */
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+
+/* ================================
+   4. HERO SECTION
+   ================================ */
+
+.hero {
+    text-align: center;
+    padding: 60px 20px;
+    margin-bottom: 50px;
+}
+
+.hero-icon {
+    font-size: 5rem;
+    margin-bottom: 25px;
+    filter: drop-shadow(0 10px 30px rgba(167, 139, 250, 0.5));
+}
+
+.hero h1 {
+    font-size: 3.5rem;
+    color: #ffffff;
+    margin-bottom: 20px;
+    text-shadow: 0 0 30px rgba(167, 139, 250, 0.5);
+}
+
+.hero-subtitle {
+    font-size: 1.3rem;
+    color: #b0b0b0;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* ================================
+   5. SECTIONS
+   ================================ */
+
+.section {
+    background: rgba(255, 255, 255, 0.04);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(167, 139, 250, 0.2);
+    border-radius: 20px;
+    padding: 40px;
+    margin-bottom: 40px;
+}
+
+.section-title {
+    font-size: 2rem;
+    color: #ffffff;
+    margin-bottom: 25px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.section-icon {
+    font-size: 2rem;
+}
+
+.section-content {
+    color: #b8b8b8;
+    font-size: 1.1rem;
+    line-height: 1.8;
+}
+
+.section-content h3 {
+    color: #fff;
+    margin: 30px 0 15px;
+    font-size: 1.4rem;
+}
+
+.section-content p {
+    margin-bottom: 20px;
+}
+
+/* ================================
+   6. STATS GRID
+   ================================ */
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 25px;
+    margin: 30px 0;
+}
+
+.stat-box {
+    background: rgba(167, 139, 250, 0.1);
+    border: 1px solid rgba(167, 139, 250, 0.3);
+    border-radius: 15px;
+    padding: 25px;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.stat-box:hover {
+    transform: translateY(-5px);
+    background: rgba(167, 139, 250, 0.15);
+}
+
+.stat-value {
+    font-size: 2.5rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, #a78bfa 0%, #ec4899 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 10px;
+}
+
+.stat-label {
+    color: #b0b0b0;
+    font-size: 0.95rem;
+}
+
+/* ================================
+   7. FEATURE LISTS
+   ================================ */
+
+.feature-list {
+    list-style: none;
+    margin: 20px 0;
+    padding-left: 0;
+}
+
+.feature-list li {
+    background: rgba(255, 255, 255, 0.03);
+    padding: 15px 20px;
+    margin-bottom: 12px;
+    border-radius: 10px;
+    border-left: 4px solid #a78bfa;
+    transition: all 0.3s ease;
+}
+
+.feature-list li:hover {
+    background: rgba(255, 255, 255, 0.06);
+    transform: translateX(5px);
+}
+
+.feature-list strong {
+    color: #a78bfa;
+}
+
+/* ================================
+   8. MODULE GRID
+   ================================ */
+
+.module-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 25px;
+    margin: 30px 0;
+}
+
+.module-card {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(167, 139, 250, 0.2);
+    border-radius: 15px;
+    padding: 30px;
+    transition: all 0.3s ease;
+}
+
+.module-card:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(167, 139, 250, 0.4);
+    transform: translateY(-5px);
+}
+
+.module-title {
+    font-size: 1.3rem;
+    color: #ffffff;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.module-card p {
+    color: #b8b8b8;
+    line-height: 1.6;
+}
+
+/* ================================
+   9. HIGHLIGHT BOXES
+   ================================ */
+
+.highlight-box {
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.15) 0%, rgba(5, 150, 105, 0.1) 100%);
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    border-radius: 15px;
+    padding: 30px;
+    margin: 30px 0;
+}
+
+.highlight-title {
+    font-size: 1.5rem;
+    color: #10b981;
+    margin-bottom: 15px;
+    font-weight: 600;
+}
+
+.warning-box {
+    background: linear-gradient(135deg, rgba(239, 68, 68, 0.15) 0%, rgba(220, 38, 38, 0.1) 100%);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    border-radius: 15px;
+    padding: 30px;
+    margin: 30px 0;
+}
+
+.warning-title {
+    font-size: 1.5rem;
+    color: #ef4444;
+    margin-bottom: 15px;
+    font-weight: 600;
+}
+
+.info-box {
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.15) 0%, rgba(37, 99, 235, 0.1) 100%);
+    border: 1px solid rgba(59, 130, 246, 0.3);
+    border-radius: 15px;
+    padding: 30px;
+    margin: 30px 0;
+}
+
+.info-title {
+    font-size: 1.5rem;
+    color: #3b82f6;
+    margin-bottom: 15px;
+    font-weight: 600;
+}
+
+/* ================================
+   10. CTA SECTION
+   ================================ */
+
+.cta-section {
+    text-align: center;
+    padding: 50px 40px;
+    background: linear-gradient(135deg, rgba(167, 139, 250, 0.1) 0%, rgba(236, 72, 153, 0.1) 100%);
+    border-radius: 20px;
+    border: 1px solid rgba(167, 139, 250, 0.3);
+    margin-top: 50px;
+}
+
+.cta-section h2 {
+    color: #fff;
+    font-size: 2.2rem;
+    margin-bottom: 20px;
+}
+
+.cta-section p {
+    color: #b8b8b8;
+    margin-bottom: 30px;
+    font-size: 1.1rem;
+}
+
+.cta-button {
+    display: inline-block;
+    padding: 15px 40px;
+    background: linear-gradient(135deg, #a78bfa 0%, #ec4899 100%);
+    color: #ffffff;
+    text-decoration: none;
+    border-radius: 30px;
+    font-weight: 600;
+    margin: 10px;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.cta-button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 10px 30px rgba(167, 139, 250, 0.4);
+}
+
+.cta-button.secondary {
+    background: transparent;
+    border: 2px solid #a78bfa;
+}
+
+.cta-button.secondary:hover {
+    background: linear-gradient(135deg, #a78bfa 0%, #ec4899 100%);
+}
+
+/* ================================
+   11. FOOTER
+   ================================ */
+
+footer {
+    text-align: center;
+    padding: 40px 20px;
+    color: #666;
+    margin-top: 60px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+footer .brand {
+    font-weight: 700;
+}
+
+footer .brand.primary {
+    color: #a78bfa;
+}
+
+footer .brand.secondary {
+    color: #ec4899;
+}
+
+/* ================================
+   12. RESPONSIVE DESIGN
+   ================================ */
+
+@media (max-width: 768px) {
+    .hero h1 {
+        font-size: 2.5rem;
+    }
+
+    .hero-subtitle {
+        font-size: 1.1rem;
+    }
+
+    .section {
+        padding: 25px;
+    }
+
+    .section-title {
+        font-size: 1.6rem;
+    }
+
+    .stats-grid,
+    .module-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .top-nav .container {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-icon {
+        font-size: 3.5rem;
+    }
+
+    .hero h1 {
+        font-size: 2rem;
+    }
+
+    .stat-value {
+        font-size: 2rem;
+    }
+
+    .section {
+        padding: 20px;
+    }
+}
+
+/* ================================
+   13. ANIMATIONS
+   ================================ */
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-in {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+/* ================================
+   14. UTILITY CLASSES
+   ================================ */
+
+.text-center {
+    text-align: center;
+}
+
+.mt-30 {
+    margin-top: 30px;
+}
+
+.mb-30 {
+    margin-bottom: 30px;
+}
+
+.gradient-text {
+    background: linear-gradient(135deg, #a78bfa 0%, #ec4899 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* ================================
+   15. PRINT STYLES
+   ================================ */
+
+@media print {
+    body {
+        background: white;
+        color: black;
+    }
+
+    .top-nav,
+    .cta-section,
+    footer {
+        display: none;
+    }
+
+    .section {
+        background: white;
+        border: 1px solid #ccc;
+        page-break-inside: avoid;
+    }
+}

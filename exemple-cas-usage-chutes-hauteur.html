@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prévention Chutes de Hauteur | AgenticX5</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #0a0a1a 0%, #1a0a2e 50%, #16213e 100%);
+            color: #e0e0e0;
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        /* Header Navigation */
+        .top-nav {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(167, 139, 250, 0.2);
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .top-nav .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .back-link {
+            color: #a78bfa;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .back-link:hover {
+            color: #ec4899;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 60px 20px;
+            margin-bottom: 50px;
+        }
+
+        .hero-icon {
+            font-size: 5rem;
+            margin-bottom: 25px;
+            filter: drop-shadow(0 10px 30px rgba(167, 139, 250, 0.5));
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            color: #ffffff;
+            margin-bottom: 20px;
+            text-shadow: 0 0 30px rgba(167, 139, 250, 0.5);
+        }
+
+        .hero-subtitle {
+            font-size: 1.3rem;
+            color: #b0b0b0;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Section */
+        .section {
+            background: rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(167, 139, 250, 0.2);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 40px;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            color: #ffffff;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .section-icon {
+            font-size: 2rem;
+        }
+
+        .section-content {
+            color: #b8b8b8;
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+
+        .stat-box {
+            background: rgba(167, 139, 250, 0.1);
+            border: 1px solid rgba(167, 139, 250, 0.3);
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .stat-box:hover {
+            transform: translateY(-5px);
+            background: rgba(167, 139, 250, 0.15);
+        }
+
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #a78bfa 0%, #ec4899 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            color: #b0b0b0;
+            font-size: 0.95rem;
+        }
+
+        /* Feature List */
+        .feature-list {
+            list-style: none;
+            margin: 20px 0;
+        }
+
+        .feature-list li {
+            background: rgba(255, 255, 255, 0.03);
+            padding: 15px 20px;
+            margin-bottom: 12px;
+            border-radius: 10px;
+            border-left: 4px solid #a78bfa;
+            transition: all 0.3s ease;
+        }
+
+        .feature-list li:hover {
+            background: rgba(255, 255, 255, 0.06);
+            transform: translateX(5px);
+        }
+
+        .feature-list strong {
+            color: #a78bfa;
+        }
+
+        /* Module Grid */
+        .module-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+
+        .module-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(167, 139, 250, 0.2);
+            border-radius: 15px;
+            padding: 30px;
+            transition: all 0.3s ease;
+        }
+
+        .module-card:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(167, 139, 250, 0.4);
+            transform: translateY(-5px);
+        }
+
+        .module-title {
+            font-size: 1.3rem;
+            color: #ffffff;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Highlight Box */
+        .highlight-box {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.15) 0%, rgba(5, 150, 105, 0.1) 100%);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            border-radius: 15px;
+            padding: 30px;
+            margin: 30px 0;
+        }
+
+        .highlight-title {
+            font-size: 1.5rem;
+            color: #10b981;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        /* Warning Box */
+        .warning-box {
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.15) 0%, rgba(220, 38, 38, 0.1) 100%);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            border-radius: 15px;
+            padding: 30px;
+            margin: 30px 0;
+        }
+
+        .warning-title {
+            font-size: 1.5rem;
+            color: #ef4444;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            text-align: center;
+            padding: 50px 40px;
+            background: linear-gradient(135deg, rgba(167, 139, 250, 0.1) 0%, rgba(236, 72, 153, 0.1) 100%);
+            border-radius: 20px;
+            border: 1px solid rgba(167, 139, 250, 0.3);
+            margin-top: 50px;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 15px 40px;
+            background: linear-gradient(135deg, #a78bfa 0%, #ec4899 100%);
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: 600;
+            margin: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .cta-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(167, 139, 250, 0.4);
+        }
+
+        .cta-button.secondary {
+            background: transparent;
+            border: 2px solid #a78bfa;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .section {
+                padding: 25px;
+            }
+
+            .stats-grid,
+            .module-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Top Navigation -->
+    <nav class="top-nav">
+        <div class="container">
+            <a href="/cas-usage-index.html" class="back-link">← Retour aux cas d'usage</a>
+            <div style="color: #666;">AgenticX5 • SafetyGraph</div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- Hero Section -->
+        <div class="hero">
+            <div class="hero-icon">🏗️</div>
+            <h1>Prévention des Chutes de Hauteur</h1>
+            <p class="hero-subtitle">
+                Système agentique de détection, prédiction et prévention des chutes en temps réel. 
+                Module Construction HSE avec 89.4% de précision prédictive et réduction de 60-75% des incidents.
+            </p>
+        </div>
+
+        <!-- Statistiques Clés -->
+        <div class="section">
+            <h2 class="section-title">
+                <span class="section-icon">📊</span>
+                Statistiques & Impact
+            </h2>
+            <div class="stats-grid">
+                <div class="stat-box">
+                    <div class="stat-value">47,000+</div>
+                    <div class="stat-label">Cas annuels (Construction QC)</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value">-60%</div>
+                    <div class="stat-label">Réduction incidents</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value">89.4%</div>
+                    <div class="stat-label">Précision prédictive</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value">&lt;2s</div>
+                    <div class="stat-label">Temps d'alerte</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value">+92%</div>
+                    <div class="stat-label">Taux conformité EPI</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value">100%</div>
+                    <div class="stat-label">Violations détectées</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Problématique -->
+        <div class="section">
+            <h2 class="section-title">
+                <span class="section-icon">⚠️</span>
+                Problématique
+            </h2>
+            <div class="section-content">
+                <p style="margin-bottom: 20px;">
+                    Les chutes de hauteur représentent <strong>la première cause de décès</strong> dans le secteur 
+                    de la construction au Québec et au Canada, avec des conséquences dramatiques pour les travailleurs 
+                    et les entreprises.
+                </p>
+                
+                <div class="warning-box">
+                    <div class="warning-title">🚨 Données CNESST (Québec)</div>
+                    <ul style="list-style: none; padding-left: 0;">
+                        <li style="margin-bottom: 10px;">• <strong>47,000+ cas annuels</strong> de chutes en hauteur dans la construction</li>
+                        <li style="margin-bottom: 10px;">• <strong>25-30 décès par an</strong> directement liés aux chutes</li>
+                        <li style="margin-bottom: 10px;">• <strong>Coût moyen : 82,000$</strong> par incident (soins + indemnités + pertes productivité)</li>
+                        <li style="margin-bottom: 10px;">• <strong>72%</strong> impliquent des fractures multiples</li>
+                        <li style="margin-bottom: 10px;">• <strong>45%</strong> entraînent un traumatisme crânien</li>
+                    </ul>
+                </div>
+
+                <h3 style="color: #fff; margin-top: 30px; margin-bottom: 15px;">Facteurs de Risque Principaux</h3>
+                <ul class="feature-list">
+                    <li><strong>Zones non protégées :</strong> Absence de garde-corps, filets de sécurité ou lignes de vie</li>
+                    <li><strong>Non-conformité EPI :</strong> Harnais mal ajusté, point d'ancrage inadéquat, longe excessive</li>
+                    <li><strong>Conditions météo :</strong> Vent > 40 km/h, surfaces glacées, pluie réduisant l'adhérence</li>
+                    <li><strong>Fatigue & expérience :</strong> Fin de journée, nouveaux travailleurs (&lt;2 ans), travail en solitaire</li>
+                    <li><strong>Équipements instables :</strong> Échafaudages mal ancrés, échelles inadaptées, plateformes mobiles</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Solution AgenticX5 -->
+        <div class="section">
+            <h2 class="section-title">
+                <span class="section-icon">🤖</span>
+                Solution Agentique AgenticX5
+            </h2>
+            <div class="section-content">
+                <p style="margin-bottom: 25px;">
+                    AgenticX5 déploie une <strong>architecture multi-agents autonomes</strong> capable de détecter, 
+                    prédire et prévenir les chutes de hauteur en temps réel, transformant la gestion de sécurité 
+                    d'une approche réactive à une stratégie proactive et prédictive.
+                </p>
+
+                <h3 style="color: #fff; margin-bottom: 20px;">🔍 Détection Proactive Temps Réel</h3>
+                <ul class="feature-list">
+                    <li><strong>Vision par ordinateur (YOLO v8/v11) :</strong> Détection automatique des travailleurs en hauteur via caméras intelligentes avec reconnaissance des EPI (harnais, casque)</li>
+                    <li><strong>Analyse spatiale 3D :</strong> Intégration des plans BIM pour identifier les zones à risque et calculer les hauteurs de chute potentielles</li>
+                    <li><strong>Géolocalisation indoor :</strong> Suivi de position avec précision &lt;1m pour corréler avec les zones non protégées</li>
+                    <li><strong>Validation normative automatique :</strong> Vérification instantanée conformité RSST Art. 352 et CSTC 2.9.1</li>
+                    <li><strong>Alertes temps réel :</strong> Notification &lt;2 secondes au travailleur, superviseur et agent de sécurité</li>
+                </ul>
+
+                <h3 style="color: #fff; margin: 30px 0 20px;">🔮 Prédiction Incidents Avant Survenue</h3>
+                <ul class="feature-list">
+                    <li><strong>Oracle HSE Prédicteur :</strong> Modèle ML (Random Forest + GNN) avec 89.4% de précision, entraîné sur 793,000 incidents CNESST</li>
+                    <li><strong>Score de risque dynamique :</strong> Calcul intégrant 15+ facteurs (hauteur, EPI, équipement, météo, fatigue, historique)</li>
+                    <li><strong>Détection anomalies comportementales :</strong> Patterns à risque via wearables (accélération brutale, posture instable, rythme cardiaque)</li>
+                    <li><strong>Prédiction multi-horizons :</strong> Alertes court terme (&lt;1h), moyen terme (journée), long terme (semaine)</li>
+                    <li><strong>Apprentissage continu :</strong> Amélioration automatique avec chaque near-miss ou incident</li>
+                </ul>
+
+                <h3 style="color: #fff; margin: 30px 0 20px;">🎯 Interventions Préventives Automatisées</h3>
+                <ul class="feature-list">
+                    <li><strong>Coaching temps réel (BehaviorX Module 6) :</strong> Recommandations vocales personnalisées via wearable</li>
+                    <li><strong>Blocage équipement :</strong> Arrêt automatique machines/plateformes si risque critique détecté</li>
+                    <li><strong>Recommandations adaptatives :</strong> Suggestions basées sur profil travailleur (expérience, formations, incidents passés)</li>
+                    <li><strong>Nudges comportementaux :</strong> Interventions douces pour encourager bons comportements</li>
+                    <li><strong>Coordination multi-agents :</strong> Orchestration intelligente entre détection, prédiction et intervention</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Modules SafetyGraph -->
+        <div class="section">
+            <h2 class="section-title">
+                <span class="section-icon">🔧</span>
+                Modules SafetyGraph Impliqués
+            </h2>
+            <div class="module-grid">
+                <div class="module-card">
+                    <div class="module-title">🏗️ Module Construction HSE</div>
+                    <p style="color: #b8b8b8;">
+                        Module sectoriel spécialisé pour la construction (SCIAN 23xxxx). Intègre 47,000+ cas CNESST, 
+                        base de connaissances CSTC (Art. 2.9.1 à 2.14.1), et modèles prédictifs par phase de chantier.
+                    </p>
+                </div>
+                <div class="module-card">
+                    <div class="module-title">🔮 Oracle HSE Prédicteur</div>
+                    <p style="color: #b8b8b8;">
+                        Moteur ML avec 89.4% de précision, entraîné sur 793,000 incidents. Calcule probabilité et 
+                        gravité d'accident en temps réel avec score de risque dynamique multi-facteurs.
+                    </p>
+                </div>
+                <div class="module-card">
+                    <div class="module-title">🎯 BehaviorX Module 6</div>
+                    <p style="color: #b8b8b8;">
+                        Coaching comportemental personnalisé. Feedback temps réel, gamification, nudges adaptatifs. 
+                        Améliore conformité EPI de 45% à 92% selon pilotes en cours.
+                    </p>
+                </div>
+                <div class="module-card">
+                    <div class="module-title">📊 Dashboard Construction SST</div>
+                    <p style="color: #b8b8b8;">
+                        Centralisation données, cartographie zones à risque, KPIs temps réel (taux conformité, 
+                        incidents évités, near-miss). Exports rapports conformité CNESST.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Impact Attendu -->
+        <div class="section">
+            <h2 class="section-title">
+                <span class="section-icon">📈</span>
+                Impact Attendu (Pilotes en Cours)
+            </h2>
+            <div class="highlight-box">
+                <div class="highlight-title">✅ Résultats Mesurables</div>
+                <ul class="feature-list">
+                    <li><strong>Réduction incidents chute : 60-75%</strong> (détection + prédiction + intervention précoce)</li>
+                    <li><strong>Éviter 100% violations réglementaires</strong> non détectées (validation automatique RSST/CSTC)</li>
+                    <li><strong>Amélioration conformité EPI : 45% → 92%</strong> (coaching temps réel)</li>
+                    <li><strong>Transformation culture sécurité : +30%</strong> de signalements proactifs des travailleurs</li>
+                    <li><strong>ROI moyen : 25:1</strong> sur 3 ans (économies coûts incidents vs investissement technologique)</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Standards & Conformité -->
+        <div class="section">
+            <h2 class="section-title">
+                <span class="section-icon">📜</span>
+                Standards & Conformité
+            </h2>
+            <div class="section-content">
+                <h3 style="color: #fff; margin-bottom: 15px;">Québec (Canada)</h3>
+                <ul class="feature-list">
+                    <li><strong>LSST Art. 51 :</strong> Obligation employeur protéger santé et sécurité du travailleur</li>
+                    <li><strong>RSST Art. 352 :</strong> Protection obligatoire travaux en hauteur > 3 mètres</li>
+                    <li><strong>CSTC Art. 2.9.1 à 2.14.1 :</strong> Normes échafaudages, plateformes, garde-corps</li>
+                    <li><strong>CSA Z259 :</strong> Équipements protection antichute (harnais, longes, ancrages)</li>
+                </ul>
+
+                <h3 style="color: #fff; margin: 25px 0 15px;">International</h3>
+                <ul class="feature-list">
+                    <li><strong>OSHA 1926 Subpart M (USA) :</strong> Fall protection in construction</li>
+                    <li><strong>EN 363/364/365 (Europe) :</strong> Systèmes arrêt de chute</li>
+                    <li><strong>ISO 45001 :</strong> Système management santé et sécurité au travail</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- CTA -->
+        <div class="cta-section">
+            <h2 style="color: #fff; font-size: 2.2rem; margin-bottom: 20px;">
+                Prêt à Déployer AgenticX5 sur Vos Chantiers ?
+            </h2>
+            <p style="color: #b8b8b8; margin-bottom: 30px; font-size: 1.1rem;">
+                Réduisez les chutes de hauteur de 60-75% grâce à l'intelligence agentique
+            </p>
+            <a href="#demo" class="cta-button">Demander une Démo</a>
+            <a href="#contact" class="cta-button secondary">Nous Contacter</a>
+        </div>
+    </div>
+
+    <footer style="text-align: center; padding: 40px 20px; color: #666; margin-top: 60px; border-top: 1px solid rgba(255,255,255,0.1);">
+        <div style="margin-bottom: 15px;">
+            <span style="color: #a78bfa; font-weight: 700;">GenAISafety</span> × 
+            <span style="color: #ec4899; font-weight: 700;">Preventera</span> × 
+            <span style="color: #a78bfa; font-weight: 700;">SquadrAI</span>
+        </div>
+        <div style="font-size: 0.9rem;">
+            AgenticX5 : Intelligence Agentique au Service de la Santé et Sécurité au Travail
+        </div>
+        <div style="font-size: 0.85rem; margin-top: 10px;">
+            © 2025 GenAISafety. Conforme ISO 45001 • RSST • CSTC • CSA Z259
+        </div>
+    </footer>
+</body>
+</html>

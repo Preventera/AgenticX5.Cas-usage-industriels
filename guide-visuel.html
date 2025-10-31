@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guide Visuel - Structure AgenticX5 Cas d'usage</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Monaco', 'Courier New', monospace;
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 40px 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            color: #4ec9b0;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #808080;
+            margin-bottom: 40px;
+        }
+
+        /* Tree Structure */
+        .tree {
+            background: #252526;
+            border-radius: 10px;
+            padding: 30px;
+            margin-bottom: 40px;
+            font-family: 'Monaco', 'Courier New', monospace;
+            font-size: 14px;
+            overflow-x: auto;
+        }
+
+        .tree-line {
+            padding: 3px 0;
+            white-space: pre;
+        }
+
+        .folder {
+            color: #4ec9b0;
+            font-weight: bold;
+        }
+
+        .file {
+            color: #ce9178;
+        }
+
+        .file.html {
+            color: #569cd6;
+        }
+
+        .file.css {
+            color: #c586c0;
+        }
+
+        .file.md {
+            color: #dcdcaa;
+        }
+
+        .comment {
+            color: #6a9955;
+            font-style: italic;
+        }
+
+        /* Cards Section */
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .card {
+            background: #252526;
+            border: 1px solid #3e3e42;
+            border-radius: 8px;
+            padding: 25px;
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            border-color: #4ec9b0;
+            transform: translateY(-5px);
+        }
+
+        .card-title {
+            color: #4ec9b0;
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+
+        .card-description {
+            color: #d4d4d4;
+            margin-bottom: 15px;
+        }
+
+        .card-tech {
+            display: inline-block;
+            background: #3e3e42;
+            color: #ce9178;
+            padding: 5px 12px;
+            border-radius: 5px;
+            font-size: 0.85rem;
+            margin: 5px 5px 0 0;
+        }
+
+        /* Flow Diagram */
+        .flow {
+            background: #252526;
+            border-radius: 10px;
+            padding: 30px;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .flow-step {
+            background: #2d2d30;
+            border: 2px solid #4ec9b0;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px auto;
+            max-width: 600px;
+            position: relative;
+        }
+
+        .flow-step::after {
+            content: '↓';
+            display: block;
+            color: #4ec9b0;
+            font-size: 2rem;
+            margin-top: 15px;
+        }
+
+        .flow-step:last-child::after {
+            content: '✓';
+            color: #6a9955;
+        }
+
+        .flow-number {
+            background: #4ec9b0;
+            color: #1e1e1e;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        /* Code Block */
+        .code-block {
+            background: #1e1e1e;
+            border: 1px solid #3e3e42;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            overflow-x: auto;
+        }
+
+        .code-block code {
+            color: #ce9178;
+        }
+
+        .code-comment {
+            color: #6a9955;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            color: #808080;
+            margin-top: 60px;
+            padding-top: 30px;
+            border-top: 1px solid #3e3e42;
+        }
+
+        .highlight {
+            color: #4ec9b0;
+            font-weight: bold;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            .cards {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📁 Guide Visuel - Structure Cas d'usage</h1>
+        <p class="subtitle">Comprendre l'architecture des fichiers AgenticX5</p>
+
+        <!-- Tree Structure -->
+        <div class="tree">
+            <div class="tree-line"><span class="folder">votre-site/</span></div>
+            <div class="tree-line">│</div>
+            <div class="tree-line">├── <span class="file html">cas-usage-index.html</span>          <span class="comment"># ⭐ PAGE PRINCIPALE</span></div>
+            <div class="tree-line">│</div>
+            <div class="tree-line">├── <span class="folder">css/</span></div>
+            <div class="tree-line">│   └── <span class="file css">use-cases-styles.css</span>       <span class="comment"># 🎨 STYLES RÉUTILISABLES</span></div>
+            <div class="tree-line">│</div>
+            <div class="tree-line">├── <span class="folder">docs/</span>                            <span class="comment"># (optionnel)</span></div>
+            <div class="tree-line">│   ├── <span class="file md">README.md</span>                  <span class="comment"># Vue d'ensemble</span></div>
+            <div class="tree-line">│   ├── <span class="file md">INTEGRATION-GUIDE.md</span>       <span class="comment"># Guide détaillé</span></div>
+            <div class="tree-line">│   ├── <span class="file html">template-cas-usage.html</span>  <span class="comment"># Template réutilisable</span></div>
+            <div class="tree-line">│   └── <span class="file html">guide-visuel.html</span>        <span class="comment"># Ce fichier</span></div>
+            <div class="tree-line">│</div>
+            <div class="tree-line">└── <span class="folder">use-cases/</span>                       <span class="comment"># 📂 DOSSIER CAS D'USAGE</span></div>
+            <div class="tree-line">    │</div>
+            <div class="tree-line">    ├── <span class="folder">chutes-hauteur/</span></div>
+            <div class="tree-line">    │   └── <span class="file html">index.html</span>           <span class="comment"># 🏗️ Cas 1</span></div>
+            <div class="tree-line">    │</div>
+            <div class="tree-line">    ├── <span class="folder">bim-4d-5d/</span></div>
+            <div class="tree-line">    │   └── <span class="file html">index.html</span>           <span class="comment"># 🏢 Cas 2</span></div>
+            <div class="tree-line">    │</div>
+            <div class="tree-line">    ├── <span class="folder">contacts-electriques/</span></div>
+            <div class="tree-line">    │   └── <span class="file html">index.html</span>           <span class="comment"># ⚡ Cas 3</span></div>
+            <div class="tree-line">    │</div>
+            <div class="tree-line">    ├── <span class="folder">tms-canal-carpien/</span></div>
+            <div class="tree-line">    │   └── <span class="file html">index.html</span>           <span class="comment"># 🖐️ Cas 4</span></div>
+            <div class="tree-line">    │</div>
+            <div class="tree-line">    ├── <span class="folder">espaces-clos/</span></div>
+            <div class="tree-line">    │   └── <span class="file html">index.html</span>           <span class="comment"># 🚪 Cas 5</span></div>
+            <div class="tree-line">    │</div>
+            <div class="tree-line">    ├── <span class="folder">protection-oculaire/</span></div>
+            <div class="tree-line">    │   └── <span class="file html">index.html</span>           <span class="comment"># 👁️ Cas 6</span></div>
+            <div class="tree-line">    │</div>
+            <div class="tree-line">    ├── <span class="folder">glissades-plain-pied/</span></div>
+            <div class="tree-line">    │   └── <span class="file html">index.html</span>           <span class="comment"># 💧 Cas 7</span></div>
+            <div class="tree-line">    │</div>
+            <div class="tree-line">    ├── <span class="folder">incendie-evacuation/</span></div>
+            <div class="tree-line">    │   └── <span class="file html">index.html</span>           <span class="comment"># 🚨 Cas 8</span></div>
+            <div class="tree-line">    │</div>
+            <div class="tree-line">    ├── <span class="folder">formation-outils/</span></div>
+            <div class="tree-line">    │   └── <span class="file html">index.html</span>           <span class="comment"># 🔧 Cas 9</span></div>
+            <div class="tree-line">    │</div>
+            <div class="tree-line">    ├── <span class="folder">conditions-meteo/</span></div>
+            <div class="tree-line">    │   └── <span class="file html">index.html</span>           <span class="comment"># 🌤️ Cas 10</span></div>
+            <div class="tree-line">    │</div>
+            <div class="tree-line">    ├── <span class="folder">acces-urgence/</span></div>
+            <div class="tree-line">    │   └── <span class="file html">index.html</span>           <span class="comment"># 🚑 Cas 11</span></div>
+            <div class="tree-line">    │</div>
+            <div class="tree-line">    └── <span class="folder">optimisation-planning/</span></div>
+            <div class="tree-line">        └── <span class="file html">index.html</span>           <span class="comment"># 📅 Cas 12</span></div>
+        </div>
+
+        <!-- Cards Section -->
+        <h2 style="color: #4ec9b0; margin-bottom: 25px; font-size: 1.8rem;">📦 Fichiers du Package</h2>
+        
+        <div class="cards">
+            <div class="card">
+                <div class="card-title">cas-usage-index.html</div>
+                <div class="card-description">
+                    Page principale listant les 12 cas d'usage en grille. Inclut animations, statistiques globales et CTA.
+                </div>
+                <span class="card-tech">HTML5</span>
+                <span class="card-tech">CSS inline</span>
+                <span class="card-tech">JS vanilla</span>
+            </div>
+
+            <div class="card">
+                <div class="card-title">use-cases-styles.css</div>
+                <div class="card-description">
+                    Feuille de style complète et réutilisable pour toutes les pages de cas d'usage. Style Wope (dark + gradient).
+                </div>
+                <span class="card-tech">CSS3</span>
+                <span class="card-tech">Flexbox</span>
+                <span class="card-tech">Grid</span>
+                <span class="card-tech">Animations</span>
+            </div>
+
+            <div class="card">
+                <div class="card-title">template-cas-usage.html</div>
+                <div class="card-description">
+                    Template vierge avec placeholders [À REMPLACER]. Structure complète prête à dupliquer.
+                </div>
+                <span class="card-tech">HTML5</span>
+                <span class="card-tech">Placeholders</span>
+                <span class="card-tech">Commentaires</span>
+            </div>
+
+            <div class="card">
+                <div class="card-title">exemple-cas-usage-chutes-hauteur.html</div>
+                <div class="card-description">
+                    Exemple complet d'une page détaillée avec toutes les sections remplies (Chutes de hauteur).
+                </div>
+                <span class="card-tech">HTML5</span>
+                <span class="card-tech">Contenu réel</span>
+                <span class="card-tech">Référence</span>
+            </div>
+
+            <div class="card">
+                <div class="card-title">INTEGRATION-GUIDE.md</div>
+                <div class="card-description">
+                    Guide complet d'intégration : structure, personnalisation, cas d'usage détaillés, FAQ.
+                </div>
+                <span class="card-tech">Markdown</span>
+                <span class="card-tech">Documentation</span>
+            </div>
+
+            <div class="card">
+                <div class="card-title">README.md</div>
+                <div class="card-description">
+                    Vue d'ensemble du package : fichiers inclus, installation, maintenance, dépannage.
+                </div>
+                <span class="card-tech">Markdown</span>
+                <span class="card-tech">Guide rapide</span>
+            </div>
+        </div>
+
+        <!-- Flow Diagram -->
+        <h2 style="color: #4ec9b0; margin-bottom: 25px; font-size: 1.8rem;">🔄 Flux de Création</h2>
+        
+        <div class="flow">
+            <div class="flow-step">
+                <span class="flow-number">1</span>
+                <strong>Déployer la page principale</strong><br>
+                Copier <code>cas-usage-index.html</code> à la racine du site
+            </div>
+
+            <div class="flow-step">
+                <span class="flow-number">2</span>
+                <strong>Ajouter les styles</strong><br>
+                Copier <code>use-cases-styles.css</code> dans <code>/css/</code>
+            </div>
+
+            <div class="flow-step">
+                <span class="flow-number">3</span>
+                <strong>Créer la structure de dossiers</strong><br>
+                Créer <code>/use-cases/</code> avec 12 sous-dossiers
+            </div>
+
+            <div class="flow-step">
+                <span class="flow-number">4</span>
+                <strong>Dupliquer le template</strong><br>
+                Pour chaque cas d'usage, copier <code>template-cas-usage.html</code>
+            </div>
+
+            <div class="flow-step">
+                <span class="flow-number">5</span>
+                <strong>Remplir les placeholders</strong><br>
+                Remplacer tous les <code>[...]</code> par le contenu réel
+            </div>
+
+            <div class="flow-step">
+                <span class="flow-number">6</span>
+                <strong>Tester & déployer</strong><br>
+                Vérifier tous les liens et déployer en production
+            </div>
+        </div>
+
+        <!-- Links Example -->
+        <h2 style="color: #4ec9b0; margin-bottom: 25px; font-size: 1.8rem;">🔗 Structure des Liens</h2>
+        
+        <div class="code-block">
+            <div><span class="code-comment">/* Page principale → Cas d'usage détaillé */</span></div>
+            <div><code>&lt;a href="/use-cases/chutes-hauteur/index.html"&gt;Explorer →&lt;/a&gt;</code></div>
+            <br>
+            <div><span class="code-comment">/* Cas d'usage détaillé → Page principale */</span></div>
+            <div><code>&lt;a href="/cas-usage-index.html"&gt;← Retour aux cas d'usage&lt;/a&gt;</code></div>
+            <br>
+            <div><span class="code-comment">/* Lien vers CSS (depuis page détaillée) */</span></div>
+            <div><code>&lt;link rel="stylesheet" href="../../css/use-cases-styles.css"&gt;</code></div>
+        </div>
+
+        <!-- Quick Start -->
+        <h2 style="color: #4ec9b0; margin-bottom: 25px; font-size: 1.8rem;">⚡ Quick Start</h2>
+        
+        <div class="code-block">
+            <div><span class="code-comment"># 1. Créer la structure</span></div>
+            <div><code>mkdir -p css use-cases/chutes-hauteur</code></div>
+            <br>
+            <div><span class="code-comment"># 2. Copier les fichiers</span></div>
+            <div><code>cp cas-usage-index.html ./</code></div>
+            <div><code>cp use-cases-styles.css css/</code></div>
+            <div><code>cp template-cas-usage.html use-cases/chutes-hauteur/index.html</code></div>
+            <br>
+            <div><span class="code-comment"># 3. Tester localement</span></div>
+            <div><code>python -m http.server 8000</code></div>
+            <div><span class="code-comment"># Puis visiter http://localhost:8000</span></div>
+        </div>
+
+        <!-- Stats -->
+        <h2 style="color: #4ec9b0; margin-bottom: 25px; font-size: 1.8rem;">📊 Statistiques du Package</h2>
+        
+        <div style="background: #252526; border-radius: 10px; padding: 30px; margin-bottom: 40px;">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;">
+                <div style="text-align: center;">
+                    <div style="font-size: 2.5rem; color: #4ec9b0; font-weight: bold;">6</div>
+                    <div style="color: #808080;">Fichiers totaux</div>
+                </div>
+                <div style="text-align: center;">
+                    <div style="font-size: 2.5rem; color: #4ec9b0; font-weight: bold;">12</div>
+                    <div style="color: #808080;">Cas d'usage</div>
+                </div>
+                <div style="text-align: center;">
+                    <div style="font-size: 2.5rem; color: #4ec9b0; font-weight: bold;">~2500</div>
+                    <div style="color: #808080;">Lignes de code</div>
+                </div>
+                <div style="text-align: center;">
+                    <div style="font-size: 2.5rem; color: #4ec9b0; font-weight: bold;">0</div>
+                    <div style="color: #808080;">Dépendances</div>
+                </div>
+                <div style="text-align: center;">
+                    <div style="font-size: 2.5rem; color: #4ec9b0; font-weight: bold;">~150KB</div>
+                    <div style="color: #808080;">Poids total</div>
+                </div>
+                <div style="text-align: center;">
+                    <div style="font-size: 2.5rem; color: #4ec9b0; font-weight: bold;">100%</div>
+                    <div style="color: #808080;">Responsive</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer>
+            <p>Package créé par <span class="highlight">Claude (Anthropic)</span> pour</p>
+            <p style="margin-top: 10px;"><span class="highlight">GenAISafety</span> × <span class="highlight">Preventera</span> × <span class="highlight">SquadrAI</span></p>
+            <p style="margin-top: 20px; font-size: 0.9rem;">© 2025 GenAISafety. Style Wope - Dark Theme</p>
+        </footer>
+    </div>
+</body>
+</html>
