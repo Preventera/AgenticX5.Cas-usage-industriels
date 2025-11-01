@@ -1,0 +1,1036 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UC-P09: Espaces Clos - Asphyxie | AgenticX5</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        .presentation-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .slide {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 60px 40px;
+            opacity: 0;
+            animation: slideIn 1s forwards;
+            margin-bottom: 40px;
+        }
+
+        @keyframes slideIn {
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* Hero Slide */
+        .hero-slide {
+            background: linear-gradient(135deg, #1a1a2e 0%, #DC143C 50%, #8B0000 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-slide::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                repeating-linear-gradient(
+                    45deg,
+                    rgba(220,20,60,0.1) 0px,
+                    rgba(220,20,60,0.1) 10px,
+                    transparent 10px,
+                    transparent 20px
+                );
+            animation: warningStripes 1s linear infinite;
+        }
+
+        @keyframes warningStripes {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(20px); }
+        }
+
+        .hero-content {
+            text-align: center;
+            z-index: 1;
+        }
+
+        .danger-icon {
+            font-size: 120px;
+            margin-bottom: 30px;
+            animation: dangerPulse 1.5s infinite;
+        }
+
+        @keyframes dangerPulse {
+            0%, 100% { 
+                transform: scale(1);
+                filter: drop-shadow(0 0 10px rgba(220,20,60,0.5));
+            }
+            50% { 
+                transform: scale(1.1);
+                filter: drop-shadow(0 0 30px rgba(220,20,60,1));
+            }
+        }
+
+        h1 {
+            font-size: 4em;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            animation: fadeInUp 1s ease-out 0.3s both;
+        }
+
+        .subtitle {
+            font-size: 1.8em;
+            opacity: 0.9;
+            margin-bottom: 30px;
+            animation: fadeInUp 1s ease-out 0.5s both;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .badge {
+            display: inline-block;
+            background: rgba(220,20,60,0.9);
+            padding: 15px 35px;
+            border-radius: 50px;
+            font-size: 1.3em;
+            font-weight: bold;
+            margin-top: 20px;
+            animation: pulse 2s infinite;
+            border: 3px solid #fff;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        /* Content Slides */
+        .content-slide {
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 60px;
+            max-width: 1200px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+        }
+
+        h2 {
+            font-size: 2.8em;
+            margin-bottom: 40px;
+            text-align: center;
+            border-bottom: 3px solid #DC143C;
+            padding-bottom: 20px;
+        }
+
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+
+        .stat-card {
+            background: rgba(255,255,255,0.1);
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: 2px solid rgba(255,255,255,0.2);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(220,20,60,0.4);
+        }
+
+        .stat-number {
+            font-size: 3.5em;
+            font-weight: bold;
+            color: #DC143C;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        /* Gas Monitor Display */
+        .gas-monitor {
+            background: linear-gradient(135deg, rgba(220,20,60,0.3) 0%, rgba(220,20,60,0.1) 100%);
+            padding: 40px;
+            border-radius: 20px;
+            margin: 40px 0;
+            border: 3px solid rgba(220,20,60,0.5);
+        }
+
+        .gas-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .gas-card {
+            background: rgba(0,0,0,0.3);
+            padding: 25px;
+            border-radius: 15px;
+            border-left: 5px solid #DC143C;
+            position: relative;
+        }
+
+        .gas-card h3 {
+            font-size: 1.8em;
+            margin-bottom: 15px;
+            color: #DC143C;
+        }
+
+        .gas-level {
+            font-size: 3em;
+            font-weight: bold;
+            margin: 20px 0;
+            font-family: 'Courier New', monospace;
+        }
+
+        .gas-card.safe .gas-level { color: #4CAF50; }
+        .gas-card.warning .gas-level { color: #FFC107; }
+        .gas-card.danger .gas-level { 
+            color: #DC143C; 
+            animation: blinkRed 1s infinite;
+        }
+
+        @keyframes blinkRed {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .gas-info {
+            font-size: 1.1em;
+            opacity: 0.9;
+            line-height: 1.6;
+        }
+
+        /* Architecture Layers */
+        .architecture-container {
+            margin: 40px 0;
+        }
+
+        .arch-layer {
+            background: linear-gradient(90deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
+            padding: 30px;
+            margin: 20px 0;
+            border-radius: 15px;
+            border-left: 5px solid #DC143C;
+            transition: all 0.3s;
+        }
+
+        .arch-layer:hover {
+            transform: translateX(10px);
+            background: linear-gradient(90deg, rgba(220,20,60,0.2) 0%, rgba(220,20,60,0.1) 100%);
+        }
+
+        .arch-layer h3 {
+            font-size: 1.8em;
+            margin-bottom: 15px;
+            color: #DC143C;
+        }
+
+        .arch-layer p {
+            font-size: 1.2em;
+            line-height: 1.6;
+            opacity: 0.9;
+        }
+
+        /* Data Grid */
+        .data-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            margin: 40px 0;
+        }
+
+        .data-card {
+            background: linear-gradient(135deg, rgba(220,20,60,0.2) 0%, rgba(220,20,60,0.05) 100%);
+            padding: 30px;
+            border-radius: 15px;
+            border: 2px solid rgba(220,20,60,0.3);
+        }
+
+        .data-card h3 {
+            font-size: 1.8em;
+            margin-bottom: 15px;
+            color: #DC143C;
+        }
+
+        .data-card ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .data-card li {
+            padding: 10px 0;
+            padding-left: 30px;
+            position: relative;
+            font-size: 1.1em;
+        }
+
+        .data-card li::before {
+            content: '⚠️';
+            position: absolute;
+            left: 0;
+            font-size: 1.2em;
+        }
+
+        /* Modules Grid */
+        .modules-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 25px;
+            margin: 40px 0;
+        }
+
+        .module-card {
+            background: rgba(255,255,255,0.08);
+            padding: 25px;
+            border-radius: 12px;
+            border-left: 4px solid #4CAF50;
+            transition: all 0.3s;
+        }
+
+        .module-card:hover {
+            background: rgba(255,255,255,0.12);
+            transform: translateX(5px);
+        }
+
+        .module-card h4 {
+            font-size: 1.5em;
+            margin-bottom: 10px;
+            color: #4CAF50;
+        }
+
+        .module-card p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        /* Flow Chart */
+        .flow-chart {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            margin: 40px 0;
+            flex-wrap: wrap;
+        }
+
+        .flow-step {
+            background: rgba(255,255,255,0.1);
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            min-width: 180px;
+            position: relative;
+            margin: 10px;
+        }
+
+        .flow-step::after {
+            content: '→';
+            position: absolute;
+            right: -40px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 2em;
+            color: #DC143C;
+        }
+
+        .flow-step:last-child::after {
+            content: '';
+        }
+
+        .flow-step .step-number {
+            background: #DC143C;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+
+        .flow-step h4 {
+            font-size: 1.3em;
+            margin-bottom: 10px;
+        }
+
+        /* PTW Timeline */
+        .ptw-timeline {
+            background: rgba(255,255,255,0.05);
+            padding: 40px;
+            border-radius: 15px;
+            margin: 40px 0;
+        }
+
+        .timeline-item {
+            display: flex;
+            align-items: center;
+            margin: 25px 0;
+            padding: 20px;
+            background: rgba(220,20,60,0.1);
+            border-radius: 10px;
+            border-left: 5px solid #DC143C;
+        }
+
+        .timeline-time {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #FFD700;
+            min-width: 150px;
+        }
+
+        .timeline-content {
+            flex: 1;
+            font-size: 1.2em;
+            line-height: 1.6;
+        }
+
+        /* Critical Warning Box */
+        .critical-box {
+            background: linear-gradient(135deg, rgba(220,20,60,0.4) 0%, rgba(139,0,0,0.2) 100%);
+            padding: 40px;
+            border-radius: 20px;
+            border: 4px solid #DC143C;
+            margin: 40px 0;
+            text-align: center;
+            animation: criticalPulse 2s infinite;
+        }
+
+        @keyframes criticalPulse {
+            0%, 100% { border-color: #DC143C; }
+            50% { border-color: #FF4444; }
+        }
+
+        .critical-box h3 {
+            color: #DC143C;
+            font-size: 2.2em;
+            margin-bottom: 20px;
+        }
+
+        .critical-box p {
+            font-size: 1.4em;
+            line-height: 1.8;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            text-align: center;
+            padding: 60px 40px;
+            background: linear-gradient(135deg, #DC143C 0%, #8B0000 100%);
+            border-radius: 20px;
+            margin-top: 40px;
+        }
+
+        .cta-section h2 {
+            border: none;
+            margin-bottom: 30px;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 30px;
+        }
+
+        .cta-button {
+            padding: 20px 40px;
+            font-size: 1.3em;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: bold;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .cta-button.primary {
+            background: #fff;
+            color: #DC143C;
+        }
+
+        .cta-button.primary:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .cta-button.secondary {
+            background: transparent;
+            color: #fff;
+            border: 3px solid #fff;
+        }
+
+        .cta-button.secondary:hover {
+            background: #fff;
+            color: #DC143C;
+        }
+
+        /* Entry/Exit Counter */
+        .entry-counter {
+            background: rgba(0,0,0,0.3);
+            padding: 30px;
+            border-radius: 15px;
+            margin: 30px 0;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
+
+        .counter-item {
+            text-align: center;
+        }
+
+        .counter-number {
+            font-size: 4em;
+            font-weight: bold;
+            color: #4CAF50;
+            font-family: 'Courier New', monospace;
+        }
+
+        .counter-number.alert {
+            color: #DC143C;
+            animation: blinkRed 1s infinite;
+        }
+
+        .counter-label {
+            font-size: 1.3em;
+            margin-top: 10px;
+            opacity: 0.9;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 40px;
+            opacity: 0.7;
+            font-size: 1.1em;
+        }
+
+        .logo {
+            font-size: 2em;
+            font-weight: bold;
+            color: #DC143C;
+            margin-bottom: 10px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 { font-size: 2.5em; }
+            h2 { font-size: 2em; }
+            .subtitle { font-size: 1.3em; }
+            .stat-grid { grid-template-columns: 1fr; }
+            .data-grid { grid-template-columns: 1fr; }
+            .modules-grid { grid-template-columns: 1fr; }
+            .gas-grid { grid-template-columns: 1fr; }
+            .flow-chart { flex-direction: column; }
+            .flow-step::after { 
+                content: '↓';
+                right: 50%;
+                top: auto;
+                bottom: -40px;
+            }
+            .entry-counter { flex-direction: column; gap: 20px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="presentation-container">
+        <!-- Slide 1: Hero -->
+        <section class="slide hero-slide">
+            <div class="hero-content">
+                <div class="danger-icon">💀⚠️</div>
+                <h1>UC-P09: Espaces Clos</h1>
+                <p class="subtitle">Prévention de l'Asphyxie par Monitoring Multi-Gaz Intelligent</p>
+                <div class="badge">🔴 PRIORITÉ CRITIQUE - Mortalité Élevée</div>
+            </div>
+        </section>
+
+        <!-- Slide 2: Le Problème -->
+        <section class="slide">
+            <div class="content-slide">
+                <h2>🚨 Le Problème Critique</h2>
+                <div class="stat-grid">
+                    <div class="stat-card">
+                        <div class="stat-number">3-5</div>
+                        <div class="stat-label">Décès par an au Québec</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">19.5%</div>
+                        <div class="stat-label">Minimum O₂ requis</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">💀</div>
+                        <div class="stat-label">Mortalité IMMÉDIATE possible</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">RSST</div>
+                        <div class="stat-label">Art. 297-310 Conformité</div>
+                    </div>
+                </div>
+                <div class="gas-monitor">
+                    <h3 style="text-align: center; font-size: 2em; margin-bottom: 20px; color: #DC143C;">
+                        🧪 Monitoring Multi-Gaz Temps Réel
+                    </h3>
+                    <div class="gas-grid">
+                        <div class="gas-card safe">
+                            <h3>O₂ - Oxygène</h3>
+                            <div class="gas-level">20.9%</div>
+                            <div class="gas-info">
+                                ✅ NORMAL (19.5% minimum)<br>
+                                Danger: <19.5% asphyxie<br>
+                                >23.5% combustion accélérée
+                            </div>
+                        </div>
+                        <div class="gas-card danger">
+                            <h3>H₂S - Sulfure d'hydrogène</h3>
+                            <div class="gas-level">15 ppm</div>
+                            <div class="gas-info">
+                                🚨 DANGER (>10 ppm)<br>
+                                Limite: 10 ppm<br>
+                                Mortel: >100 ppm (minutes)
+                            </div>
+                        </div>
+                        <div class="gas-card safe">
+                            <h3>CO - Monoxyde de carbone</h3>
+                            <div class="gas-level">8 ppm</div>
+                            <div class="gas-info">
+                                ✅ ACCEPTABLE (<25 ppm)<br>
+                                Limite: 25 ppm<br>
+                                Mortel: >400 ppm
+                            </div>
+                        </div>
+                        <div class="gas-card warning">
+                            <h3>CH₄ - Méthane</h3>
+                            <div class="gas-level">8% LEL</div>
+                            <div class="gas-info">
+                                ⚠️ ATTENTION (>5% LEL)<br>
+                                Limite: 10% LEL<br>
+                                Explosif: >5% volume
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="critical-box">
+                    <h3>💀 DANGER DE MORT IMMÉDIATE</h3>
+                    <p>
+                        Les espaces clos sont <strong>LA cause #1 de décès accidentels</strong> en milieu industriel.<br>
+                        <strong>60% des victimes</strong> sont des secouristes non équipés tentant un sauvetage.<br>
+                        <strong>Sans monitoring continu, l'atmosphère peut devenir mortelle en quelques minutes.</strong>
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 3: La Solution -->
+        <section class="slide">
+            <div class="content-slide">
+                <h2>✨ La Solution AgenticX5</h2>
+                <h3 style="text-align: center; font-size: 1.8em; margin-bottom: 40px; color: #4CAF50;">
+                    Système Intégré: Monitoring + Contrôle + Surveillance
+                </h3>
+                <div class="flow-chart">
+                    <div class="flow-step">
+                        <div class="step-number">1</div>
+                        <h4>PTW Électronique</h4>
+                        <p>Permis de travail digital avec vérifications automatiques</p>
+                    </div>
+                    <div class="flow-step">
+                        <div class="step-number">2</div>
+                        <h4>Monitoring Gaz</h4>
+                        <p>Capteurs fixes + wearables 4 gaz en continu</p>
+                    </div>
+                    <div class="flow-step">
+                        <div class="step-number">3</div>
+                        <h4>Vision + Comptage</h4>
+                        <p>Caméras comptent entrées/sorties en temps réel</p>
+                    </div>
+                    <div class="flow-step">
+                        <div class="step-number">4</div>
+                        <h4>Surveillance Sentinelle</h4>
+                        <p>Agent agentic coordonne sauvetage si alerte</p>
+                    </div>
+                </div>
+                <div class="entry-counter">
+                    <div class="counter-item">
+                        <div class="counter-number">3</div>
+                        <div class="counter-label">👷 Travailleurs à l'intérieur</div>
+                    </div>
+                    <div class="counter-item">
+                        <div class="counter-number">1</div>
+                        <div class="counter-label">🛡️ Sentinelle externe</div>
+                    </div>
+                    <div class="counter-item">
+                        <div class="counter-number alert">0</div>
+                        <div class="counter-label">🚨 Alertes actives</div>
+                    </div>
+                </div>
+                <div style="background: rgba(76,175,80,0.2); padding: 30px; border-radius: 15px; margin-top: 40px; text-align: center;">
+                    <h3 style="color: #4CAF50; font-size: 2em; margin-bottom: 15px;">💡 Innovation Clé</h3>
+                    <p style="font-size: 1.3em; line-height: 1.6;">
+                        Combinaison unique de <strong>5 technologies</strong> (IoT + Wearables + Vision + Agentic + KG) 
+                        pour garantir sécurité totale avant, pendant et après intervention en espace clos
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 4: Architecture -->
+        <section class="slide">
+            <div class="content-slide">
+                <h2>🏗️ Architecture Technique</h2>
+                <div class="architecture-container">
+                    <div class="arch-layer">
+                        <h3>🌐 IoT - Détecteurs Gaz Fixes</h3>
+                        <p>• Capteurs multi-gaz à l'entrée (O₂, H₂S, CO, CH₄)<br>
+                        • Monitoring atmosphère 24/7 avant toute entrée<br>
+                        • Alarmes automatiques si seuils dépassés<br>
+                        • Données temps réel transmises au système central</p>
+                    </div>
+                    <div class="arch-layer">
+                        <h3>⌚ WEARABLES - Détecteurs Personnels 4 Gaz</h3>
+                        <p>• Chaque travailleur équipé d'un détecteur personnel<br>
+                        • Alarmes locales + notification centrale si danger<br>
+                        • Géolocalisation précise dans l'espace clos<br>
+                        • Bouton d'urgence pour alerte immédiate</p>
+                    </div>
+                    <div class="arch-layer">
+                        <h3>🎥 VISION - Comptage Entrées/Sorties</h3>
+                        <p>• Caméras intelligentes à tous les points d'accès<br>
+                        • Comptage automatique: qui est à l'intérieur?<br>
+                        • Détection comportements anormaux (immobilité prolongée)<br>
+                        • Enregistrement vidéo pour analyse post-incident</p>
+                    </div>
+                    <div class="arch-layer">
+                        <h3>🤖 AGENTIC - Gestion PTW + Alerte Sentinelle</h3>
+                        <p>• Agents autonomes gèrent workflow Permit to Work<br>
+                        • Vérifications automatiques: formation, équipements, procédures<br>
+                        • Alerte sentinelle externe en cas d'anomalie<br>
+                        • Coordination automatique équipe de sauvetage si urgence</p>
+                    </div>
+                    <div class="arch-layer">
+                        <h3>🧠 KNOWLEDGE GRAPH - Procédures & Équipements</h3>
+                        <p>• SafetyOntology: procédures complètes espaces clos RSST art. 297-310<br>
+                        • Base de données équipements requis par type d'espace<br>
+                        • Historique interventions et incidents<br>
+                        • Checklists contextuelles selon risques identifiés</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 5: Données -->
+        <section class="slide">
+            <div class="content-slide">
+                <h2>📊 Données Utilisées</h2>
+                <div class="data-grid">
+                    <div class="data-card">
+                        <h3>🧪 Capteurs Multi-Gaz</h3>
+                        <ul>
+                            <li>Niveaux O₂, H₂S, CO, CH₄ en temps réel</li>
+                            <li>Historiques concentrations gaz</li>
+                            <li>Pics et variations temporelles</li>
+                            <li>Calibrations et certifications capteurs</li>
+                        </ul>
+                    </div>
+                    <div class="data-card">
+                        <h3>⌚ Wearables Personnels</h3>
+                        <ul>
+                            <li>Lectures individuelles 4 gaz par travailleur</li>
+                            <li>Géolocalisation précise dans l'espace</li>
+                            <li>Boutons d'urgence / alertes manuelles</li>
+                            <li>Mouvements et signes vitaux (optionnel)</li>
+                        </ul>
+                    </div>
+                    <div class="data-card">
+                        <h3>🎥 Caméras Surveillance</h3>
+                        <ul>
+                            <li>Comptage entrées/sorties en temps réel</li>
+                            <li>Identité travailleurs présents</li>
+                            <li>Détection immobilité prolongée</li>
+                            <li>Enregistrements vidéo horodatés</li>
+                        </ul>
+                    </div>
+                    <div class="data-card">
+                        <h3>📋 PTW (Permit to Work)</h3>
+                        <ul>
+                            <li>Permis électroniques avec workflow complet</li>
+                            <li>Vérifications: formation, équipements, tests gaz</li>
+                            <li>Signatures numériques et traçabilité</li>
+                            <li>Statuts temps réel: en cours, terminé, annulé</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 6: Modules -->
+        <section class="slide">
+            <div class="content-slide">
+                <h2>🔧 Modules SafetyGraph</h2>
+                <div class="modules-grid">
+                    <div class="module-card">
+                        <h4>📋 Module PTW (Permit to Work)</h4>
+                        <p>Gestion complète des permis de travail électroniques avec workflow automatisé et vérifications</p>
+                    </div>
+                    <div class="module-card">
+                        <h4>🗺️ Dashboard Zones Géographiques</h4>
+                        <p>Visualisation temps réel de tous les espaces clos, statuts, occupants et niveaux de gaz</p>
+                    </div>
+                    <div class="module-card">
+                        <h4>🧠 SafetyOntology (Procédures)</h4>
+                        <p>Base de connaissances RSST art. 297-310 sur espaces clos, procédures et équipements requis</p>
+                    </div>
+                    <div class="module-card">
+                        <h4>🤖 Context Agent + Router Agent</h4>
+                        <p>Agents intelligents coordonnent alertes, sentinelle externe et procédures de sauvetage d'urgence</p>
+                    </div>
+                </div>
+                <div style="background: rgba(255,255,255,0.1); padding: 30px; border-radius: 15px; margin-top: 40px;">
+                    <h3 style="color: #DC143C; font-size: 1.8em; margin-bottom: 20px; text-align: center;">
+                        🔗 Orchestration Critique
+                    </h3>
+                    <p style="font-size: 1.2em; text-align: center; line-height: 1.6;">
+                        Les 4 modules communiquent via <strong>SafetyGraph Core</strong> pour créer un système 
+                        de protection multi-niveaux garantissant <strong>zéro décès</strong> en espace clos
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 7: Scénario -->
+        <section class="slide">
+            <div class="content-slide">
+                <h2>📖 Scénario Concret</h2>
+                <div style="background: rgba(255,255,255,0.05); padding: 40px; border-radius: 15px;">
+                    <h3 style="color: #DC143C; font-size: 2em; margin-bottom: 30px; text-align: center;">
+                        🏭 Maintenance Réservoir - Raffinerie Pétrochimique
+                    </h3>
+                    <div class="ptw-timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-time">08:00</div>
+                            <div class="timeline-content">
+                                <strong>Demande PTW:</strong> Technicien demande permis espace clos<br>
+                                🤖 Agent vérifie: formation à jour, équipements 4 gaz disponibles<br>
+                                📋 Checklist générée: test atmosphère, ventilation, sentinelle
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-time">08:30</div>
+                            <div class="timeline-content">
+                                <strong>Tests préliminaires:</strong> Capteurs IoT à l'entrée<br>
+                                🧪 O₂: 20.8%, H₂S: 0 ppm, CO: 2 ppm, CH₄: 0% LEL<br>
+                                ✅ Atmosphère sécuritaire - PTW APPROUVÉ
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-time">09:00</div>
+                            <div class="timeline-content">
+                                <strong>Entrée en zone:</strong> 2 techniciens + 1 sentinelle externe<br>
+                                🎥 Vision confirme: 2 entrées, 0 sortie<br>
+                                ⌚ Wearables actifs: monitoring continu 4 gaz<br>
+                                🛡️ Sentinelle en position avec communication radio
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-time">09:45</div>
+                            <div class="timeline-content">
+                                <strong>🚨 ALERTE CRITIQUE:</strong> Wearable technicien #1<br>
+                                ⚠️ H₂S: 18 ppm (seuil dépassé >10 ppm)<br>
+                                🤖 Agent active protocole urgence automatique:<br>
+                                • Alarme sonore à l'intérieur<br>
+                                • Notification sentinelle + superviseur<br>
+                                • Activation équipe sauvetage<br>
+                                • Blocage nouvelles entrées
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-time">09:47</div>
+                            <div class="timeline-content">
+                                <strong>Évacuation:</strong> Protocole d'urgence exécuté<br>
+                                🎥 Vision confirme: 2 sorties détectées<br>
+                                👥 Les 2 techniciens évacués sains et saufs<br>
+                                ✅ Sentinelle confirme tout le monde sorti<br>
+                                📋 PTW automatiquement SUSPENDU
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-time">10:00</div>
+                            <div class="timeline-content">
+                                <strong>Analyse post-incident:</strong><br>
+                                🔍 Investigation: fuite H₂S identifiée dans réservoir adjacent<br>
+                                📊 Données enregistrées: 18 ppm pendant 2 min (exposition limitée)<br>
+                                🛡️ <strong>Résultat: ZÉRO blessure grâce à détection précoce</strong>
+                            </div>
+                        </div>
+                    </div>
+                    <p style="font-size: 1.3em; margin-top: 30px; text-align: center; line-height: 1.6;">
+                        <strong style="color: #4CAF50;">Résultat:</strong> Deux vies sauvées grâce au monitoring continu, 
+                        alerte automatique instantanée et protocole d'évacuation coordonné par agents agentiques.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 8: CTA -->
+        <section class="slide">
+            <div class="cta-section">
+                <h2>🚀 Ne Laissez Plus le Hasard Décider</h2>
+                <p style="font-size: 1.5em; margin: 30px 0; line-height: 1.6;">
+                    Déployez UC-P09 et garantissez la <strong>sécurité absolue</strong> de vos interventions en espaces clos
+                </p>
+                <div class="stat-grid" style="margin: 40px 0;">
+                    <div class="stat-card" style="background: rgba(255,255,255,0.2);">
+                        <div class="stat-number" style="color: #fff;">0</div>
+                        <div class="stat-label">Décès visés</div>
+                    </div>
+                    <div class="stat-card" style="background: rgba(255,255,255,0.2);">
+                        <div class="stat-number" style="color: #fff;">100%</div>
+                        <div class="stat-label">Conformité RSST 297-310</div>
+                    </div>
+                    <div class="stat-card" style="background: rgba(255,255,255,0.2);">
+                        <div class="stat-number" style="color: #fff;">24/7</div>
+                        <div class="stat-label">Monitoring gaz continu</div>
+                    </div>
+                    <div class="stat-card" style="background: rgba(255,255,255,0.2);">
+                        <div class="stat-number" style="color: #fff;">5</div>
+                        <div class="stat-label">Technologies intégrées</div>
+                    </div>
+                </div>
+                <div class="cta-buttons">
+                    <a href="#contact" class="cta-button primary">Demander une Démo</a>
+                    <a href="#whitepaper" class="cta-button secondary">Guide Espaces Clos</a>
+                </div>
+                <p style="margin-top: 40px; font-size: 1.2em; opacity: 0.9;">
+                    💀 Chaque vie compte - La prévention n'attend pas
+                </p>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="logo">AgenticX5 | GenAISafety</div>
+            <p>Propulsé par SafetyGraph - Intelligence Agentique au Service de la SST</p>
+            <p style="margin-top: 15px;">© 2025 GenAISafety - Preventera | Tous droits réservés</p>
+            <p style="margin-top: 10px; font-size: 0.9em;">
+                🌐 genaisafety.com | 📧 contact@genaisafety.com | 📱 +1 (XXX) XXX-XXXX
+            </p>
+        </footer>
+    </div>
+
+    <script>
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // Intersection Observer for slide animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.slide').forEach(slide => {
+            slide.style.opacity = '0';
+            slide.style.transform = 'translateY(30px)';
+            slide.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(slide);
+        });
+
+        // Keyboard navigation
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowDown' || e.key === 'PageDown') {
+                e.preventDefault();
+                currentSlide = Math.min(currentSlide + 1, slides.length - 1);
+                slides[currentSlide].scrollIntoView({ behavior: 'smooth' });
+            } else if (e.key === 'ArrowUp' || e.key === 'PageUp') {
+                e.preventDefault();
+                currentSlide = Math.max(currentSlide - 1, 0);
+                slides[currentSlide].scrollIntoView({ behavior: 'smooth' });
+            }
+        });
+
+        // Update current slide on scroll
+        window.addEventListener('scroll', () => {
+            slides.forEach((slide, index) => {
+                const rect = slide.getBoundingClientRect();
+                if (rect.top >= 0 && rect.top < window.innerHeight / 2) {
+                    currentSlide = index;
+                }
+            });
+        });
+
+        // Simulate gas level updates (demo)
+        setInterval(() => {
+            const gasLevels = document.querySelectorAll('.gas-level');
+            // This is just for demo - in production, data comes from real sensors
+        }, 5000);
+
+        // Console log
+        console.log('%c💀 UC-P09: Espaces Clos - Asphyxie', 'color: #DC143C; font-size: 20px; font-weight: bold;');
+        console.log('%cAgenticX5 | GenAISafety - Powered by SafetyGraph', 'color: #4CAF50; font-size: 14px;');
+    </script>
+</body>
+</html>

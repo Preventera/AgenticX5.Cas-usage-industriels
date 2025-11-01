@@ -1,0 +1,2365 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UC-E02: TMS - Troubles Épaule/Cou | AgenticX5 - SafetyGraph</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 50%, #0f1419 100%);
+            color: #e0e6ed;
+            line-height: 1.6;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Animated Background Orbs */
+        .orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.15;
+            pointer-events: none;
+            z-index: 0;
+            animation: float 20s infinite ease-in-out;
+        }
+
+        .orb1 {
+            width: 500px;
+            height: 500px;
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+            top: -10%;
+            left: -10%;
+            animation-delay: 0s;
+        }
+
+        .orb2 {
+            width: 400px;
+            height: 400px;
+            background: linear-gradient(135deg, #f76b1c 0%, #faa819 100%);
+            top: 50%;
+            right: -10%;
+            animation-delay: 7s;
+        }
+
+        .orb3 {
+            width: 600px;
+            height: 600px;
+            background: linear-gradient(135deg, #fa8231 0%, #ffd166 100%);
+            bottom: -20%;
+            left: 30%;
+            animation-delay: 14s;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translate(0, 0) scale(1);
+            }
+            33% {
+                transform: translate(50px, -50px) scale(1.1);
+            }
+            66% {
+                transform: translate(-50px, 50px) scale(0.9);
+            }
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Header */
+        header {
+            text-align: center;
+            margin-bottom: 60px;
+            position: relative;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #ff6b6b 0%, #f76b1c 50%, #faa819 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.5px;
+        }
+
+        .uc-badge {
+            background: linear-gradient(135deg, #ff6b6b 0%, #f76b1c 100%);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+        }
+
+        .system-status {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 10px 20px;
+            border-radius: 25px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .status-indicator {
+            width: 12px;
+            height: 12px;
+            background: #4ade80;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 0.5;
+                transform: scale(1.1);
+            }
+        }
+
+        h1 {
+            font-size: 56px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #ff6b6b 0%, #f76b1c 50%, #faa819 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.2;
+        }
+
+        .subtitle {
+            font-size: 20px;
+            color: #94a3b8;
+            font-weight: 400;
+        }
+
+        /* Navigation Tabs */
+        .nav-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .nav-tab {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 12px 24px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            font-weight: 500;
+            backdrop-filter: blur(10px);
+        }
+
+        .nav-tab:hover {
+            background: rgba(255, 107, 107, 0.15);
+            border-color: rgba(255, 107, 107, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .nav-tab.active {
+            background: linear-gradient(135deg, rgba(255, 107, 107, 0.2) 0%, rgba(247, 107, 28, 0.2) 100%);
+            border-color: #ff6b6b;
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+        }
+
+        /* Content Sections */
+        .content-section {
+            display: none;
+        }
+
+        .content-section.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Cards */
+        .card {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #ff6b6b 0%, #f76b1c 50%, #faa819 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .card:hover {
+            border-color: rgba(255, 107, 107, 0.3);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 40px rgba(255, 107, 107, 0.2);
+        }
+
+        .card:hover::before {
+            opacity: 1;
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .card-icon {
+            font-size: 32px;
+        }
+
+        .card-title {
+            font-size: 28px;
+            font-weight: 700;
+            flex: 1;
+            background: linear-gradient(135deg, #fff 0%, #e0e6ed 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Risk Levels */
+        .risk-level {
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .risk-high {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);
+        }
+
+        .risk-critical {
+            background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(220, 38, 38, 0.4);
+            animation: pulse-critical 2s infinite;
+        }
+
+        @keyframes pulse-critical {
+            0%, 100% {
+                box-shadow: 0 4px 15px rgba(220, 38, 38, 0.4);
+            }
+            50% {
+                box-shadow: 0 4px 25px rgba(220, 38, 38, 0.6);
+            }
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, rgba(255, 107, 107, 0.1) 0%, rgba(247, 107, 28, 0.05) 100%);
+            border: 1px solid rgba(255, 107, 107, 0.2);
+            border-radius: 16px;
+            padding: 25px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(255, 107, 107, 0.4);
+            box-shadow: 0 10px 30px rgba(255, 107, 107, 0.2);
+        }
+
+        .stat-value {
+            font-size: 42px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #ff6b6b 0%, #f76b1c 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: #94a3b8;
+            font-weight: 500;
+        }
+
+        .stat-trend {
+            display: inline-block;
+            margin-top: 8px;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .stat-trend.positive {
+            background: rgba(74, 222, 128, 0.1);
+            color: #4ade80;
+        }
+
+        .stat-trend.negative {
+            background: rgba(248, 113, 113, 0.1);
+            color: #f87171;
+        }
+
+        /* Architecture Grid */
+        .architecture-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+
+        .arch-module {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 25px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .arch-module::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(180deg, #ff6b6b 0%, #f76b1c 50%, #faa819 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .arch-module:hover {
+            border-color: rgba(255, 107, 107, 0.3);
+            transform: translateX(5px);
+        }
+
+        .arch-module:hover::before {
+            opacity: 1;
+        }
+
+        .arch-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+
+        .arch-icon {
+            font-size: 28px;
+        }
+
+        .arch-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .feature-list {
+            list-style: none;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin-bottom: 12px;
+            padding: 10px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .feature-item:hover {
+            background: rgba(255, 107, 107, 0.05);
+        }
+
+        .feature-icon {
+            color: #ff6b6b;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        /* Timeline */
+        .timeline {
+            position: relative;
+            padding: 20px 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 30px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(180deg, #ff6b6b 0%, #f76b1c 50%, #faa819 100%);
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-left: 70px;
+            margin-bottom: 30px;
+        }
+
+        .timeline-marker {
+            position: absolute;
+            left: 20px;
+            width: 22px;
+            height: 22px;
+            background: #ff6b6b;
+            border-radius: 50%;
+            border: 4px solid #0a0e27;
+            box-shadow: 0 0 0 4px rgba(255, 107, 107, 0.2);
+        }
+
+        .timeline-content {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        .timeline-time {
+            color: #ff6b6b;
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        /* Norms Table */
+        .norms-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0 10px;
+            margin: 20px 0;
+        }
+
+        .norms-table th {
+            background: linear-gradient(135deg, rgba(255, 107, 107, 0.15) 0%, rgba(247, 107, 28, 0.1) 100%);
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+            border: 1px solid rgba(255, 107, 107, 0.2);
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .norms-table th:first-child {
+            border-radius: 12px 0 0 12px;
+        }
+
+        .norms-table th:last-child {
+            border-radius: 0 12px 12px 0;
+        }
+
+        .norms-table td {
+            background: rgba(255, 255, 255, 0.03);
+            padding: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.3s ease;
+        }
+
+        .norms-table tr:hover td {
+            background: rgba(255, 107, 107, 0.05);
+            border-color: rgba(255, 107, 107, 0.2);
+        }
+
+        .norms-table td:first-child {
+            border-radius: 12px 0 0 12px;
+            font-weight: 600;
+        }
+
+        .norms-table td:last-child {
+            border-radius: 0 12px 12px 0;
+        }
+
+        .norm-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+            background: linear-gradient(135deg, #ff6b6b 0%, #f76b1c 100%);
+            color: white;
+        }
+
+        /* Process Flow */
+        .process-flow {
+            display: flex;
+            gap: 15px;
+            margin: 30px 0;
+            overflow-x: auto;
+            padding: 20px 0;
+        }
+
+        .process-step {
+            flex: 1;
+            min-width: 200px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 25px;
+            text-align: center;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .process-step:hover {
+            transform: scale(1.05);
+            border-color: rgba(255, 107, 107, 0.3);
+            box-shadow: 0 10px 30px rgba(255, 107, 107, 0.2);
+        }
+
+        .process-step::after {
+            content: '→';
+            position: absolute;
+            right: -25px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 24px;
+            color: #ff6b6b;
+            font-weight: 700;
+        }
+
+        .process-step:last-child::after {
+            display: none;
+        }
+
+        .process-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+
+        .process-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: #fff;
+        }
+
+        .process-desc {
+            font-size: 14px;
+            color: #94a3b8;
+        }
+
+        /* Alert Box */
+        .alert-box {
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.15) 0%, rgba(220, 38, 38, 0.1) 100%);
+            border: 2px solid rgba(239, 68, 68, 0.3);
+            border-radius: 16px;
+            padding: 25px;
+            margin: 25px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .alert-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 6px;
+            height: 100%;
+            background: linear-gradient(180deg, #ef4444 0%, #dc2626 100%);
+        }
+
+        .alert-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .alert-icon {
+            font-size: 32px;
+        }
+
+        .alert-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        /* Interactive Demo */
+        .demo-container {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 40px;
+            margin: 30px 0;
+        }
+
+        .sensor-display {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .sensor-box {
+            background: linear-gradient(135deg, rgba(255, 107, 107, 0.1) 0%, rgba(247, 107, 28, 0.05) 100%);
+            border: 1px solid rgba(255, 107, 107, 0.2);
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .sensor-value {
+            font-size: 36px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #ff6b6b 0%, #f76b1c 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin: 10px 0;
+        }
+
+        .sensor-label {
+            font-size: 14px;
+            color: #94a3b8;
+            font-weight: 500;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            padding: 14px 32px;
+            border-radius: 12px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #ff6b6b 0%, #f76b1c 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(255, 107, 107, 0.4);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.05);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 107, 107, 0.3);
+        }
+
+        /* Code Block */
+        .code-block {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            color: #4ade80;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 36px;
+            }
+
+            .subtitle {
+                font-size: 16px;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .header-content {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .nav-tabs {
+                flex-direction: column;
+            }
+
+            .process-flow {
+                flex-direction: column;
+            }
+
+            .process-step::after {
+                content: '↓';
+                right: 50%;
+                top: auto;
+                bottom: -25px;
+                transform: translateX(50%);
+            }
+
+            .architecture-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Loading Animation */
+        @keyframes shimmer {
+            0% {
+                background-position: -1000px 0;
+            }
+            100% {
+                background-position: 1000px 0;
+            }
+        }
+
+        .loading {
+            background: linear-gradient(90deg, rgba(255, 255, 255, 0.05) 25%, rgba(255, 107, 107, 0.1) 50%, rgba(255, 255, 255, 0.05) 75%);
+            background-size: 1000px 100%;
+            animation: shimmer 2s infinite;
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated Background Orbs -->
+    <div class="orb orb1"></div>
+    <div class="orb orb2"></div>
+    <div class="orb orb3"></div>
+
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <div class="header-content">
+                <div class="logo-section">
+                    <div class="logo">AgenticX5</div>
+                    <span class="uc-badge">UC-E02</span>
+                </div>
+                <div class="system-status">
+                    <div class="status-indicator"></div>
+                    <span>Système Opérationnel</span>
+                </div>
+            </div>
+            <h1>🦾 TMS - Troubles Épaule/Cou</h1>
+            <p class="subtitle">Prévention des Troubles Musculo-Squelettiques | Mouvements Répétitifs | Ergonomie Intelligente</p>
+        </header>
+
+        <!-- Navigation Tabs -->
+        <div class="nav-tabs">
+            <div class="nav-tab active" onclick="showSection('overview')">📊 Vue d'ensemble</div>
+            <div class="nav-tab" onclick="showSection('norms')">📜 Normes & Standards</div>
+            <div class="nav-tab" onclick="showSection('architecture')">🏗️ Architecture Technique</div>
+            <div class="nav-tab" onclick="showSection('workflow')">⚙️ Workflow AgenticX5</div>
+            <div class="nav-tab" onclick="showSection('scenarios')">🎯 Scénarios Concrets</div>
+            <div class="nav-tab" onclick="showSection('demo')">🎮 Démo Interactive</div>
+        </div>
+
+        <!-- Overview Section -->
+        <div id="overview" class="content-section active">
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-icon">🎯</span>
+                    <h2 class="card-title">Contexte du Use Case</h2>
+                    <span class="risk-level risk-high">RISQUE ÉLEVÉ</span>
+                </div>
+                <p>Les troubles musculo-squelettiques (TMS) de l'épaule et du cou représentent une problématique majeure dans les environnements de travail impliquant des mouvements répétitifs des membres supérieurs. Les tendinites et bursites de l'épaule touchent des milliers de travailleurs chaque année, avec des impacts significatifs sur la santé et la productivité.</p>
+            </div>
+
+            <!-- Stats Grid -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-value">12,347</div>
+                    <div class="stat-label">Cas CNESST Annuels</div>
+                    <div class="stat-trend positive">+8% vs 2023</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">28,000$</div>
+                    <div class="stat-label">Coût Moyen par Cas</div>
+                    <div class="stat-trend negative">+12% inflation</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">35%</div>
+                    <div class="stat-label">Réduction Potentielle</div>
+                    <div class="stat-trend positive">Avec AgenticX5</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">98.5%</div>
+                    <div class="stat-label">Taux de Détection</div>
+                    <div class="stat-trend positive">IA Temps Réel</div>
+                </div>
+            </div>
+
+            <!-- Risk Factors -->
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-icon">⚠️</span>
+                    <h2 class="card-title">Facteurs de Risque Principaux</h2>
+                </div>
+                <div class="architecture-grid">
+                    <div class="arch-module">
+                        <div class="arch-header">
+                            <span class="arch-icon">🔄</span>
+                            <h3 class="arch-title">Mouvements Répétitifs</h3>
+                        </div>
+                        <ul class="feature-list">
+                            <li class="feature-item">
+                                <span class="feature-icon">▸</span>
+                                <span>Mouvements du bras au-dessus de l'épaule</span>
+                            </li>
+                            <li class="feature-item">
+                                <span class="feature-icon">▸</span>
+                                <span>Cycles courts (< 30 secondes)</span>
+                            </li>
+                            <li class="feature-item">
+                                <span class="feature-icon">▸</span>
+                                <span>Rotation et abduction répétées</span>
+                            </li>
+                            <li class="feature-item">
+                                <span class="feature-icon">▸</span>
+                                <span>Élévation prolongée des bras</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="arch-module">
+                        <div class="arch-header">
+                            <span class="arch-icon">💪</span>
+                            <h3 class="arch-title">Forces & Contraintes</h3>
+                        </div>
+                        <ul class="feature-list">
+                            <li class="feature-item">
+                                <span class="feature-icon">▸</span>
+                                <span>Efforts statiques prolongés</span>
+                            </li>
+                            <li class="feature-item">
+                                <span class="feature-icon">▸</span>
+                                <span>Port de charges au-dessus de l'épaule</span>
+                            </li>
+                            <li class="feature-item">
+                                <span class="feature-icon">▸</span>
+                                <span>Postures contraignantes du cou</span>
+                            </li>
+                            <li class="feature-item">
+                                <span class="feature-icon">▸</span>
+                                <span>Absence de support pour les bras</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="arch-module">
+                        <div class="arch-header">
+                            <span class="arch-icon">⏱️</span>
+                            <h3 class="arch-title">Organisationnels</h3>
+                        </div>
+                        <ul class="feature-list">
+                            <li class="feature-item">
+                                <span class="feature-icon">▸</span>
+                                <span>Cadence de travail élevée</span>
+                            </li>
+                            <li class="feature-item">
+                                <span class="feature-icon">▸</span>
+                                <span>Absence de micro-pauses</span>
+                            </li>
+                            <li class="feature-item">
+                                <span class="feature-icon">▸</span>
+                                <span>Rotation des tâches insuffisante</span>
+                            </li>
+                            <li class="feature-item">
+                                <span class="feature-icon">▸</span>
+                                <span>Formation ergonomique limitée</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Impact Analysis -->
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-icon">📉</span>
+                    <h2 class="card-title">Impact Organisationnel</h2>
+                </div>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-value">45</div>
+                        <div class="stat-label">Jours d'Arrêt Moyen</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">67%</div>
+                        <div class="stat-label">Taux de Récidive</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">156K$</div>
+                        <div class="stat-label">Coût Indirect Annuel</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">-23%</div>
+                        <div class="stat-label">Impact Productivité</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Norms Section -->
+        <div id="norms" class="content-section">
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-icon">📜</span>
+                    <h2 class="card-title">Cadre Réglementaire Applicable</h2>
+                </div>
+                
+                <!-- Québec Standards -->
+                <h3 style="color: #fff; margin: 30px 0 20px 0; font-size: 24px; border-bottom: 2px solid rgba(255, 107, 107, 0.3); padding-bottom: 10px;">
+                    🍁 Normes Québec
+                </h3>
+                <table class="norms-table">
+                    <thead>
+                        <tr>
+                            <th>Norme</th>
+                            <th>Description</th>
+                            <th>Référence Spécifique</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="norm-badge">CNESST</span></td>
+                            <td>Règlement sur la santé et la sécurité du travail (RSST)</td>
+                            <td>Articles 51-52 : TMS & ergonomie posturale</td>
+                        </tr>
+                        <tr>
+                            <td><span class="norm-badge">INSPQ</span></td>
+                            <td>Guides de prévention des TMS</td>
+                            <td>Section 3.2 : Mouvements répétitifs épaule</td>
+                        </tr>
+                        <tr>
+                            <td><span class="norm-badge">IRSST</span></td>
+                            <td>Outils d'évaluation des risques TMS</td>
+                            <td>Rapport R-669 : Évaluation ergonomique</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <!-- Canada Standards -->
+                <h3 style="color: #fff; margin: 30px 0 20px 0; font-size: 24px; border-bottom: 2px solid rgba(255, 107, 107, 0.3); padding-bottom: 10px;">
+                    🇨🇦 Normes Canada
+                </h3>
+                <table class="norms-table">
+                    <thead>
+                        <tr>
+                            <th>Norme</th>
+                            <th>Description</th>
+                            <th>Référence Spécifique</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="norm-badge">CSA Z1004</span></td>
+                            <td>Gestion de la santé et sécurité en milieu de travail</td>
+                            <td>Section 7.3 : Évaluation ergonomique</td>
+                        </tr>
+                        <tr>
+                            <td><span class="norm-badge">CCOHS</span></td>
+                            <td>Centre canadien d'hygiène et de sécurité au travail</td>
+                            <td>Guide : Prévention TMS membres supérieurs</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <!-- USA Standards -->
+                <h3 style="color: #fff; margin: 30px 0 20px 0; font-size: 24px; border-bottom: 2px solid rgba(255, 107, 107, 0.3); padding-bottom: 10px;">
+                    🇺🇸 Normes USA
+                </h3>
+                <table class="norms-table">
+                    <thead>
+                        <tr>
+                            <th>Norme</th>
+                            <th>Description</th>
+                            <th>Référence Spécifique</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="norm-badge">OSHA</span></td>
+                            <td>Ergonomics Guidelines</td>
+                            <td>Section 5(a)(1) : Devoir général de l'employeur</td>
+                        </tr>
+                        <tr>
+                            <td><span class="norm-badge">NIOSH</span></td>
+                            <td>Critères pour les tâches répétitives</td>
+                            <td>Pub. 97-141 : Troubles membres supérieurs</td>
+                        </tr>
+                        <tr>
+                            <td><span class="norm-badge">ACGIH TLV</span></td>
+                            <td>Threshold Limit Values - Hand Activity Level</td>
+                            <td>HAL : Analyse force + fréquence mouvements</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <!-- International Standards -->
+                <h3 style="color: #fff; margin: 30px 0 20px 0; font-size: 24px; border-bottom: 2px solid rgba(255, 107, 107, 0.3); padding-bottom: 10px;">
+                    🌍 Normes Internationales (ISO)
+                </h3>
+                <table class="norms-table">
+                    <thead>
+                        <tr>
+                            <th>Norme</th>
+                            <th>Description</th>
+                            <th>Référence Spécifique</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="norm-badge">ISO 11228-3</span></td>
+                            <td>Manutention de charges — Manipulation de charges faibles à fréquence élevée</td>
+                            <td>Évaluation tâches répétitives membres supérieurs</td>
+                        </tr>
+                        <tr>
+                            <td><span class="norm-badge">ISO 11226</span></td>
+                            <td>Évaluation des postures de travail statiques</td>
+                            <td>Angles articulaires bras/épaule/cou acceptables</td>
+                        </tr>
+                        <tr>
+                            <td><span class="norm-badge">ISO/TR 12295</span></td>
+                            <td>Document d'application des normes ergonomiques</td>
+                            <td>Arbre décisionnel évaluation risques TMS</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Compliance Flowchart -->
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-icon">🔄</span>
+                    <h2 class="card-title">Processus de Conformité AgenticX5</h2>
+                </div>
+                <div class="process-flow">
+                    <div class="process-step">
+                        <div class="process-icon">📹</div>
+                        <div class="process-title">1. Détection</div>
+                        <div class="process-desc">Vision AI identifie mouvements répétitifs</div>
+                    </div>
+                    <div class="process-step">
+                        <div class="process-icon">📊</div>
+                        <div class="process-title">2. Évaluation</div>
+                        <div class="process-desc">Analyse selon ISO 11228-3 & ACGIH TLV</div>
+                    </div>
+                    <div class="process-step">
+                        <div class="process-icon">⚠️</div>
+                        <div class="process-title">3. Alerte</div>
+                        <div class="process-desc">Notification si dépassement seuils</div>
+                    </div>
+                    <div class="process-step">
+                        <div class="process-icon">🤖</div>
+                        <div class="process-title">4. Intervention</div>
+                        <div class="process-desc">Agent recommande pause/rotation</div>
+                    </div>
+                    <div class="process-step">
+                        <div class="process-icon">📝</div>
+                        <div class="process-title">5. Documentation</div>
+                        <div class="process-desc">Conformité CNESST automatique</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Architecture Section -->
+        <div id="architecture" class="content-section">
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-icon">🏗️</span>
+                    <h2 class="card-title">Architecture Technique AgenticX5</h2>
+                </div>
+                <p style="margin-bottom: 30px;">Solution multi-agents avec intégration de wearables, vision par ordinateur, machine learning et knowledge graph pour la détection et la prévention proactive des TMS.</p>
+                
+                <div class="architecture-grid">
+                    <!-- WEARABLES Module -->
+                    <div class="arch-module">
+                        <div class="arch-header">
+                            <span class="arch-icon">⌚</span>
+                            <h3 class="arch-title">WEARABLES</h3>
+                        </div>
+                        <ul class="feature-list">
+                            <li class="feature-item">
+                                <span class="feature-icon">▸</span>
+                                <span><strong>IMU Épaule/Bras :</strong> Capteurs inertiels 9-axes pour tracking mouvements 3D</span>
+                            </li>
+                            <li class="feature-item">
+                                <span class="feature-icon">▸</span>
+                                <span><strong>Comptage Cycles :</strong> Détection automatique répétitions (seuil ACGIH)</span>
+                            </li>
+                            <li class="feature-item">
+                                <span class="feature-icon">▸</span>
+                                <span><strong>Angles Articulaires :</strong> Abduction, flexion, rotation épaule/cou</span>
+                            </li>
+                            <li class="feature-item">
+                                <span class="feature-icon">▸</span>
+                                <span><strong>Vibration Tactile :</strong> Alertes en temps réel posture dangereuse</span>
+                            </li>
+                            <li class="feature-item">
+                                <span class="feature-icon">▸</span>
+                                <span><strong>Données Biométriques :</strong> Fréquence cardiaque, fatigue musculaire</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- VISION Module -->
+                    <div class="arch-module">
+                        <div class="arch-header">
+                            <span class="arch-icon">📹</span>
+                            <h3 class="arch-title">VISION AI</h3>
+                        </div>
+                        <ul class="feature-list">
+                            <li class="feature-item">
+                                <span class="feature-icon">▸</span>
+                                <span><strong>Détection Posturale :</strong> OpenPose / MediaPipe pour squelette 3D</span>
+                            </li>
+                            <li class="feature-item">
+                                <span class="feature-icon">▸</span>
+                                <span><strong>Tracking Répétitions :</strong> Reconnaissance patterns mouvements</span>
+                            </li>
+                            <li class="feature-item">
+                                <span class="feature-icon">▸</span>
+                                <span><strong>Analyse Élévation Bras :</strong> Mesure angles > 60° selon ISO 11226</span>
+                            </li>
+                            <li class="feature-item">
+                                <span class="feature-icon">▸</span>
+                                <span><strong>Zones de Travail :</strong> Validation enveloppes ergonomiques optimales</span>
+                            </li>
+                            <li class="feature-item">
+                                <span class="feature-icon">▸</span>
+                                <span><strong>Compteurs Temps Réel :</strong> Durée cumulative exposition risque</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- MACHINE LEARNING Module -->
+                    <div class="arch-module">
+                        <div class="arch-header">
+                            <span class="arch-icon">🤖</span>
+                            <h3 class="arch-title">MACHINE LEARNING</h3>
+                        </div>
+                        <ul class="feature-list">
+                            <li class="feature-item">
+                                <span class="feature-icon">▸</span>
+                                <span><strong>Prédiction Fatigue :</strong> Modèles LSTM analyse patterns temporels</span>
+                            </li>
+                            <li class="feature-item">
+                                <span class="feature-icon">▸</span>
+                                <span><strong>Seuils Adaptatifs :</strong> Apprentissage personnalisé par travailleur</span>
+                            </li>
+                            <li class="feature-item">
+                                <span class="feature-icon">▸</span>
+                                <span><strong>Classification Risque :</strong> Random Forest pour scoring TMS</span>
+                            </li>
+                            <li class="feature-item">
+                                <span class="feature-icon">▸</span>
+                                <span><strong>Détection Anomalies :</strong> Isolation Forest pour patterns inhabituels</span>
+                            </li>
+                            <li class="feature-item">
+                                <span class="feature-icon">▸</span>
+                                <span><strong>Optimisation Pauses :</strong> RL pour planification micro-pauses optimales</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- AGENTIC AI Module -->
+                    <div class="arch-module">
+                        <div class="arch-header">
+                            <span class="arch-icon">🧠</span>
+                            <h3 class="arch-title">AGENTIC AI</h3>
+                        </div>
+                        <ul class="feature-list">
+                            <li class="feature-item">
+                                <span class="feature-icon">▸</span>
+                                <span><strong>Orchestration Pauses :</strong> Agent planifie micro (2min) et macro (15min)</span>
+                            </li>
+                            <li class="feature-item">
+                                <span class="feature-icon">▸</span>
+                                <span><strong>Rotation Intelligente :</strong> Recommandation changement tâche proactive</span>
+                            </li>
+                            <li class="feature-item">
+                                <span class="feature-icon">▸</span>
+                                <span><strong>Alertes Graduées :</strong> Notifications progressives selon urgence</span>
+                            </li>
+                            <li class="feature-item">
+                                <span class="feature-icon">▸</span>
+                                <span><strong>Coaching Personnalisé :</strong> Exercices étirement adaptés</span>
+                            </li>
+                            <li class="feature-item">
+                                <span class="feature-icon">▸</span>
+                                <span><strong>Coordination Équipe :</strong> Optimisation charge collective</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- KNOWLEDGE GRAPH Module -->
+                    <div class="arch-module">
+                        <div class="arch-header">
+                            <span class="arch-icon">🕸️</span>
+                            <h3 class="arch-title">KNOWLEDGE GRAPH</h3>
+                        </div>
+                        <ul class="feature-list">
+                            <li class="feature-item">
+                                <span class="feature-icon">▸</span>
+                                <span><strong>Relations Tâche→TMS :</strong> Graphe causal Neo4j (CAUSES, AGGRAVE)</span>
+                            </li>
+                            <li class="feature-item">
+                                <span class="feature-icon">▸</span>
+                                <span><strong>Historiques Lésions :</strong> Base sectorielle tendinites épaule/cou</span>
+                            </li>
+                            <li class="feature-item">
+                                <span class="feature-icon">▸</span>
+                                <span><strong>Normes Intégrées :</strong> Liens ISO 11228-3, ACGIH TLV, CNESST</span>
+                            </li>
+                            <li class="feature-item">
+                                <span class="feature-icon">▸</span>
+                                <span><strong>Best Practices :</strong> Solutions ergonomiques éprouvées</span>
+                            </li>
+                            <li class="feature-item">
+                                <span class="feature-icon">▸</span>
+                                <span><strong>Inférences Causales :</strong> Identification facteurs contributifs multiples</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- SafetyGraph Modules -->
+                    <div class="arch-module">
+                        <div class="arch-header">
+                            <span class="arch-icon">📊</span>
+                            <h3 class="arch-title">SAFETYGRAPH MODULES</h3>
+                        </div>
+                        <ul class="feature-list">
+                            <li class="feature-item">
+                                <span class="feature-icon">▸</span>
+                                <span><strong>Dashboard Corrélations TMS :</strong> Visualisation patterns par poste/quart</span>
+                            </li>
+                            <li class="feature-item">
+                                <span class="feature-icon">▸</span>
+                                <span><strong>BehaviorX Module 7 :</strong> Métriques fatigue & engagement</span>
+                            </li>
+                            <li class="feature-item">
+                                <span class="feature-icon">▸</span>
+                                <span><strong>Analytics Dashboard :</strong> Cycles cumulés, tendances hebdo/mensuelles</span>
+                            </li>
+                            <li class="feature-item">
+                                <span class="feature-icon">▸</span>
+                                <span><strong>RiskPredictor :</strong> Scoring prédictif TMS à 7/30 jours</span>
+                            </li>
+                            <li class="feature-item">
+                                <span class="feature-icon">▸</span>
+                                <span><strong>ErgoAI Enhanced :</strong> Recommandations automatisées ISO/TR 12295</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tech Stack -->
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-icon">💻</span>
+                    <h2 class="card-title">Stack Technologique</h2>
+                </div>
+                <div class="code-block">
+# Wearables & IoT<br>
+- Capteurs: Xsens DOT, Movella, Perception Neuron<br>
+- Protocoles: BLE 5.0, MQTT, WebSocket<br>
+- Fréquence: 60 Hz (IMU), 10 Hz (bio)<br>
+<br>
+# Vision & Pose Estimation<br>
+- Frameworks: OpenPose, MediaPipe, AlphaPose<br>
+- Caméras: Intel RealSense D455, Azure Kinect<br>
+- FPS: 30 fps, résolution 1920x1080<br>
+<br>
+# Machine Learning<br>
+- Training: TensorFlow 2.x, PyTorch 2.0<br>
+- Models: LSTM (fatigue), Random Forest (classification)<br>
+- Deployment: TensorFlow Lite, ONNX Runtime<br>
+<br>
+# Agentic AI<br>
+- Framework: LangChain, AutoGen<br>
+- LLM: GPT-4-turbo, Claude 3 Opus<br>
+- Orchestration: Ray, Celery<br>
+<br>
+# Knowledge Graph<br>
+- Database: Neo4j 5.x (graphe), PostgreSQL (relationnel)<br>
+- Query: Cypher, GraphQL<br>
+- Ontologie: OWL 2, SKOS<br>
+<br>
+# Analytics & Viz<br>
+- Backend: FastAPI, Redis (cache)<br>
+- Frontend: React, D3.js, Recharts<br>
+- Dashboards: Grafana, Metabase
+                </div>
+            </div>
+
+            <!-- ROI Estimation -->
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-icon">💰</span>
+                    <h2 class="card-title">Retour sur Investissement Estimé</h2>
+                </div>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-value">-35%</div>
+                        <div class="stat-label">Réduction TMS Épaule</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">345K$</div>
+                        <div class="stat-label">Économies Annuelles</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">18 mois</div>
+                        <div class="stat-label">Période Amortissement</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">286%</div>
+                        <div class="stat-label">ROI à 3 ans</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Workflow Section -->
+        <div id="workflow" class="content-section">
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-icon">⚙️</span>
+                    <h2 class="card-title">Workflow AgenticX5 - Détection & Intervention</h2>
+                </div>
+                
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-marker"></div>
+                        <div class="timeline-content">
+                            <div class="timeline-time">T+0s : Détection Initiale</div>
+                            <h3 style="color: #fff; margin: 10px 0;">📹 Vision AI + Wearables</h3>
+                            <p>• Caméras détectent travailleur bras levés > 60° (ISO 11226)<br>
+                            • IMU épaule confirme abduction 75° + rotation externe 45°<br>
+                            • Pattern répétitif identifié : 8 cycles/min depuis 12 minutes<br>
+                            • Compteur ACGIH HAL : 22/40 (zone jaune, approche seuil)</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-marker"></div>
+                        <div class="timeline-content">
+                            <div class="timeline-time">T+2s : Analyse Contextuelle</div>
+                            <h3 style="color: #fff; margin: 10px 0;">🧠 Knowledge Graph Query</h3>
+                            <p>• Requête Neo4j : MATCH (t:Tâche {id: 'assemblage_overhead'})-[:CAUSES]->(tms:TMS)<br>
+                            • Résultat : 87% corrélation tendinite coiffe rotateurs après 15 min<br>
+                            • Historique travailleur : 2 épisodes TMS épaule en 18 mois (récidive)<br>
+                            • Facteurs aggravants : température 28°C, absence pause depuis 90 min</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-marker"></div>
+                        <div class="timeline-content">
+                            <div class="timeline-time">T+4s : Prédiction ML</div>
+                            <h3 style="color: #fff; margin: 10px 0;">🤖 Machine Learning Inference</h3>
+                            <p>• Modèle LSTM prédit fatigue musculaire : 68% dans 8 minutes<br>
+                            • Random Forest score risque TMS : 7.4/10 (ÉLEVÉ)<br>
+                            • Probabilité lésion si continuation : 23% dans l'heure<br>
+                            • Temps optimal avant pause critique : 6 min 30 sec</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-marker"></div>
+                        <div class="timeline-content">
+                            <div class="timeline-time">T+5s : Décision Agent</div>
+                            <h3 style="color: #fff; margin: 10px 0;">🎯 Agentic AI Orchestration</h3>
+                            <p>• Agent évalue priorités : SANTÉ > PRODUCTION > CONFORMITÉ<br>
+                            • Décision : Intervention immédiate (risque > 7/10)<br>
+                            • Action 1 : Alerte vibration tactile wearable (notification douce)<br>
+                            • Action 2 : Message écran poste : "Pause recommandée - TMS préventif"<br>
+                            • Action 3 : Notification superviseur pour rotation tâche</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-marker"></div>
+                        <div class="timeline-content">
+                            <div class="timeline-time">T+6s : Intervention Personnalisée</div>
+                            <h3 style="color: #fff; margin: 10px 0;">💡 Recommandations Adaptatives</h3>
+                            <p>• Coaching GenAI : "Prenez une pause de 3 minutes"<br>
+                            • Exercices suggérés : 3 étirements épaule/cou adaptés<br>
+                            • Alternative tâche : Réaffectation temporaire assemblage bas (bras < 45°)<br>
+                            • Planification : Rotation automatique toutes les 45 min désormais<br>
+                            • Documentation : Incident potentiel TMS enregistré (conformité CNESST)</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-marker"></div>
+                        <div class="timeline-content">
+                            <div class="timeline-time">T+3min : Validation & Feedback</div>
+                            <h3 style="color: #fff; margin: 10px 0;">✅ Confirmation Intervention</h3>
+                            <p>• Wearable confirme : arrêt mouvement répétitif détecté<br>
+                            • Biométrie : fréquence cardiaque diminuée -8 bpm (récupération)<br>
+                            • Feedback travailleur : Pouce levé (interface tactile)<br>
+                            • ML update : Modèle ajuste seuil personnalisé pour ce travailleur<br>
+                            • Dashboard SafetyGraph : Incident TMS évité enregistré (+1 succès)</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Multi-Agent Collaboration -->
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-icon">🤝</span>
+                    <h2 class="card-title">Collaboration Multi-Agents</h2>
+                </div>
+                <div class="architecture-grid">
+                    <div class="arch-module">
+                        <div class="arch-header">
+                            <span class="arch-icon">👁️</span>
+                            <h3 class="arch-title">Agent Perception</h3>
+                        </div>
+                        <p style="color: #94a3b8; font-size: 14px;">Fusion données Vision + Wearables pour compréhension scène 3D complète</p>
+                    </div>
+                    <div class="arch-module">
+                        <div class="arch-header">
+                            <span class="arch-icon">🧮</span>
+                            <h3 class="arch-title">Agent Évaluation</h3>
+                        </div>
+                        <p style="color: #94a3b8; font-size: 14px;">Analyse ML + requêtes KG pour scoring risque multi-facteurs</p>
+                    </div>
+                    <div class="arch-module">
+                        <div class="arch-header">
+                            <span class="arch-icon">🎯</span>
+                            <h3 class="arch-title">Agent Décision</h3>
+                        </div>
+                        <p style="color: #94a3b8; font-size: 14px;">Arbitrage priorités & déclenchement interventions graduées</p>
+                    </div>
+                    <div class="arch-module">
+                        <div class="arch-header">
+                            <span class="arch-icon">💬</span>
+                            <h3 class="arch-title">Agent Communication</h3>
+                        </div>
+                        <p style="color: #94a3b8; font-size: 14px;">Génération messages personnalisés (GenAI) pour travailleur/superviseur</p>
+                    </div>
+                    <div class="arch-module">
+                        <div class="arch-header">
+                            <span class="arch-icon">📚</span>
+                            <h3 class="arch-title">Agent Connaissance</h3>
+                        </div>
+                        <p style="color: #94a3b8; font-size: 14px;">Extraction normes applicables + best practices du KG</p>
+                    </div>
+                    <div class="arch-module">
+                        <div class="arch-header">
+                            <span class="arch-icon">📊</span>
+                            <h3 class="arch-title">Agent Analytics</h3>
+                        </div>
+                        <p style="color: #94a3b8; font-size: 14px;">Agrégation métriques + tendances pour dashboards temps réel</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scenarios Section -->
+        <div id="scenarios" class="content-section">
+            <!-- Scenario 1: Normal -->
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-icon">✅</span>
+                    <h2 class="card-title">Scénario 1 : Posture Normale - Monitoring Préventif</h2>
+                </div>
+                
+                <div class="alert-box" style="background: linear-gradient(135deg, rgba(74, 222, 128, 0.15) 0%, rgba(34, 197, 94, 0.1) 100%); border-color: rgba(74, 222, 128, 0.3);">
+                    <div class="alert-header">
+                        <span class="alert-icon">✅</span>
+                        <h3 class="alert-title">STATUT : NORMAL - Monitoring Actif</h3>
+                    </div>
+                    <div style="margin-top: 15px;">
+                        <strong>Contexte :</strong> Opérateur assemblage électronique, travail bras entre 30-45° (zone verte ISO 11226)<br>
+                        <strong>Détection :</strong> Vision AI + IMU confirment posture ergonomique optimale<br>
+                        <strong>Durée Exposition :</strong> 35 minutes continues, alternance bras gauche/droit<br>
+                        <strong>Score Risque :</strong> 2.1/10 (FAIBLE)
+                    </div>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-value">38°</div>
+                        <div class="stat-label">Angle Abduction Moyenne</div>
+                        <div class="stat-trend positive">Zone Verte</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">4</div>
+                        <div class="stat-label">Cycles / Minute</div>
+                        <div class="stat-trend positive">< Seuil ACGIH</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">15 min</div>
+                        <div class="stat-label">Prochaine Pause Prévue</div>
+                        <div class="stat-trend positive">Planifiée</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">98%</div>
+                        <div class="stat-label">Conformité Ergonomique</div>
+                        <div class="stat-trend positive">Excellent</div>
+                    </div>
+                </div>
+
+                <h4 style="color: #fff; margin: 25px 0 15px 0; font-size: 18px;">🤖 Actions AgenticX5</h4>
+                <ul class="feature-list">
+                    <li class="feature-item">
+                        <span class="feature-icon" style="color: #4ade80;">✓</span>
+                        <span>Monitoring continu sans interruption du workflow</span>
+                    </li>
+                    <li class="feature-item">
+                        <span class="feature-icon" style="color: #4ade80;">✓</span>
+                        <span>Enregistrement données baseline pour modèle ML personnalisé</span>
+                    </li>
+                    <li class="feature-item">
+                        <span class="feature-icon" style="color: #4ade80;">✓</span>
+                        <span>Rappel doux micro-pause dans 15 min (notification discrète)</span>
+                    </li>
+                    <li class="feature-item">
+                        <span class="feature-icon" style="color: #4ade80;">✓</span>
+                        <span>Mise à jour dashboard SafetyGraph : +35 min sans risque</span>
+                    </li>
+                </ul>
+
+                <h4 style="color: #fff; margin: 25px 0 15px 0; font-size: 18px;">📜 Conformité Normes</h4>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+                    <div style="background: rgba(74, 222, 128, 0.1); border: 1px solid rgba(74, 222, 128, 0.3); border-radius: 12px; padding: 15px; text-align: center;">
+                        <div style="font-weight: 700; color: #4ade80; margin-bottom: 5px;">ISO 11226</div>
+                        <div style="font-size: 14px; color: #94a3b8;">Angles acceptables respectés</div>
+                    </div>
+                    <div style="background: rgba(74, 222, 128, 0.1); border: 1px solid rgba(74, 222, 128, 0.3); border-radius: 12px; padding: 15px; text-align: center;">
+                        <div style="font-weight: 700; color: #4ade80; margin-bottom: 5px;">ACGIH TLV</div>
+                        <div style="font-size: 14px; color: #94a3b8;">HAL < 10 (zone confort)</div>
+                    </div>
+                    <div style="background: rgba(74, 222, 128, 0.1); border: 1px solid rgba(74, 222, 128, 0.3); border-radius: 12px; padding: 15px; text-align: center;">
+                        <div style="font-weight: 700; color: #4ade80; margin-bottom: 5px;">ISO 11228-3</div>
+                        <div style="font-size: 14px; color: #94a3b8;">Fréquence acceptable</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Scenario 2: Warning -->
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-icon">⚠️</span>
+                    <h2 class="card-title">Scénario 2 : Alerte Modérée - Intervention Douce</h2>
+                </div>
+                
+                <div class="alert-box" style="background: linear-gradient(135deg, rgba(251, 191, 36, 0.15) 0%, rgba(245, 158, 11, 0.1) 100%); border-color: rgba(251, 191, 36, 0.3);">
+                    <div class="alert-header">
+                        <span class="alert-icon">⚠️</span>
+                        <h3 class="alert-title">ALERTE MODÉRÉE - Ajustement Recommandé</h3>
+                    </div>
+                    <div style="margin-top: 15px;">
+                        <strong>Contexte :</strong> Travail peinture plafond, bras levés 68° (> seuil ISO 11226)<br>
+                        <strong>Détection :</strong> Wearable IMU détecte abduction excessive depuis 8 minutes<br>
+                        <strong>Durée Exposition :</strong> 8 min 15 sec (approche limite 10 min ISO 11226)<br>
+                        <strong>Score Risque :</strong> 6.3/10 (MODÉRÉ)
+                    </div>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-value">68°</div>
+                        <div class="stat-label">Angle Abduction Actuel</div>
+                        <div class="stat-trend negative">Zone Orange</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">8:15</div>
+                        <div class="stat-label">Temps Exposition</div>
+                        <div class="stat-trend negative">Limite 10 min</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">12</div>
+                        <div class="stat-label">Cycles / Minute</div>
+                        <div class="stat-trend negative">≈ Seuil ACGIH</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">1:45</div>
+                        <div class="stat-label">Temps Avant Limite</div>
+                        <div class="stat-trend negative">Action Requise</div>
+                    </div>
+                </div>
+
+                <h4 style="color: #fff; margin: 25px 0 15px 0; font-size: 18px;">🤖 Intervention AgenticX5</h4>
+                <ul class="feature-list">
+                    <li class="feature-item">
+                        <span class="feature-icon" style="color: #fbbf24;">⚠</span>
+                        <span><strong>T+0s :</strong> Vibration tactile douce sur wearable épaule</span>
+                    </li>
+                    <li class="feature-item">
+                        <span class="feature-icon" style="color: #fbbf24;">⚠</span>
+                        <span><strong>T+2s :</strong> Message vocal : "Attention, bras levés depuis 8 minutes. Pause recommandée dans 2 minutes"</span>
+                    </li>
+                    <li class="feature-item">
+                        <span class="feature-icon" style="color: #fbbf24;">⚠</span>
+                        <span><strong>T+5s :</strong> Notification superviseur : "Travailleur #247 - Risque TMS modéré détecté"</span>
+                    </li>
+                    <li class="feature-item">
+                        <span class="feature-icon" style="color: #fbbf24;">⚠</span>
+                        <span><strong>T+10s :</strong> Agent suggère : "Abaisser plan de travail de 15 cm" OU "Utiliser échafaudage réglable"</span>
+                    </li>
+                    <li class="feature-item">
+                        <span class="feature-icon" style="color: #fbbf24;">⚠</span>
+                        <span><strong>Si continuation :</strong> Alerte critique à T+10min (escalade automatique)</span>
+                    </li>
+                </ul>
+
+                <h4 style="color: #fff; margin: 25px 0 15px 0; font-size: 18px;">💡 Recommandations Correctrices</h4>
+                <div class="process-flow">
+                    <div class="process-step">
+                        <div class="process-icon">🛠️</div>
+                        <div class="process-title">Ajustement Immédiat</div>
+                        <div class="process-desc">Abaisser plan de travail ou utiliser perche télescopique</div>
+                    </div>
+                    <div class="process-step">
+                        <div class="process-icon">⏸️</div>
+                        <div class="process-title">Pause Micro</div>
+                        <div class="process-desc">2 minutes avec 3 étirements épaule guidés</div>
+                    </div>
+                    <div class="process-step">
+                        <div class="process-icon">🔄</div>
+                        <div class="process-title">Rotation Tâche</div>
+                        <div class="process-desc">Alterner avec travail bras bas après 15 min</div>
+                    </div>
+                </div>
+
+                <h4 style="color: #fff; margin: 25px 0 15px 0; font-size: 18px;">📜 Non-Conformité Détectée</h4>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px;">
+                    <div style="background: rgba(251, 191, 36, 0.1); border: 1px solid rgba(251, 191, 36, 0.3); border-radius: 12px; padding: 15px;">
+                        <div style="font-weight: 700; color: #fbbf24; margin-bottom: 5px;">❌ ISO 11226</div>
+                        <div style="font-size: 14px; color: #94a3b8;">Angle > 60° : Limite 10 min dépassée imminente</div>
+                    </div>
+                    <div style="background: rgba(251, 191, 36, 0.1); border: 1px solid rgba(251, 191, 36, 0.3); border-radius: 12px; padding: 15px;">
+                        <div style="font-weight: 700; color: #fbbf24; margin-bottom: 5px;">⚠️ ACGIH TLV</div>
+                        <div style="font-size: 14px; color: #94a3b8;">HAL = 12 (zone limite acceptable)</div>
+                    </div>
+                    <div style="background: rgba(251, 191, 36, 0.1); border: 1px solid rgba(251, 191, 36, 0.3); border-radius: 12px; padding: 15px;">
+                        <div style="font-weight: 700; color: #fbbf24; margin-bottom: 5px;">⚠️ CNESST</div>
+                        <div style="font-size: 14px; color: #94a3b8;">Ergonomie : Amélioration recommandée (Art. 51)</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Scenario 3: Critical -->
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-icon">🚨</span>
+                    <h2 class="card-title">Scénario 3 : Alerte Critique - Arrêt Immédiat</h2>
+                </div>
+                
+                <div class="alert-box">
+                    <div class="alert-header">
+                        <span class="alert-icon">🚨</span>
+                        <h3 class="alert-title">🚨 ALERTE CRITIQUE - ARRÊT IMMÉDIAT REQUIS</h3>
+                    </div>
+                    <div style="margin-top: 15px;">
+                        <strong>Contexte :</strong> Manutention répétée caisses étagères hautes, 450 cycles en 75 minutes<br>
+                        <strong>Détection :</strong> Combinaison facteurs critiques multiples détectée<br>
+                        <strong>Durée Exposition :</strong> 75 minutes sans pause, bras > 90° régulièrement<br>
+                        <strong>Score Risque :</strong> 9.1/10 (CRITIQUE) ⚠️
+                    </div>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-value">92°</div>
+                        <div class="stat-label">Angle Abduction Max</div>
+                        <div class="stat-trend negative">⚠️ Critique</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">450</div>
+                        <div class="stat-label">Cycles Cumulés</div>
+                        <div class="stat-trend negative">⚠️ Excessif</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">75 min</div>
+                        <div class="stat-label">Sans Pause</div>
+                        <div class="stat-trend negative">⚠️ Dangereux</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">87%</div>
+                        <div class="stat-label">Probabilité TMS 48h</div>
+                        <div class="stat-trend negative">⚠️ Très Élevé</div>
+                    </div>
+                </div>
+
+                <h4 style="color: #fff; margin: 25px 0 15px 0; font-size: 18px;">🚨 Intervention d'Urgence AgenticX5</h4>
+                <ul class="feature-list">
+                    <li class="feature-item">
+                        <span class="feature-icon" style="color: #ef4444;">🚨</span>
+                        <span><strong>T+0s :</strong> Vibration tactile FORTE + alarme sonore wearable (triple bip)</span>
+                    </li>
+                    <li class="feature-item">
+                        <span class="feature-icon" style="color: #ef4444;">🚨</span>
+                        <span><strong>T+1s :</strong> Message vocal URGENT : "ARRÊT IMMÉDIAT - Risque élevé de lésion"</span>
+                    </li>
+                    <li class="feature-item">
+                        <span class="feature-icon" style="color: #ef4444;">🚨</span>
+                        <span><strong>T+2s :</strong> Notification superviseur PRIORITAIRE + SMS : "INTERVENTION IMMÉDIATE REQUISE"</span>
+                    </li>
+                    <li class="feature-item">
+                        <span class="feature-icon" style="color: #ef4444;">🚨</span>
+                        <span><strong>T+3s :</strong> Alerte équipe SST : "TMS imminent détecté - Poste #12 - Secteur B"</span>
+                    </li>
+                    <li class="feature-item">
+                        <span class="feature-icon" style="color: #ef4444;">🚨</span>
+                        <span><strong>T+5s :</strong> Verrouillage système si équipement automatisé (sécurité prioritaire)</span>
+                    </li>
+                    <li class="feature-item">
+                        <span class="feature-icon" style="color: #ef4444;">🚨</span>
+                        <span><strong>T+10s :</strong> Création ticket incident CNESST (documentation automatique)</span>
+                    </li>
+                    <li class="feature-item">
+                        <span class="feature-icon" style="color: #ef4444;">🚨</span>
+                        <span><strong>T+15s :</strong> Déclenchement protocole ergonomie d'urgence (évaluation obligatoire CSA Z1004)</span>
+                    </li>
+                </ul>
+
+                <h4 style="color: #fff; margin: 25px 0 15px 0; font-size: 18px;">🛠️ Actions Correctrices Obligatoires</h4>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-marker"></div>
+                        <div class="timeline-content">
+                            <div class="timeline-time">IMMÉDIAT</div>
+                            <h4 style="color: #fff; margin: 10px 0;">Arrêt Complet Tâche</h4>
+                            <p>• Travailleur doit cesser immédiatement toute manutention<br>
+                            • Repos minimum 15 minutes dans espace ergonomique<br>
+                            • Application glace si douleur déclarée (protocole premiers soins)</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-marker"></div>
+                        <div class="timeline-content">
+                            <div class="timeline-time">0-30 MIN</div>
+                            <h4 style="color: #fff; margin: 10px 0;">Évaluation Santé</h4>
+                            <p>• Entrevue superviseur : présence douleur/inconfort ?<br>
+                            • Si douleur : Consultation infirmière/secouriste obligatoire<br>
+                            • Déclaration incident potentiel TMS (registre CNESST)</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-marker"></div>
+                        <div class="timeline-content">
+                            <div class="timeline-time">1-4 HEURES</div>
+                            <h4 style="color: #fff; margin: 10px 0;">Analyse Poste Urgente</h4>
+                            <p>• Agent Agentic génère rapport détaillé facteurs de risque<br>
+                            • Évaluation ergonomique par expert certifié (obligatoire)<br>
+                            • Identification solutions : aide mécanique, réaménagement, rotation</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-marker"></div>
+                        <div class="timeline-content">
+                            <div class="timeline-time">24-48 HEURES</div>
+                            <h4 style="color: #fff; margin: 10px 0;">Correction Obligatoire</h4>
+                            <p>• Installation équipement (ex: manipulateur pneumatique, table élévatrice)<br>
+                            • OU restructuration complète du poste selon ISO/TR 12295<br>
+                            • Formation spécifique travailleur sur nouvelles méthodes<br>
+                            • Suivi médical si symptômes persistants</p>
+                        </div>
+                    </div>
+                </div>
+
+                <h4 style="color: #fff; margin: 25px 0 15px 0; font-size: 18px;">📜 Violations Réglementaires Graves</h4>
+                <table class="norms-table">
+                    <thead>
+                        <tr>
+                            <th>Norme Violée</th>
+                            <th>Dépassement</th>
+                            <th>Conséquence</th>
+                            <th>Action Requise</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="norm-badge">ISO 11226</span></td>
+                            <td>Angle > 90° répété<br>Durée >> 1 minute</td>
+                            <td>⚠️ CRITIQUE</td>
+                            <td>Correction immédiate OBLIGATOIRE</td>
+                        </tr>
+                        <tr>
+                            <td><span class="norm-badge">ACGIH TLV</span></td>
+                            <td>HAL = 38 (>> 15)<br>Zone Rouge TLV</td>
+                            <td>⚠️ CRITIQUE</td>
+                            <td>Réingénierie poste REQUISE</td>
+                        </tr>
+                        <tr>
+                            <td><span class="norm-badge">ISO 11228-3</span></td>
+                            <td>450 cycles / 75 min<br>Fréquence excessive</td>
+                            <td>⚠️ CRITIQUE</td>
+                            <td>Réduction cadence + rotation OBLIGATOIRE</td>
+                        </tr>
+                        <tr>
+                            <td><span class="norm-badge">CNESST RSST</span></td>
+                            <td>Art. 51-52 : Ergonomie<br>Exposition prolongée</td>
+                            <td>⚠️ NON-CONFORME</td>
+                            <td>Audit CSA Z1004 + Plan correction 30 jours</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div style="background: rgba(239, 68, 68, 0.1); border: 2px solid rgba(239, 68, 68, 0.3); border-radius: 12px; padding: 20px; margin-top: 25px;">
+                    <h4 style="color: #ef4444; margin: 0 0 15px 0; font-size: 18px;">⚠️ AVERTISSEMENT LÉGAL</h4>
+                    <p style="color: #94a3b8; font-size: 14px; line-height: 1.8;">
+                        La continuation de cette tâche dans les conditions actuelles constitue une violation des articles 51 et 52 du RSST (CNESST) 
+                        et expose l'employeur à des sanctions. Selon la jurisprudence québécoise, l'employeur a l'obligation légale de prendre 
+                        "les mesures nécessaires pour protéger la santé et assurer la sécurité et l'intégrité physique du travailleur" (LSST, art. 51). 
+                        La détection AgenticX5 constitue une preuve documentée de la connaissance du risque.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Scenario 4: Predictive Prevention -->
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-icon">🔮</span>
+                    <h2 class="card-title">Scénario 4 : Prévention Prédictive - Avant le Risque</h2>
+                </div>
+                
+                <div class="alert-box" style="background: linear-gradient(135deg, rgba(139, 92, 246, 0.15) 0%, rgba(124, 58, 237, 0.1) 100%); border-color: rgba(139, 92, 246, 0.3);">
+                    <div class="alert-header">
+                        <span class="alert-icon">🔮</span>
+                        <h3 class="alert-title">PRÉDICTION ML - Intervention Préventive</h3>
+                    </div>
+                    <div style="margin-top: 15px;">
+                        <strong>Contexte :</strong> Analyste modèle LSTM détecte patterns pré-fatigue musculaire<br>
+                        <strong>Prédiction :</strong> Risque TMS élevé dans 12-18 heures si continuation tendance actuelle<br>
+                        <strong>Confiance Modèle :</strong> 84% (basé sur 18 mois données historiques similaires)<br>
+                        <strong>Action :</strong> Intervention proactive AVANT apparition symptômes
+                    </div>
+                </div>
+
+                <h4 style="color: #fff; margin: 25px 0 15px 0; font-size: 18px;">📊 Analyse Prédictive Multi-Facteurs</h4>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-value">+42%</div>
+                        <div class="stat-label">↑ Cycles vs Baseline</div>
+                        <div class="stat-trend negative">Tendance 7 jours</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">-18%</div>
+                        <div class="stat-label">↓ Temps Récupération</div>
+                        <div class="stat-trend negative">Insuffisant</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">73%</div>
+                        <div class="stat-label">Similarité Cas TMS</div>
+                        <div class="stat-trend negative">Historique KG</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">84%</div>
+                        <div class="stat-label">Confiance Prédiction</div>
+                        <div class="stat-trend positive">Modèle LSTM</div>
+                    </div>
+                </div>
+
+                <h4 style="color: #fff; margin: 25px 0 15px 0; font-size: 18px;">🧠 Raisonnement Machine Learning</h4>
+                <div class="code-block" style="background: rgba(139, 92, 246, 0.1); border-color: rgba(139, 92, 246, 0.3); color: #c4b5fd;">
+# Modèle LSTM - Analyse Séquentielle 7 Derniers Jours<br>
+<br>
+Input Features:<br>
+- Cycles cumulés par jour: [342, 378, 401, 425, 441, 456, 487]  # Tendance ↑<br>
+- Durée bras > 60° (min): [18, 22, 24, 29, 31, 35, 38]  # Tendance ↑<br>
+- Pauses micro effectuées: [4, 3, 2, 2, 1, 1, 0]  # Tendance ↓ (négatif)<br>
+- Score biométrique fatigue: [2.1, 2.8, 3.4, 4.2, 5.1, 5.9, 6.7]  # Tendance ↑<br>
+<br>
+Pattern Détecté:<br>
+→ Augmentation linéaire charge (r² = 0.94)<br>
+→ Diminution temps récupération (corrélation -0.89)<br>
+→ Similarité 73% avec 47 cas TMS historiques (Neo4j query)<br>
+<br>
+Prédiction Output:<br>
+→ Probabilité TMS dans 12-18h: 68%<br>
+→ Zone corporelle prédite: Épaule droite (coiffe des rotateurs)<br>
+→ Confiance: 84%<br>
+<br>
+Recommandation Agent:<br>
+→ INTERVENTION PRÉVENTIVE IMMÉDIATE<br>
+→ Réduction charge travail 35% + Rotation tâche obligatoire
+                </div>
+
+                <h4 style="color: #fff; margin: 25px 0 15px 0; font-size: 18px;">🎯 Plan d'Intervention Préventive</h4>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-marker" style="background: #8b5cf6;"></div>
+                        <div class="timeline-content">
+                            <div class="timeline-time">AUJOURD'HUI (Jour 7)</div>
+                            <h4 style="color: #fff; margin: 10px 0;">Ajustements Immédiats</h4>
+                            <p>• Notification travailleur : "Charge travail élevée détectée - Ajustements recommandés"<br>
+                            • Réduction quotas : 487 → 320 cycles/jour (35% moins)<br>
+                            • Pauses micro OBLIGATOIRES : 5 min / 45 min travail<br>
+                            • Rotation : Alterner avec tâche bras bas après 90 min</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-marker" style="background: #8b5cf6;"></div>
+                        <div class="timeline-content">
+                            <div class="timeline-time">JOUR 8-10</div>
+                            <h4 style="color: #fff; margin: 10px 0;">Phase Récupération</h4>
+                            <p>• Monitoring intensifié : capteurs + vision 100% temps travail<br>
+                            • Exercices étirement guidés : 3x par quart (GenAI coaching)<br>
+                            • Évaluation quotidienne score biométrique fatigue<br>
+                            • Si amélioration : réaugmentation graduelle charge (5% par jour)</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-marker" style="background: #8b5cf6;"></div>
+                        <div class="timeline-content">
+                            <div class="timeline-time">JOUR 11-14</div>
+                            <h4 style="color: #fff; margin: 10px 0;">Stabilisation & Retour Normal</h4>
+                            <p>• Si score fatigue < 4.0 maintenu 3 jours : retour charge normale<br>
+                            • Nouveaux seuils ML personnalisés pour ce travailleur<br>
+                            • Plan prévention long terme : rotation hebdomadaire obligatoire<br>
+                            • Formation ergonomique complémentaire recommandée</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="background: linear-gradient(135deg, rgba(139, 92, 246, 0.1) 0%, rgba(124, 58, 237, 0.05) 100%); border: 1px solid rgba(139, 92, 246, 0.3); border-radius: 12px; padding: 20px; margin-top: 25px;">
+                    <h4 style="color: #a78bfa; margin: 0 0 15px 0; font-size: 18px;">✨ L'Avantage de l'IA Prédictive</h4>
+                    <p style="color: #94a3b8; font-size: 14px; line-height: 1.8;">
+                        L'intelligence agentique AgenticX5 ne se contente pas de réagir aux incidents - elle les <strong>prévient avant qu'ils ne surviennent</strong>. 
+                        En analysant en continu les patterns subtils de fatigue musculaire, les tendances de charge de travail et les historiques sectoriels, 
+                        le système détecte les situations à risque 12-48 heures AVANT l'apparition des premiers symptômes. Cette approche proactive permet 
+                        d'éviter 65-80% des TMS comparativement à une approche réactive traditionnelle, tout en maintenant la productivité grâce à des 
+                        ajustements mineurs et graduels plutôt que des arrêts d'urgence coûteux.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Demo Section -->
+        <div id="demo" class="content-section">
+            <div class="demo-container">
+                <div class="card-header">
+                    <span class="card-icon">🎮</span>
+                    <h2 class="card-title">Démo Interactive - Simulateur TMS Épaule/Cou</h2>
+                </div>
+                
+                <p style="margin: 20px 0; color: #94a3b8;">
+                    Simulez en temps réel la détection AgenticX5 des mouvements répétitifs de l'épaule et du cou. 
+                    Ajustez les paramètres pour voir comment le système réagit aux différentes conditions de travail.
+                </p>
+
+                <!-- Sensor Display -->
+                <div class="sensor-display">
+                    <div class="sensor-box">
+                        <div class="sensor-label">Angle Abduction</div>
+                        <div class="sensor-value" id="abduction">45°</div>
+                        <div class="sensor-label" id="abduction-status">Zone Verte</div>
+                    </div>
+                    <div class="sensor-box">
+                        <div class="sensor-label">Cycles / Minute</div>
+                        <div class="sensor-value" id="cycles">6</div>
+                        <div class="sensor-label" id="cycles-status">Normal</div>
+                    </div>
+                    <div class="sensor-box">
+                        <div class="sensor-label">Durée Exposition</div>
+                        <div class="sensor-value" id="duration">0:00</div>
+                        <div class="sensor-label" id="duration-status">Début</div>
+                    </div>
+                    <div class="sensor-box">
+                        <div class="sensor-label">Score Risque</div>
+                        <div class="sensor-value" id="risk-score">2.1</div>
+                        <div class="sensor-label" id="risk-status">Faible</div>
+                    </div>
+                </div>
+
+                <!-- Controls -->
+                <div style="margin: 40px 0;">
+                    <h3 style="color: #fff; margin-bottom: 20px;">Paramètres de Simulation</h3>
+                    
+                    <div style="margin-bottom: 25px;">
+                        <label style="display: block; color: #94a3b8; margin-bottom: 10px; font-weight: 600;">
+                            Angle Abduction Épaule: <span id="angle-value">45°</span>
+                        </label>
+                        <input type="range" id="angle-slider" min="20" max="120" value="45" 
+                               style="width: 100%; height: 8px; border-radius: 5px; background: linear-gradient(90deg, #4ade80 0%, #fbbf24 50%, #ef4444 100%); outline: none;">
+                    </div>
+
+                    <div style="margin-bottom: 25px;">
+                        <label style="display: block; color: #94a3b8; margin-bottom: 10px; font-weight: 600;">
+                            Fréquence Mouvements (cycles/min): <span id="freq-value">6</span>
+                        </label>
+                        <input type="range" id="freq-slider" min="1" max="30" value="6" 
+                               style="width: 100%; height: 8px; border-radius: 5px; background: linear-gradient(90deg, #4ade80 0%, #fbbf24 50%, #ef4444 100%); outline: none;">
+                    </div>
+
+                    <div style="display: flex; gap: 15px; flex-wrap: wrap;">
+                        <button class="btn btn-primary" onclick="startSimulation()">
+                            ▶️ Démarrer Simulation
+                        </button>
+                        <button class="btn btn-secondary" onclick="pauseSimulation()">
+                            ⏸️ Pause
+                        </button>
+                        <button class="btn btn-secondary" onclick="resetSimulation()">
+                            🔄 Réinitialiser
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Alert Display -->
+                <div id="alert-display" style="margin-top: 30px; min-height: 100px;">
+                    <!-- Alerts will be dynamically inserted here -->
+                </div>
+
+                <!-- Recommendations Display -->
+                <div id="recommendations" style="margin-top: 30px; display: none;">
+                    <h3 style="color: #fff; margin-bottom: 15px;">🤖 Recommandations AgenticX5</h3>
+                    <ul id="recommendation-list" class="feature-list">
+                        <!-- Recommendations will be dynamically inserted here -->
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Navigation
+        function showSection(sectionId) {
+            // Hide all sections
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Remove active class from all tabs
+            document.querySelectorAll('.nav-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Show selected section
+            document.getElementById(sectionId).classList.add('active');
+            
+            // Add active class to clicked tab
+            event.target.classList.add('active');
+            
+            // Scroll to top
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        }
+
+        // Simulation Variables
+        let simulationRunning = false;
+        let simulationTime = 0;
+        let simulationInterval;
+
+        function startSimulation() {
+            if (simulationRunning) return;
+            
+            simulationRunning = true;
+            simulationTime = 0;
+            
+            simulationInterval = setInterval(updateSimulation, 1000);
+            
+            document.getElementById('alert-display').innerHTML = `
+                <div style="background: rgba(74, 222, 128, 0.1); border: 1px solid rgba(74, 222, 128, 0.3); border-radius: 12px; padding: 20px;">
+                    <div style="display: flex; align-items: center; gap: 15px;">
+                        <span style="font-size: 32px;">✅</span>
+                        <div>
+                            <h4 style="color: #4ade80; margin: 0 0 5px 0;">Simulation Démarrée</h4>
+                            <p style="color: #94a3b8; margin: 0; font-size: 14px;">Monitoring en temps réel activé</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function pauseSimulation() {
+            simulationRunning = false;
+            clearInterval(simulationInterval);
+        }
+
+        function resetSimulation() {
+            pauseSimulation();
+            simulationTime = 0;
+            
+            document.getElementById('abduction').textContent = '45°';
+            document.getElementById('cycles').textContent = '6';
+            document.getElementById('duration').textContent = '0:00';
+            document.getElementById('risk-score').textContent = '2.1';
+            
+            document.getElementById('abduction-status').textContent = 'Zone Verte';
+            document.getElementById('cycles-status').textContent = 'Normal';
+            document.getElementById('duration-status').textContent = 'Début';
+            document.getElementById('risk-status').textContent = 'Faible';
+            
+            document.getElementById('alert-display').innerHTML = '';
+            document.getElementById('recommendations').style.display = 'none';
+        }
+
+        function updateSimulation() {
+            simulationTime++;
+            
+            const angle = parseInt(document.getElementById('angle-slider').value);
+            const freq = parseInt(document.getElementById('freq-slider').value);
+            
+            // Update duration
+            const minutes = Math.floor(simulationTime / 60);
+            const seconds = simulationTime % 60;
+            document.getElementById('duration').textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+            
+            // Calculate risk score
+            let riskScore = 0;
+            
+            // Angle factor
+            if (angle < 60) {
+                riskScore += (angle / 60) * 2;
+            } else if (angle < 90) {
+                riskScore += 2 + ((angle - 60) / 30) * 3;
+            } else {
+                riskScore += 5 + ((angle - 90) / 30) * 4;
+            }
+            
+            // Frequency factor
+            if (freq < 10) {
+                riskScore += (freq / 10) * 1;
+            } else if (freq < 20) {
+                riskScore += 1 + ((freq - 10) / 10) * 2;
+            } else {
+                riskScore += 3 + ((freq - 20) / 10) * 2;
+            }
+            
+            // Duration factor
+            riskScore += Math.min((simulationTime / 600) * 2, 2);
+            
+            riskScore = Math.min(riskScore, 10).toFixed(1);
+            
+            document.getElementById('risk-score').textContent = riskScore;
+            
+            // Update status and alerts
+            updateStatus(angle, freq, simulationTime, riskScore);
+        }
+
+        function updateStatus(angle, freq, time, riskScore) {
+            // Update angle status
+            const abductionStatus = document.getElementById('abduction-status');
+            const cyclesStatus = document.getElementById('cycles-status');
+            const durationStatus = document.getElementById('duration-status');
+            const riskStatus = document.getElementById('risk-status');
+            const alertDisplay = document.getElementById('alert-display');
+            const recommendations = document.getElementById('recommendations');
+            
+            if (angle < 60) {
+                abductionStatus.textContent = 'Zone Verte';
+                abductionStatus.style.color = '#4ade80';
+            } else if (angle < 90) {
+                abductionStatus.textContent = 'Zone Orange';
+                abductionStatus.style.color = '#fbbf24';
+            } else {
+                abductionStatus.textContent = 'Zone Rouge';
+                abductionStatus.style.color = '#ef4444';
+            }
+            
+            if (freq < 12) {
+                cyclesStatus.textContent = 'Normal';
+                cyclesStatus.style.color = '#4ade80';
+            } else if (freq < 20) {
+                cyclesStatus.textContent = 'Élevé';
+                cyclesStatus.style.color = '#fbbf24';
+            } else {
+                cyclesStatus.textContent = 'Excessif';
+                cyclesStatus.style.color = '#ef4444';
+            }
+            
+            if (time < 300) {
+                durationStatus.textContent = 'Début';
+                durationStatus.style.color = '#4ade80';
+            } else if (time < 600) {
+                durationStatus.textContent = 'Modérée';
+                durationStatus.style.color = '#fbbf24';
+            } else {
+                durationStatus.textContent = 'Prolongée';
+                durationStatus.style.color = '#ef4444';
+            }
+            
+            if (riskScore < 4) {
+                riskStatus.textContent = 'Faible';
+                riskStatus.style.color = '#4ade80';
+            } else if (riskScore < 7) {
+                riskStatus.textContent = 'Modéré';
+                riskStatus.style.color = '#fbbf24';
+            } else {
+                riskStatus.textContent = 'Élevé';
+                riskStatus.style.color = '#ef4444';
+            }
+            
+            // Generate alerts based on risk score
+            if (riskScore >= 7) {
+                alertDisplay.innerHTML = `
+                    <div style="background: rgba(239, 68, 68, 0.15); border: 2px solid rgba(239, 68, 68, 0.3); border-radius: 12px; padding: 20px;">
+                        <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 15px;">
+                            <span style="font-size: 32px;">🚨</span>
+                            <div>
+                                <h4 style="color: #ef4444; margin: 0 0 5px 0;">ALERTE CRITIQUE</h4>
+                                <p style="color: #94a3b8; margin: 0; font-size: 14px;">Arrêt immédiat recommandé</p>
+                            </div>
+                        </div>
+                        <p style="color: #e0e6ed; margin: 0;">
+                            Combinaison de facteurs de risque élevés détectée. Intervention AgenticX5 déclenchée.
+                        </p>
+                    </div>
+                `;
+                
+                recommendations.style.display = 'block';
+                document.getElementById('recommendation-list').innerHTML = `
+                    <li class="feature-item">
+                        <span class="feature-icon" style="color: #ef4444;">🚨</span>
+                        <span><strong>ARRÊT IMMÉDIAT</strong> de la tâche en cours</span>
+                    </li>
+                    <li class="feature-item">
+                        <span class="feature-icon" style="color: #ef4444;">⏸️</span>
+                        <span>Pause obligatoire de 15 minutes</span>
+                    </li>
+                    <li class="feature-item">
+                        <span class="feature-icon" style="color: #ef4444;">🏥</span>
+                        <span>Consultation superviseur / équipe SST</span>
+                    </li>
+                    <li class="feature-item">
+                        <span class="feature-icon" style="color: #ef4444;">🛠️</span>
+                        <span>Réaménagement du poste de travail requis</span>
+                    </li>
+                    <li class="feature-item">
+                        <span class="feature-icon" style="color: #ef4444;">🔄</span>
+                        <span>Rotation de tâche pour les prochains jours</span>
+                    </li>
+                `;
+            } else if (riskScore >= 4) {
+                alertDisplay.innerHTML = `
+                    <div style="background: rgba(251, 191, 36, 0.15); border: 2px solid rgba(251, 191, 36, 0.3); border-radius: 12px; padding: 20px;">
+                        <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 15px;">
+                            <span style="font-size: 32px;">⚠️</span>
+                            <div>
+                                <h4 style="color: #fbbf24; margin: 0 0 5px 0;">ALERTE MODÉRÉE</h4>
+                                <p style="color: #94a3b8; margin: 0; font-size: 14px;">Ajustement recommandé</p>
+                            </div>
+                        </div>
+                        <p style="color: #e0e6ed; margin: 0;">
+                            Risque TMS modéré détecté. Recommandations préventives disponibles.
+                        </p>
+                    </div>
+                `;
+                
+                recommendations.style.display = 'block';
+                document.getElementById('recommendation-list').innerHTML = `
+                    <li class="feature-item">
+                        <span class="feature-icon" style="color: #fbbf24;">⚠️</span>
+                        <span>Réduire l'angle d'abduction (< 60°)</span>
+                    </li>
+                    <li class="feature-item">
+                        <span class="feature-icon" style="color: #fbbf24;">⏱️</span>
+                        <span>Planifier une pause dans 5 minutes</span>
+                    </li>
+                    <li class="feature-item">
+                        <span class="feature-icon" style="color: #fbbf24;">🧘</span>
+                        <span>Exercices d'étirement épaule/cou recommandés</span>
+                    </li>
+                    <li class="feature-item">
+                        <span class="feature-icon" style="color: #fbbf24;">🔄</span>
+                        <span>Alterner avec tâche ergonomique après 30 min</span>
+                    </li>
+                `;
+            } else {
+                alertDisplay.innerHTML = `
+                    <div style="background: rgba(74, 222, 128, 0.1); border: 1px solid rgba(74, 222, 128, 0.3); border-radius: 12px; padding: 20px;">
+                        <div style="display: flex; align-items: center; gap: 15px;">
+                            <span style="font-size: 32px;">✅</span>
+                            <div>
+                                <h4 style="color: #4ade80; margin: 0 0 5px 0;">Statut Normal</h4>
+                                <p style="color: #94a3b8; margin: 0; font-size: 14px;">Conditions de travail ergonomiques</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                recommendations.style.display = 'none';
+            }
+        }
+
+        // Slider updates
+        document.getElementById('angle-slider').addEventListener('input', function() {
+            const value = this.value;
+            document.getElementById('angle-value').textContent = value + '°';
+            document.getElementById('abduction').textContent = value + '°';
+        });
+
+        document.getElementById('freq-slider').addEventListener('input', function() {
+            const value = this.value;
+            document.getElementById('freq-value').textContent = value;
+            document.getElementById('cycles').textContent = value;
+        });
+    </script>
+</body>
+</html>

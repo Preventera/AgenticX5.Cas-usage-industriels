@@ -1,0 +1,1542 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ergonomie, TMS & Exosquelettes - SafetyGraph</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0a0a0f;
+            color: #e0e0e0;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Background effects */
+        .stars-container {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 3s infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+
+        .gradient-orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(100px);
+            opacity: 0.3;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .orb-1 {
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, #ec4899 0%, transparent 70%);
+            top: -200px;
+            right: -200px;
+            animation: float 20s infinite ease-in-out;
+        }
+
+        .orb-2 {
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, #8b5cf6 0%, transparent 70%);
+            bottom: -150px;
+            left: -150px;
+            animation: float 15s infinite ease-in-out reverse;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(50px, -50px) scale(1.1); }
+            66% { transform: translate(-30px, 30px) scale(0.9); }
+        }
+
+        /* Header */
+        header {
+            position: relative;
+            z-index: 10;
+            padding: 2rem 4rem;
+            background: rgba(10, 10, 15, 0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #ec4899 0%, #8b5cf6 50%, #f59e0b 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: rgba(236, 72, 153, 0.1);
+            border: 1px solid rgba(236, 72, 153, 0.3);
+            border-radius: 20px;
+            font-size: 0.875rem;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: #ec4899;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* Main Container */
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem 4rem;
+        }
+
+        /* Stats Overview */
+        .stats-bar {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: rgba(17, 17, 27, 0.6);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(236, 72, 153, 0.5);
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #ec4899 0%, #8b5cf6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            color: #94a3b8;
+            margin-top: 0.5rem;
+        }
+
+        .stat-trend {
+            font-size: 0.75rem;
+            color: #10b981;
+            margin-top: 0.25rem;
+        }
+
+        /* Dashboard Grid */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 1.5rem;
+        }
+
+        /* Card Styles */
+        .card {
+            background: rgba(17, 17, 27, 0.6);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            border-color: rgba(236, 72, 153, 0.5);
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(236, 72, 153, 0.15);
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #ec4899, #8b5cf6, #f59e0b);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .card:hover::before {
+            opacity: 1;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .card-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: #fff;
+        }
+
+        .card-badge {
+            padding: 0.25rem 0.75rem;
+            background: rgba(236, 72, 153, 0.2);
+            border: 1px solid rgba(236, 72, 153, 0.3);
+            border-radius: 12px;
+            font-size: 0.75rem;
+            color: #fbcfe8;
+        }
+
+        .card-full {
+            grid-column: 1 / -1;
+        }
+
+        /* Body Map Visualization */
+        .body-map {
+            position: relative;
+            width: 100%;
+            height: 300px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 1rem;
+        }
+
+        .body-silhouette {
+            position: relative;
+            width: 150px;
+            height: 280px;
+        }
+
+        .body-part {
+            position: absolute;
+            background: rgba(236, 72, 153, 0.3);
+            border: 2px solid rgba(236, 72, 153, 0.5);
+            border-radius: 8px;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .body-part:hover {
+            background: rgba(236, 72, 153, 0.6);
+            transform: scale(1.1);
+        }
+
+        .shoulder-left { top: 20px; left: 10px; width: 40px; height: 30px; }
+        .shoulder-right { top: 20px; right: 10px; width: 40px; height: 30px; }
+        .back { top: 50px; left: 35px; width: 80px; height: 100px; }
+        .arms { top: 50px; left: 0; width: 150px; height: 120px; opacity: 0.5; }
+        .legs { bottom: 0; left: 40px; width: 70px; height: 80px; opacity: 0.5; }
+
+        .heat-indicator {
+            position: absolute;
+            font-size: 0.875rem;
+            font-weight: 600;
+            padding: 0.25rem 0.5rem;
+            background: rgba(0, 0, 0, 0.8);
+            border-radius: 6px;
+        }
+
+        .heat-high { color: #ef4444; }
+        .heat-medium { color: #f59e0b; }
+        .heat-low { color: #10b981; }
+
+        /* Risk Score Cards */
+        .risk-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .risk-item {
+            background: rgba(30, 30, 45, 0.6);
+            padding: 1rem;
+            border-radius: 12px;
+            border-left: 3px solid;
+        }
+
+        .risk-critical { border-left-color: #ef4444; }
+        .risk-high { border-left-color: #f59e0b; }
+        .risk-medium { border-left-color: #fbbf24; }
+        .risk-low { border-left-color: #10b981; }
+
+        .risk-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .risk-score {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin: 0.25rem 0;
+        }
+
+        .risk-label {
+            font-size: 0.75rem;
+            color: #94a3b8;
+        }
+
+        /* Recommendation Cards */
+        .reco-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin-top: 1rem;
+        }
+
+        .reco-item {
+            background: rgba(30, 30, 45, 0.4);
+            padding: 1rem;
+            border-radius: 12px;
+            border-left: 3px solid #8b5cf6;
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .reco-icon {
+            width: 50px;
+            height: 50px;
+            background: rgba(139, 92, 246, 0.2);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .reco-content {
+            flex: 1;
+        }
+
+        .reco-title {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .reco-desc {
+            font-size: 0.875rem;
+            color: #94a3b8;
+        }
+
+        /* Biofeedback Display */
+        .biofeedback {
+            background: rgba(30, 30, 45, 0.4);
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-top: 1rem;
+            border: 2px solid rgba(236, 72, 153, 0.3);
+        }
+
+        .biofeedback-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .biofeedback-status {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: rgba(236, 72, 153, 0.2);
+            border-radius: 20px;
+            font-size: 0.875rem;
+        }
+
+        .pulse-dot {
+            width: 10px;
+            height: 10px;
+            background: #ec4899;
+            border-radius: 50%;
+            animation: pulse-beat 1s infinite;
+        }
+
+        @keyframes pulse-beat {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.3); opacity: 0.7; }
+        }
+
+        .pause-timer {
+            font-size: 2rem;
+            font-weight: 700;
+            text-align: center;
+            color: #ec4899;
+            margin: 1rem 0;
+        }
+
+        .pause-message {
+            text-align: center;
+            color: #94a3b8;
+            font-size: 0.875rem;
+        }
+
+        /* Exoskeleton Display */
+        .exo-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .exo-card {
+            background: rgba(30, 30, 45, 0.4);
+            padding: 1rem;
+            border-radius: 12px;
+            border: 2px solid rgba(139, 92, 246, 0.3);
+            transition: all 0.3s;
+        }
+
+        .exo-card:hover {
+            border-color: rgba(139, 92, 246, 0.6);
+            transform: translateY(-2px);
+        }
+
+        .exo-type {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #c084fc;
+        }
+
+        .exo-benefit {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+            color: #10b981;
+            margin: 0.25rem 0;
+        }
+
+        .exo-stat {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #ec4899;
+            margin-top: 0.5rem;
+        }
+
+        /* Load Tracker */
+        .load-tracker {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .load-bar {
+            background: rgba(30, 30, 45, 0.4);
+            padding: 1rem;
+            border-radius: 12px;
+        }
+
+        .load-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .load-label {
+            font-weight: 600;
+        }
+
+        .load-value {
+            font-size: 0.875rem;
+            color: #94a3b8;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 6px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-fill {
+            height: 100%;
+            border-radius: 6px;
+            transition: width 0.3s ease;
+        }
+
+        .progress-safe { background: linear-gradient(90deg, #10b981, #34d399); }
+        .progress-warning { background: linear-gradient(90deg, #f59e0b, #fbbf24); }
+        .progress-danger { background: linear-gradient(90deg, #ef4444, #f87171); }
+
+        /* AI Vision Display */
+        .vision-preview {
+            background: rgba(30, 30, 45, 0.4);
+            border-radius: 12px;
+            padding: 1rem;
+            margin-top: 1rem;
+            border: 2px solid rgba(139, 92, 246, 0.3);
+        }
+
+        .vision-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .vision-box {
+            aspect-ratio: 1;
+            background: rgba(139, 92, 246, 0.1);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 0.5rem;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .vision-box:hover {
+            background: rgba(139, 92, 246, 0.3);
+            transform: scale(1.05);
+        }
+
+        .vision-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .vision-label {
+            font-size: 0.75rem;
+            text-align: center;
+            color: #94a3b8;
+        }
+
+        /* Training Module */
+        .training-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin-top: 1rem;
+        }
+
+        .training-item {
+            background: rgba(30, 30, 45, 0.4);
+            padding: 1rem;
+            border-radius: 12px;
+            border-left: 3px solid #f59e0b;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .training-info {
+            flex: 1;
+        }
+
+        .training-title {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .training-meta {
+            font-size: 0.75rem;
+            color: #64748b;
+        }
+
+        .training-progress {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .progress-circle {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: conic-gradient(#f59e0b 0deg, rgba(255, 255, 255, 0.1) 0deg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.875rem;
+        }
+
+        /* Alert Cards */
+        .alert-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin-top: 1rem;
+        }
+
+        .alert-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: rgba(30, 30, 45, 0.4);
+            border-radius: 12px;
+            border-left: 3px solid;
+        }
+
+        .alert-critical { border-left-color: #ef4444; }
+        .alert-warning { border-left-color: #f59e0b; }
+        .alert-info { border-left-color: #3b82f6; }
+
+        .alert-icon {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            font-size: 1.25rem;
+        }
+
+        .alert-content {
+            flex: 1;
+        }
+
+        .alert-title {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .alert-time {
+            font-size: 0.75rem;
+            color: #64748b;
+        }
+
+        /* A/B Testing Display */
+        .ab-test {
+            background: rgba(30, 30, 45, 0.4);
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-top: 1rem;
+        }
+
+        .ab-comparison {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .ab-variant {
+            background: rgba(17, 17, 27, 0.6);
+            padding: 1rem;
+            border-radius: 12px;
+            border: 2px solid;
+        }
+
+        .variant-a { border-color: rgba(59, 130, 246, 0.5); }
+        .variant-b { border-color: rgba(16, 185, 129, 0.5); }
+
+        .variant-label {
+            font-weight: 600;
+            font-size: 1.125rem;
+            margin-bottom: 1rem;
+        }
+
+        .variant-metric {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-size: 0.875rem;
+        }
+
+        .metric-value {
+            font-weight: 600;
+        }
+
+        .winner-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            background: rgba(16, 185, 129, 0.2);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            border-radius: 12px;
+            font-size: 0.75rem;
+            color: #6ee7b7;
+            margin-top: 0.5rem;
+        }
+
+        /* Chart Container */
+        .chart-container {
+            position: relative;
+            height: 250px;
+            margin-top: 1rem;
+        }
+
+        /* Scientific Evidence Banner */
+        .evidence-banner {
+            background: linear-gradient(135deg, rgba(236, 72, 153, 0.2), rgba(139, 92, 246, 0.2));
+            border: 2px solid rgba(236, 72, 153, 0.3);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .evidence-icon {
+            font-size: 3rem;
+        }
+
+        .evidence-content {
+            flex: 1;
+        }
+
+        .evidence-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: #ec4899;
+        }
+
+        .evidence-text {
+            color: #cbd5e1;
+            line-height: 1.6;
+        }
+
+        .evidence-stat {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            background: rgba(236, 72, 153, 0.3);
+            border-radius: 8px;
+            font-weight: 700;
+            color: #fbcfe8;
+            margin: 0 0.25rem;
+        }
+
+        /* Data Table */
+        .data-table {
+            width: 100%;
+            margin-top: 1rem;
+            border-collapse: collapse;
+        }
+
+        .data-table th,
+        .data-table td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .data-table th {
+            color: #94a3b8;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        .data-table tr:hover {
+            background: rgba(236, 72, 153, 0.05);
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats-bar {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            header, .container {
+                padding: 1.5rem 2rem;
+            }
+
+            .risk-grid,
+            .exo-grid,
+            .ab-comparison {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Background Effects -->
+    <div class="stars-container" id="stars"></div>
+    <div class="gradient-orb orb-1"></div>
+    <div class="gradient-orb orb-2"></div>
+
+    <!-- Header -->
+    <header>
+        <div class="header-content">
+            <h1>💪 Ergonomie, TMS & Exosquelettes</h1>
+            <div class="status-indicator">
+                <div class="status-dot"></div>
+                <span>Suivi Actif</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Scientific Evidence Banner -->
+        <div class="evidence-banner">
+            <div class="evidence-icon">🔬</div>
+            <div class="evidence-content">
+                <div class="evidence-title">Preuves Scientifiques Validées</div>
+                <div class="evidence-text">
+                    Réduction d'activation musculaire de <span class="evidence-stat">~20%</span> avec exosquelettes.
+                    Études de terrain confirmant le soulagement des tâches bras levés.
+                    Potentiel clair démontré avec besoins de recherche continue.
+                </div>
+            </div>
+        </div>
+
+        <!-- Stats Overview -->
+        <div class="stats-bar">
+            <div class="stat-card">
+                <div class="stat-value">-23%</div>
+                <div class="stat-label">Réduction TMS</div>
+                <div class="stat-trend">↓ vs. année dernière</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">347</div>
+                <div class="stat-label">Travailleurs Équipés</div>
+                <div class="stat-trend">↑ +89</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">4.2</div>
+                <div class="stat-label">Score Ergo Moyen</div>
+                <div class="stat-trend">↓ -1.3 (amélioration)</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">1,247</div>
+                <div class="stat-label">Micro-pauses Prescrites</div>
+                <div class="stat-trend">↑ +156/semaine</div>
+            </div>
+        </div>
+
+        <!-- Dashboard Grid -->
+        <div class="dashboard-grid">
+            <!-- 1. Overhead Effort Detection -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">🎯 Détection Efforts Épaule</h3>
+                    <span class="card-badge">Vision IA</span>
+                </div>
+                <div class="body-map">
+                    <div class="body-silhouette">
+                        <div class="body-part shoulder-left">
+                            <span class="heat-indicator heat-high" style="top: -20px; left: 5px;">8.7</span>
+                        </div>
+                        <div class="body-part shoulder-right">
+                            <span class="heat-indicator heat-high" style="top: -20px; right: 5px;">9.2</span>
+                        </div>
+                        <div class="body-part back">
+                            <span class="heat-indicator heat-medium" style="top: 50%; left: 50%; transform: translate(-50%, -50%);">6.1</span>
+                        </div>
+                        <div class="body-part arms"></div>
+                        <div class="body-part legs">
+                            <span class="heat-indicator heat-low" style="bottom: 10px; left: 50%; transform: translateX(-50%);">2.3</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <canvas id="overheadChart"></canvas>
+                </div>
+            </div>
+
+            <!-- 2. TMS Risk Score by Position -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">📊 Score Risque TMS</h3>
+                    <span class="card-badge">Par Poste</span>
+                </div>
+                <div class="risk-grid">
+                    <div class="risk-item risk-critical">
+                        <div class="risk-title">Montage Aérien</div>
+                        <div class="risk-score" style="color: #ef4444;">9.2</div>
+                        <div class="risk-label">Critique • Intervention immédiate</div>
+                    </div>
+                    <div class="risk-item risk-high">
+                        <div class="risk-title">Soudure Verticale</div>
+                        <div class="risk-score" style="color: #f59e0b;">7.8</div>
+                        <div class="risk-label">Élevé • Exosquelette requis</div>
+                    </div>
+                    <div class="risk-item risk-medium">
+                        <div class="risk-title">Assemblage Chaîne</div>
+                        <div class="risk-score" style="color: #fbbf24;">5.4</div>
+                        <div class="risk-label">Modéré • Surveillance active</div>
+                    </div>
+                    <div class="risk-item risk-low">
+                        <div class="risk-title">Contrôle Qualité</div>
+                        <div class="risk-score" style="color: #10b981;">2.1</div>
+                        <div class="risk-label">Faible • Conforme</div>
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <canvas id="tmsChart"></canvas>
+                </div>
+            </div>
+
+            <!-- 3. Optimized Tools Recommendations -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">🔧 Outils Optimisés</h3>
+                    <span class="card-badge">IA Reco</span>
+                </div>
+                <div class="reco-list">
+                    <div class="reco-item">
+                        <div class="reco-icon">📏</div>
+                        <div class="reco-content">
+                            <div class="reco-title">Rallonge outil 45cm</div>
+                            <div class="reco-desc">Réduction angle épaule de 35° → Poste soudure A</div>
+                        </div>
+                    </div>
+                    <div class="reco-item">
+                        <div class="reco-icon">⬆️</div>
+                        <div class="reco-content">
+                            <div class="reco-title">Élévation plan travail +15cm</div>
+                            <div class="reco-desc">Meilleure posture lombaire → Atelier assemblage</div>
+                        </div>
+                    </div>
+                    <div class="reco-item">
+                        <div class="reco-icon">🎯</div>
+                        <div class="reco-content">
+                            <div class="reco-title">Support ergonomique articulé</div>
+                            <div class="reco-desc">-42% effort statique → Zone montage</div>
+                        </div>
+                    </div>
+                    <div class="reco-item">
+                        <div class="reco-icon">🔄</div>
+                        <div class="reco-content">
+                            <div class="reco-title">Plateforme rotative motorisée</div>
+                            <div class="reco-desc">Élimination torsions répétées → Ligne production B</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4. Biofeedback Micro-breaks -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">⏸️ Micro-Pauses Prescrites</h3>
+                    <span class="card-badge">Biofeedback</span>
+                </div>
+                <div class="biofeedback">
+                    <div class="biofeedback-header">
+                        <div style="font-weight: 600;">Session Active</div>
+                        <div class="biofeedback-status">
+                            <div class="pulse-dot"></div>
+                            <span>Surveillance EMG</span>
+                        </div>
+                    </div>
+                    <div class="pause-timer">00:08:34</div>
+                    <div class="pause-message">Prochaine micro-pause dans 1 min 26 sec</div>
+                    <div style="margin-top: 1rem;">
+                        <div class="progress-bar">
+                            <div class="progress-fill progress-warning" style="width: 85%;"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <canvas id="biofeedbackChart"></canvas>
+                </div>
+            </div>
+
+            <!-- 5. Exoskeletons -->
+            <div class="card card-full">
+                <div class="card-header">
+                    <h3 class="card-title">🦾 Exosquelettes Actifs/Passifs</h3>
+                    <span class="card-badge">-20% Activation</span>
+                </div>
+                <div class="exo-grid">
+                    <div class="exo-card">
+                        <div class="exo-type">🟢 Exosquelette Passif - Épaules</div>
+                        <div style="font-size: 0.875rem; color: #94a3b8; margin: 0.5rem 0;">
+                            Modèle: HAPO MS • Zone: Montage aérien
+                        </div>
+                        <div class="exo-benefit">✓ Réduction activation deltoïde: 23%</div>
+                        <div class="exo-benefit">✓ Confort utilisateur: 8.7/10</div>
+                        <div class="exo-benefit">✓ Durée port continu: 6h+</div>
+                        <div class="exo-stat">347 unités déployées</div>
+                    </div>
+                    <div class="exo-card">
+                        <div class="exo-type">🔵 Exosquelette Actif - Levage</div>
+                        <div style="font-size: 0.875rem; color: #94a3b8; margin: 0.5rem 0;">
+                            Modèle: APEX 2.0 • Zone: Logistique
+                        </div>
+                        <div class="exo-benefit">✓ Réduction effort lombaire: 35%</div>
+                        <div class="exo-benefit">✓ Capacité levage augmentée: +18kg</div>
+                        <div class="exo-benefit">✓ Assistance intelligente adaptative</div>
+                        <div class="exo-stat">89 unités en essai</div>
+                    </div>
+                    <div class="exo-card">
+                        <div class="exo-type">🟣 Exosquelette Passif - Dos</div>
+                        <div style="font-size: 0.875rem; color: #94a3b8; margin: 0.5rem 0;">
+                            Modèle: BackX • Zone: Manutention
+                        </div>
+                        <div class="exo-benefit">✓ Réduction compression L5-S1: 28%</div>
+                        <div class="exo-benefit">✓ Diminution fatigue: 41%</div>
+                        <div class="exo-benefit">✓ ROI atteint: 8.3 mois</div>
+                        <div class="exo-stat">156 unités actives</div>
+                    </div>
+                    <div class="exo-card">
+                        <div class="exo-type">🟡 Exosquelette Hybride - Complet</div>
+                        <div style="font-size: 0.875rem; color: #94a3b8; margin: 0.5rem 0;">
+                            Modèle: Guardian Pro • Zone: Maintenance
+                        </div>
+                        <div class="exo-benefit">✓ Support multi-articulations</div>
+                        <div class="exo-benefit">✓ Capteurs biométriques intégrés</div>
+                        <div class="exo-benefit">✓ Connectivité IoT temps réel</div>
+                        <div class="exo-stat">23 unités pilote</div>
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <canvas id="exoChart"></canvas>
+                </div>
+            </div>
+
+            <!-- 6. Cumulative Load Tracking -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">📈 Charge Cumulée</h3>
+                    <span class="card-badge">Dos/Épaules</span>
+                </div>
+                <div class="load-tracker">
+                    <div class="load-bar">
+                        <div class="load-header">
+                            <span class="load-label">💪 Épaule Droite</span>
+                            <span class="load-value">847 kg • 85% seuil</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill progress-warning" style="width: 85%;"></div>
+                        </div>
+                    </div>
+                    <div class="load-bar">
+                        <div class="load-header">
+                            <span class="load-label">💪 Épaule Gauche</span>
+                            <span class="load-value">723 kg • 72% seuil</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill progress-safe" style="width: 72%;"></div>
+                        </div>
+                    </div>
+                    <div class="load-bar">
+                        <div class="load-header">
+                            <span class="load-label">🦴 Région Lombaire</span>
+                            <span class="load-value">1,234 kg • 92% seuil</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill progress-danger" style="width: 92%;"></div>
+                        </div>
+                    </div>
+                    <div class="load-bar">
+                        <div class="load-header">
+                            <span class="load-label">🔄 Mouvements Répétitifs</span>
+                            <span class="load-value">2,847 cycles • 78% seuil</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill progress-safe" style="width: 78%;"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <canvas id="loadChart"></canvas>
+                </div>
+            </div>
+
+            <!-- 7. AI Vision Pallet Rearrangement -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">👁️ Réagencement IA</h3>
+                    <span class="card-badge">Vision + IA</span>
+                </div>
+                <div class="vision-preview">
+                    <div style="font-weight: 600; margin-bottom: 0.5rem;">Optimisation Détectée</div>
+                    <div style="font-size: 0.875rem; color: #94a3b8; margin-bottom: 1rem;">
+                        Zone Entrepôt B • Analyse en cours
+                    </div>
+                    <div class="vision-grid">
+                        <div class="vision-box">
+                            <div class="vision-icon">📦</div>
+                            <div class="vision-label">Articles fréquents → Niveau yeux</div>
+                        </div>
+                        <div class="vision-box">
+                            <div class="vision-icon">⬇️</div>
+                            <div class="vision-label">Articles lourds → Sol</div>
+                        </div>
+                        <div class="vision-box">
+                            <div class="vision-icon">⬆️</div>
+                            <div class="vision-label">Articles légers → Hauteur</div>
+                        </div>
+                        <div class="vision-box">
+                            <div class="vision-icon">🎯</div>
+                            <div class="vision-label">Zone picking optimale</div>
+                        </div>
+                        <div class="vision-box">
+                            <div class="vision-icon">📏</div>
+                            <div class="vision-label">Distances réduites -35%</div>
+                        </div>
+                        <div class="vision-box">
+                            <div class="vision-icon">✅</div>
+                            <div class="vision-label">Validation ergonome</div>
+                        </div>
+                    </div>
+                </div>
+                <div style="margin-top: 1rem; padding: 1rem; background: rgba(139, 92, 246, 0.1); border-radius: 12px; border-left: 3px solid #8b5cf6;">
+                    <strong>💡 Gain estimé:</strong> -42% efforts élévation, -28% torsions
+                </div>
+            </div>
+
+            <!-- 8. Personalized Safe Gestures Training -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">🎓 Formation Gestes Sûrs</h3>
+                    <span class="card-badge">Personnalisée</span>
+                </div>
+                <div class="training-list">
+                    <div class="training-item">
+                        <div class="training-info">
+                            <div class="training-title">Levage sécuritaire - Jean Tremblay</div>
+                            <div class="training-meta">Module adaptatif • Basé sur historique TMS</div>
+                        </div>
+                        <div class="training-progress">
+                            <div class="progress-circle" style="background: conic-gradient(#f59e0b 0deg 252deg, rgba(255, 255, 255, 0.1) 252deg);">
+                                70%
+                            </div>
+                        </div>
+                    </div>
+                    <div class="training-item">
+                        <div class="training-info">
+                            <div class="training-title">Postures optimales soudure - Marie Lavoie</div>
+                            <div class="training-meta">Réalité virtuelle • Feedback temps réel</div>
+                        </div>
+                        <div class="training-progress">
+                            <div class="progress-circle" style="background: conic-gradient(#f59e0b 0deg 324deg, rgba(255, 255, 255, 0.1) 324deg);">
+                                90%
+                            </div>
+                        </div>
+                    </div>
+                    <div class="training-item">
+                        <div class="training-info">
+                            <div class="training-title">Étirements préventifs - Équipe Logistique</div>
+                            <div class="training-meta">Routines personnalisées • 12 participants</div>
+                        </div>
+                        <div class="training-progress">
+                            <div class="progress-circle" style="background: conic-gradient(#10b981 0deg 360deg, rgba(255, 255, 255, 0.1) 360deg);">
+                                100%
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 9. Extreme Repetitivity Alert -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">⚡ Répétitivité Extrême</h3>
+                    <span class="card-badge">Cycle Time</span>
+                </div>
+                <div class="alert-list">
+                    <div class="alert-item alert-critical">
+                        <div class="alert-icon">🔴</div>
+                        <div class="alert-content">
+                            <div class="alert-title">Poste assemblage A3 - Cycle 4.2s</div>
+                            <div class="alert-time">847 cycles/h • Seuil critique atteint</div>
+                        </div>
+                    </div>
+                    <div class="alert-item alert-warning">
+                        <div class="alert-icon">⚠️</div>
+                        <div class="alert-content">
+                            <div class="alert-title">Ligne emballage B - Cycle 6.8s</div>
+                            <div class="alert-time">523 cycles/h • Surveillance renforcée</div>
+                        </div>
+                    </div>
+                    <div class="alert-item alert-info">
+                        <div class="alert-icon">ℹ️</div>
+                        <div class="alert-content">
+                            <div class="alert-title">Zone contrôle qualité - Cycle 12.5s</div>
+                            <div class="alert-time">287 cycles/h • Dans limites acceptables</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <canvas id="repetitivityChart"></canvas>
+                </div>
+            </div>
+
+            <!-- 10. A/B Testing Anti-Vibration Equipment -->
+            <div class="card card-full">
+                <div class="card-header">
+                    <h3 class="card-title">🧪 Essais A/B Anti-Vibratiles</h3>
+                    <span class="card-badge">En cours</span>
+                </div>
+                <div class="ab-test">
+                    <div style="font-weight: 600; margin-bottom: 1rem;">Étude comparative: Gants anti-vibration</div>
+                    <div class="ab-comparison">
+                        <div class="ab-variant variant-a">
+                            <div class="variant-label">🅰️ Variant A - Modèle Standard</div>
+                            <div class="variant-metric">
+                                <span>Réduction vibrations:</span>
+                                <span class="metric-value">24.3%</span>
+                            </div>
+                            <div class="variant-metric">
+                                <span>Confort utilisateur:</span>
+                                <span class="metric-value">6.8/10</span>
+                            </div>
+                            <div class="variant-metric">
+                                <span>Dextérité:</span>
+                                <span class="metric-value">7.2/10</span>
+                            </div>
+                            <div class="variant-metric">
+                                <span>Durabilité:</span>
+                                <span class="metric-value">4.5 mois</span>
+                            </div>
+                            <div class="variant-metric">
+                                <span>Symptômes TMS:</span>
+                                <span class="metric-value">-18%</span>
+                            </div>
+                        </div>
+                        <div class="ab-variant variant-b">
+                            <div class="variant-label">🅱️ Variant B - Modèle Premium</div>
+                            <div class="variant-metric">
+                                <span>Réduction vibrations:</span>
+                                <span class="metric-value">38.7%</span>
+                            </div>
+                            <div class="variant-metric">
+                                <span>Confort utilisateur:</span>
+                                <span class="metric-value">8.9/10</span>
+                            </div>
+                            <div class="variant-metric">
+                                <span>Dextérité:</span>
+                                <span class="metric-value">8.5/10</span>
+                            </div>
+                            <div class="variant-metric">
+                                <span>Durabilité:</span>
+                                <span class="metric-value">7.2 mois</span>
+                            </div>
+                            <div class="variant-metric">
+                                <span>Symptômes TMS:</span>
+                                <span class="metric-value">-34%</span>
+                            </div>
+                            <span class="winner-badge">✓ Recommandé</span>
+                        </div>
+                    </div>
+                    <div style="margin-top: 1rem; padding: 1rem; background: rgba(16, 185, 129, 0.1); border-radius: 12px; border-left: 3px solid #10b981;">
+                        <strong>📊 Résultats statistiques:</strong> p < 0.001 • n=89 participants • Durée: 6 mois
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <canvas id="abTestChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Generate stars
+        function createStars() {
+            const container = document.getElementById('stars');
+            for (let i = 0; i < 100; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.animationDelay = Math.random() * 3 + 's';
+                container.appendChild(star);
+            }
+        }
+        createStars();
+
+        // Chart.js Default Config
+        Chart.defaults.color = '#94a3b8';
+        Chart.defaults.borderColor = 'rgba(255, 255, 255, 0.1)';
+        Chart.defaults.font.family = 'Inter, sans-serif';
+
+        // 1. Overhead Effort Chart
+        const overheadCtx = document.getElementById('overheadChart').getContext('2d');
+        new Chart(overheadCtx, {
+            type: 'line',
+            data: {
+                labels: ['8h', '9h', '10h', '11h', '12h', '13h', '14h', '15h', '16h'],
+                datasets: [{
+                    label: 'Efforts > épaule (nb)',
+                    data: [12, 18, 24, 31, 28, 35, 42, 38, 29],
+                    borderColor: '#ec4899',
+                    backgroundColor: 'rgba(236, 72, 153, 0.1)',
+                    tension: 0.4,
+                    fill: true
+                }, {
+                    label: 'Seuil alerte',
+                    data: Array(9).fill(30),
+                    borderColor: '#ef4444',
+                    borderDash: [5, 5],
+                    tension: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: true } },
+                scales: { y: { beginAtZero: true } }
+            }
+        });
+
+        // 2. TMS Risk Score Chart
+        const tmsCtx = document.getElementById('tmsChart').getContext('2d');
+        new Chart(tmsCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Montage Aérien', 'Soudure', 'Assemblage', 'Contrôle', 'Logistique', 'Maintenance'],
+                datasets: [{
+                    label: 'Score TMS',
+                    data: [9.2, 7.8, 5.4, 2.1, 6.3, 7.1],
+                    backgroundColor: [
+                        'rgba(239, 68, 68, 0.8)',
+                        'rgba(245, 158, 11, 0.8)',
+                        'rgba(251, 191, 36, 0.8)',
+                        'rgba(16, 185, 129, 0.8)',
+                        'rgba(245, 158, 11, 0.8)',
+                        'rgba(245, 158, 11, 0.8)'
+                    ]
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: { y: { beginAtZero: true, max: 10 } }
+            }
+        });
+
+        // 4. Biofeedback Chart
+        const biofeedbackCtx = document.getElementById('biofeedbackChart').getContext('2d');
+        new Chart(biofeedbackCtx, {
+            type: 'line',
+            data: {
+                labels: ['0min', '2min', '4min', '6min', '8min', '10min'],
+                datasets: [{
+                    label: 'Activation musculaire (%)',
+                    data: [45, 52, 58, 67, 75, 85],
+                    borderColor: '#ec4899',
+                    backgroundColor: 'rgba(236, 72, 153, 0.1)',
+                    tension: 0.4,
+                    fill: true
+                }, {
+                    label: 'Seuil pause',
+                    data: Array(6).fill(80),
+                    borderColor: '#f59e0b',
+                    borderDash: [5, 5]
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: true } },
+                scales: { y: { beginAtZero: true, max: 100 } }
+            }
+        });
+
+        // 5. Exoskeleton Benefits Chart
+        const exoCtx = document.getElementById('exoChart').getContext('2d');
+        new Chart(exoCtx, {
+            type: 'radar',
+            data: {
+                labels: ['Réduction effort', 'Confort', 'Autonomie', 'Acceptation', 'Efficacité'],
+                datasets: [{
+                    label: 'Sans exosquelette',
+                    data: [100, 50, 100, 60, 70],
+                    borderColor: '#64748b',
+                    backgroundColor: 'rgba(100, 116, 139, 0.2)'
+                }, {
+                    label: 'Avec exosquelette',
+                    data: [80, 87, 85, 88, 92],
+                    borderColor: '#8b5cf6',
+                    backgroundColor: 'rgba(139, 92, 246, 0.2)'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: true } },
+                scales: { r: { beginAtZero: true, max: 100 } }
+            }
+        });
+
+        // 6. Cumulative Load Chart
+        const loadCtx = document.getElementById('loadChart').getContext('2d');
+        new Chart(loadCtx, {
+            type: 'line',
+            data: {
+                labels: ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven'],
+                datasets: [{
+                    label: 'Charge lombaire (kg)',
+                    data: [823, 956, 1087, 1145, 1234],
+                    borderColor: '#ef4444',
+                    backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                    tension: 0.4,
+                    fill: true
+                }, {
+                    label: 'Charge épaules (kg)',
+                    data: [567, 634, 712, 789, 847],
+                    borderColor: '#f59e0b',
+                    backgroundColor: 'rgba(245, 158, 11, 0.1)',
+                    tension: 0.4,
+                    fill: true
+                }, {
+                    label: 'Seuil hebdo',
+                    data: Array(5).fill(1400),
+                    borderColor: '#64748b',
+                    borderDash: [5, 5]
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: true } },
+                scales: { y: { beginAtZero: true } }
+            }
+        });
+
+        // 9. Repetitivity Chart
+        const repetitivityCtx = document.getElementById('repetitivityChart').getContext('2d');
+        new Chart(repetitivityCtx, {
+            type: 'scatter',
+            data: {
+                datasets: [{
+                    label: 'Postes critiques',
+                    data: [{x: 4.2, y: 847}, {x: 4.5, y: 789}],
+                    backgroundColor: 'rgba(239, 68, 68, 0.8)',
+                    pointRadius: 10
+                }, {
+                    label: 'Postes à surveiller',
+                    data: [{x: 6.8, y: 523}, {x: 7.2, y: 478}, {x: 8.1, y: 445}],
+                    backgroundColor: 'rgba(245, 158, 11, 0.8)',
+                    pointRadius: 10
+                }, {
+                    label: 'Postes conformes',
+                    data: [{x: 12.5, y: 287}, {x: 15.3, y: 235}, {x: 18.7, y: 192}],
+                    backgroundColor: 'rgba(16, 185, 129, 0.8)',
+                    pointRadius: 10
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: true } },
+                scales: {
+                    x: { title: { display: true, text: 'Cycle time (sec)' } },
+                    y: { title: { display: true, text: 'Cycles/heure' }, beginAtZero: true }
+                }
+            }
+        });
+
+        // 10. A/B Test Results Chart
+        const abTestCtx = document.getElementById('abTestChart').getContext('2d');
+        new Chart(abTestCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Réduction vibrations', 'Confort', 'Dextérité', 'Durabilité', 'Réduction TMS'],
+                datasets: [{
+                    label: 'Variant A',
+                    data: [24.3, 6.8, 7.2, 4.5, 18],
+                    backgroundColor: 'rgba(59, 130, 246, 0.8)'
+                }, {
+                    label: 'Variant B',
+                    data: [38.7, 8.9, 8.5, 7.2, 34],
+                    backgroundColor: 'rgba(16, 185, 129, 0.8)'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: true } },
+                scales: { y: { beginAtZero: true } }
+            }
+        });
+
+        // Interactive body parts
+        document.querySelectorAll('.body-part').forEach(part => {
+            part.addEventListener('click', function() {
+                alert('Zone sélectionnée: Détails ergonomiques disponibles');
+            });
+        });
+
+        // Auto-refresh simulation
+        setInterval(() => {
+            // Update biofeedback timer
+            const timer = document.querySelector('.pause-timer');
+            if (timer) {
+                const parts = timer.textContent.split(':');
+                let seconds = parseInt(parts[2]) + 1;
+                if (seconds >= 60) seconds = 0;
+                timer.textContent = `00:${parts[1]}:${seconds.toString().padStart(2, '0')}`;
+            }
+
+            // Update stats
+            document.querySelectorAll('.stat-value').forEach(el => {
+                if (el.textContent.includes('%')) {
+                    const currentValue = parseFloat(el.textContent);
+                    const change = (Math.random() - 0.5) * 0.5;
+                    el.textContent = (currentValue + change).toFixed(1) + '%';
+                }
+            });
+        }, 1000);
+    </script>
+</body>
+</html>

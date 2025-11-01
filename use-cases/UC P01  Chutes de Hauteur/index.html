@@ -1,0 +1,1212 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UC-P01 : Chutes de Hauteur - AgenticX5 SafetyGraph</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #3b82f6;
+            --danger-color: #dc2626;
+            --success-color: #16a34a;
+            --warning-color: #ea580c;
+            --gray-50: #f9fafb;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-300: #d1d5db;
+            --gray-700: #374151;
+            --gray-800: #1f2937;
+            --gray-900: #111827;
+        }
+
+        body {
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', 'Oxygen', 'Ubuntu', sans-serif;
+            line-height: 1.6;
+            color: var(--gray-800);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, var(--gray-900) 0%, var(--gray-800) 100%);
+            color: white;
+            padding: 40px 30px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><defs><pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse"><path d="M 20 0 L 0 0 0 20" fill="none" stroke="rgba(255,255,255,0.03)" stroke-width="1"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+            opacity: 0.5;
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .category-badge {
+            display: inline-block;
+            background: var(--primary-color);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            line-height: 1.2;
+        }
+
+        .header-subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+
+        .priority-section {
+            margin-top: 25px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .priority-badge {
+            background: var(--danger-color);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 1rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .priority-badge::before {
+            content: '⚠';
+            font-size: 1.3rem;
+        }
+
+        .stats-row {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 12px 20px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            opacity: 0.8;
+            display: block;
+            margin-top: 2px;
+        }
+
+        /* Content */
+        .content {
+            padding: 40px 30px;
+        }
+
+        /* Introduction Section */
+        .intro-section {
+            background: linear-gradient(135deg, var(--gray-50) 0%, white 100%);
+            padding: 30px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            border-left: 5px solid var(--primary-color);
+        }
+
+        .intro-section h2 {
+            color: var(--gray-900);
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .intro-section h2::before {
+            content: '📋';
+            font-size: 1.5rem;
+        }
+
+        .intro-text {
+            font-size: 1.05rem;
+            line-height: 1.8;
+            color: var(--gray-700);
+        }
+
+        .highlight-box {
+            background: white;
+            border: 2px solid var(--primary-color);
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .highlight-box h3 {
+            color: var(--primary-color);
+            margin-bottom: 12px;
+            font-size: 1.2rem;
+        }
+
+        .highlight-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .highlight-list li {
+            padding: 8px 0;
+            padding-left: 30px;
+            position: relative;
+        }
+
+        .highlight-list li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--success-color);
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+
+        /* Accordion Sections */
+        .accordion-container {
+            margin-top: 30px;
+        }
+
+        .accordion-item {
+            background: white;
+            border: 2px solid var(--gray-200);
+            border-radius: 12px;
+            margin-bottom: 15px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .accordion-item:hover {
+            border-color: var(--primary-color);
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.1);
+        }
+
+        .accordion-item.active {
+            border-color: var(--primary-color);
+            box-shadow: 0 6px 20px rgba(37, 99, 235, 0.15);
+        }
+
+        .accordion-header {
+            padding: 20px 25px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--gray-50);
+            transition: all 0.3s ease;
+            user-select: none;
+        }
+
+        .accordion-item.active .accordion-header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+        }
+
+        .accordion-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+
+        .accordion-icon {
+            font-size: 1.5rem;
+            min-width: 30px;
+        }
+
+        .accordion-toggle {
+            font-size: 1.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        .accordion-item.active .accordion-toggle {
+            transform: rotate(180deg);
+        }
+
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease;
+            background: white;
+        }
+
+        .accordion-item.active .accordion-content {
+            max-height: 3000px;
+        }
+
+        .accordion-body {
+            padding: 30px 25px;
+        }
+
+        .accordion-body h3 {
+            color: var(--primary-color);
+            margin-top: 25px;
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .accordion-body h3:first-child {
+            margin-top: 0;
+        }
+
+        .accordion-body ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .accordion-body ul li {
+            padding: 12px 0;
+            padding-left: 30px;
+            position: relative;
+            border-bottom: 1px solid var(--gray-100);
+        }
+
+        .accordion-body ul li:last-child {
+            border-bottom: none;
+        }
+
+        .accordion-body ul li::before {
+            content: '▸';
+            position: absolute;
+            left: 0;
+            color: var(--primary-color);
+            font-weight: 700;
+        }
+
+        /* Architecture Grid */
+        .architecture-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .arch-card {
+            background: linear-gradient(135deg, var(--gray-50) 0%, white 100%);
+            border: 2px solid var(--gray-200);
+            border-radius: 12px;
+            padding: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .arch-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary-color);
+            box-shadow: 0 8px 20px rgba(37, 99, 235, 0.15);
+        }
+
+        .arch-card-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+
+        .arch-icon {
+            font-size: 2rem;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--primary-color);
+            color: white;
+            border-radius: 10px;
+        }
+
+        .arch-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--gray-900);
+        }
+
+        .arch-description {
+            font-size: 0.95rem;
+            color: var(--gray-700);
+            line-height: 1.6;
+        }
+
+        .arch-features {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid var(--gray-200);
+        }
+
+        .arch-features li {
+            font-size: 0.9rem;
+            padding: 6px 0;
+            color: var(--gray-600);
+        }
+
+        /* Module Cards */
+        .modules-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .module-card {
+            background: white;
+            border: 2px solid var(--gray-200);
+            border-radius: 12px;
+            padding: 25px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .module-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background: var(--primary-color);
+            transform: scaleY(0);
+            transition: transform 0.3s ease;
+        }
+
+        .module-card:hover {
+            border-color: var(--primary-color);
+            box-shadow: 0 8px 20px rgba(37, 99, 235, 0.15);
+        }
+
+        .module-card:hover::before {
+            transform: scaleY(1);
+        }
+
+        .module-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+
+        .module-icon {
+            font-size: 2rem;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            border-radius: 10px;
+        }
+
+        .module-name {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--gray-900);
+        }
+
+        .module-description {
+            font-size: 0.95rem;
+            color: var(--gray-700);
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .module-features {
+            background: var(--gray-50);
+            border-radius: 8px;
+            padding: 15px;
+        }
+
+        .module-features h4 {
+            font-size: 0.9rem;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .module-features ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .module-features li {
+            font-size: 0.85rem;
+            padding: 5px 0;
+            color: var(--gray-600);
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .module-features li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--success-color);
+            font-weight: 700;
+        }
+
+        /* Info Box */
+        .info-box {
+            background: linear-gradient(135deg, #dbeafe 0%, #eff6ff 100%);
+            border-left: 5px solid var(--primary-color);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .info-box-title {
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .info-box-title::before {
+            content: 'ℹ️';
+        }
+
+        .warning-box {
+            background: linear-gradient(135deg, #fef3c7 0%, #fefce8 100%);
+            border-left: 5px solid var(--warning-color);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .warning-box-title {
+            font-weight: 700;
+            color: var(--warning-color);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .warning-box-title::before {
+            content: '⚠️';
+        }
+
+        /* Data Tags */
+        .data-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .data-tag {
+            background: var(--primary-color);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .data-tag::before {
+            content: '📊';
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--gray-900);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .footer-logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .footer-text {
+            opacity: 0.7;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .accordion-title {
+                font-size: 1.1rem;
+            }
+
+            .priority-section {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .architecture-grid,
+            .modules-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .content {
+                padding: 20px 15px;
+            }
+        }
+
+        /* Print Styles */
+        @media print {
+            body {
+                background: white;
+            }
+
+            .container {
+                box-shadow: none;
+            }
+
+            .accordion-content {
+                max-height: none !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="header-content">
+                <div class="category-badge">3.1 Risques Physiques</div>
+                <h1>UC-P01 : Chutes de Hauteur</h1>
+                <p class="header-subtitle">Prévention Agentique des Chutes de Travail en Hauteur (>3m)</p>
+                
+                <div class="priority-section">
+                    <div class="priority-badge">
+                        PRIORITÉ CRITIQUE
+                    </div>
+                    
+                    <div class="stats-row">
+                        <div class="stat-item">
+                            <span class="stat-value">47,000+</span>
+                            <span class="stat-label">Cas CNESST/an</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-value">87 jours</span>
+                            <span class="stat-label">Arrêt moyen</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-value">89.4%</span>
+                            <span class="stat-label">Précision prédictive</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Content -->
+        <div class="content">
+            <!-- Introduction -->
+            <div class="intro-section">
+                <h2>Introduction au Scénario UC-P01</h2>
+                <div class="intro-text">
+                    <p><strong>Les chutes de hauteur constituent la première cause de décès</strong> dans le secteur de la construction au Québec et représentent un risque majeur dans tous les secteurs où des travaux en hauteur sont effectués. Le scénario UC-P01 cible spécifiquement les situations où un travailleur opère à plus de 3 mètres de hauteur sans protection antichute adéquate ou avec des équipements défectueux.</p>
+                </div>
+
+                <div class="highlight-box">
+                    <h3>Contexte Réglementaire et Données CNESST</h3>
+                    <ul class="highlight-list">
+                        <li><strong>Seuil critique :</strong> Travaux à plus de 3 mètres (Article 352 RSST, Article 2.9.1 CSTC)</li>
+                        <li><strong>Incidence annuelle :</strong> Plus de 47,000 cas de chutes signalés dans le secteur de la construction</li>
+                        <li><strong>Base de données :</strong> 793,737 incidents analysés sur 14 ans (2010-2024)</li>
+                        <li><strong>Impact moyen :</strong> 87 jours d'arrêt de travail (±23 jours) pour une chute de 4.2m sur béton</li>
+                        <li><strong>Coût estimé :</strong> 142,000$ CAD par incident (médical + indemnités + remplacement)</li>
+                        <li><strong>Conformité obligatoire :</strong> Harnais + ancrage 22.2 kN requis pour toute hauteur >3m</li>
+                    </ul>
+                </div>
+
+                <div class="warning-box">
+                    <div class="warning-box-title">Facteurs Aggravants Identifiés</div>
+                    <ul class="highlight-list">
+                        <li>Absence de harnais de sécurité (+2.1 points au score de risque)</li>
+                        <li>Équipements défectueux (échelles endommagées, +1.8 points)</li>
+                        <li>Surface d'impact rigide (béton, asphalte)</li>
+                        <li>Conditions météorologiques défavorables (pluie, vent, +0.8 points)</li>
+                        <li>Manque de formation spécifique aux travaux en hauteur</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Accordion Sections -->
+            <div class="accordion-container">
+                <!-- Section 1: Risque/Problématique -->
+                <div class="accordion-item">
+                    <div class="accordion-header">
+                        <div class="accordion-title">
+                            <span class="accordion-icon">⚠️</span>
+                            <span>Risque / Problématique</span>
+                        </div>
+                        <span class="accordion-toggle">▼</span>
+                    </div>
+                    <div class="accordion-content">
+                        <div class="accordion-body">
+                            <h3>🎯 Enjeux Prioritaires</h3>
+                            <ul>
+                                <li><strong>Gravité élevée :</strong> Les chutes de hauteur sont la première cause de mortalité dans la construction avec des conséquences souvent catastrophiques (traumatismes crâniens, fractures multiples, paralysie)</li>
+                                <li><strong>Fréquence élevée :</strong> Représentent 20-30% de tous les accidents du travail dans les secteurs à risque</li>
+                                <li><strong>Coûts directs et indirects :</strong> Impact économique massif incluant les frais médicaux, les indemnisations, les pertes de productivité et les retards de projet</li>
+                                <li><strong>Non-conformité réglementaire :</strong> Violations fréquentes de l'article 352 RSST et de l'article 2.9.1 CSTC entraînant des amendes de 1,000$ à 5,000$ CAD</li>
+                                <li><strong>Culture de sécurité :</strong> Normalisation de comportements à risque et sous-estimation systématique du danger</li>
+                            </ul>
+
+                            <h3>📉 Limitations des Approches Traditionnelles</h3>
+                            <ul>
+                                <li><strong>Détection réactive :</strong> Les inspections manuelles ne permettent que de constater les violations après coup, sans capacité préventive</li>
+                                <li><strong>Couverture partielle :</strong> Impossibilité de surveiller l'ensemble des zones à risque simultanément sur de grands chantiers</li>
+                                <li><strong>Facteur humain :</strong> Dépendance envers la vigilance individuelle, fatigue des superviseurs, angles morts</li>
+                                <li><strong>Absence de prédiction :</strong> Incapacité à anticiper les situations dangereuses avant qu'un incident ne se produise</li>
+                                <li><strong>Documentation insuffisante :</strong> Manque de traçabilité et de données pour l'amélioration continue</li>
+                            </ul>
+
+                            <div class="info-box">
+                                <div class="info-box-title">Statistiques Clés CNESST</div>
+                                <p><strong>Analyse de 578 cas similaires</strong> (hauteur 4-5m, absence de harnais, surface béton) :</p>
+                                <ul class="highlight-list">
+                                    <li>Fracture membre inférieur : 72% des cas</li>
+                                    <li>Traumatisme crânien léger : 45% (atténué par le port du casque)</li>
+                                    <li>Contusions multiples : 89%</li>
+                                    <li>Probabilité de décès : 3.2% (relativement faible sous 5m)</li>
+                                    <li>Séquelles permanentes : 15-20% des cas graves</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 2: Action/Solution -->
+                <div class="accordion-item">
+                    <div class="accordion-header">
+                        <div class="accordion-title">
+                            <span class="accordion-icon">🛡️</span>
+                            <span>Action / Solution Agentique</span>
+                        </div>
+                        <span class="accordion-toggle">▼</span>
+                    </div>
+                    <div class="accordion-content">
+                        <div class="accordion-body">
+                            <h3>🤖 Approche Agentique Préventive</h3>
+                            <p>La solution AgenticX5 déploie une architecture multi-agents autonomes capable de détecter, prédire et prévenir les chutes de hauteur en temps réel, transformant la gestion de sécurité d'une approche réactive à une stratégie proactive et prédictive.</p>
+
+                            <h3>🔍 Détection Proactive des Zones Non Protégées</h3>
+                            <ul>
+                                <li><strong>Vision par ordinateur (YOLO v8/v11) :</strong> Détection automatique des travailleurs en hauteur via caméras intelligentes avec reconnaissance des EPI (harnais, casque)</li>
+                                <li><strong>Analyse spatiale 3D :</strong> Intégration des plans BIM pour identifier les zones à risque et calculer les hauteurs de chute potentielles en temps réel</li>
+                                <li><strong>Géolocalisation indoor :</strong> Suivi de position des travailleurs avec précision < 1m pour corréler avec les zones non protégées</li>
+                                <li><strong>Validation normative automatique :</strong> Vérification instantanée de la conformité avec l'article 352 RSST et l'article 2.9.1 CSTC</li>
+                                <li><strong>Alertes temps réel :</strong> Notification immédiate au travailleur, superviseur et agent de sécurité en cas de violation détectée (délai <2 secondes)</li>
+                            </ul>
+
+                            <h3>🔮 Prédiction des Chutes Avant Incident</h3>
+                            <ul>
+                                <li><strong>Oracle HSE Prédicteur :</strong> Modèle ML (Random Forest + Graph Neural Network) avec 89.4% de précision, entraîné sur 793,000 incidents CNESST</li>
+                                <li><strong>Score de risque dynamique :</strong> Calcul en temps réel intégrant 15+ facteurs (hauteur, EPI, équipement, météo, fatigue, historique du travailleur)</li>
+                                <li><strong>Détection anomalies comportementales :</strong> Identification de patterns à risque via wearables (accélération brutale, posture instable, rythme cardiaque élevé)</li>
+                                <li><strong>Prédiction multi-horizons :</strong> Alertes court terme (<1h), moyen terme (journée) et long terme (semaine) basées sur l'évolution des conditions</li>
+                                <li><strong>Apprentissage continu :</strong> Amélioration automatique du modèle avec chaque nouveau near-miss ou incident</li>
+                            </ul>
+
+                            <h3>🎯 Interventions Préventives Automatisées</h3>
+                            <ul>
+                                <li><strong>Coaching temps réel (BehaviorX Module 6) :</strong> Recommandations vocales personnalisées au travailleur via wearable (ex: "Vérifiez votre harnais, risque détecté")</li>
+                                <li><strong>Blocage équipement :</strong> Arrêt automatique de machines ou plateformes élévatrices si risque critique détecté</li>
+                                <li><strong>Recommandations adaptatives :</strong> Suggestions contextualisées basées sur le profil du travailleur (expérience, formations, incidents passés)</li>
+                                <li><strong>Nudges comportementaux :</strong> Interventions douces pour encourager les bons comportements sans être intrusif</li>
+                                <li><strong>Coordination multi-agents :</strong> Orchestration intelligente entre agents de détection, prédiction et intervention pour une réponse optimale</li>
+                            </ul>
+
+                            <div class="info-box">
+                                <div class="info-box-title">Cycle d'Intervention Agentique (< 3 secondes)</div>
+                                <p><strong>Phase 1 (0-1s) :</strong> Détection visuelle + wearables → Identification situation à risque</p>
+                                <p><strong>Phase 2 (1-2s) :</strong> Validation normative + interrogation Knowledge Graph → Score de risque calculé</p>
+                                <p><strong>Phase 3 (2-3s) :</strong> Oracle HSE prédit gravité → Transmission aux agents d'intervention</p>
+                                <p><strong>Phase 4 (3s+) :</strong> Actions automatiques (alertes, coaching, blocage) + Human-in-the-Loop si nécessaire</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 3: Données Utilisées -->
+                <div class="accordion-item">
+                    <div class="accordion-header">
+                        <div class="accordion-title">
+                            <span class="accordion-icon">📊</span>
+                            <span>Données Utilisées</span>
+                        </div>
+                        <span class="accordion-toggle">▼</span>
+                    </div>
+                    <div class="accordion-content">
+                        <div class="accordion-body">
+                            <h3>📹 Données Visuelles (Vision)</h3>
+                            <ul>
+                                <li><strong>Caméras de chantier intelligentes :</strong> Flux vidéo HD 30 fps avec analyse YOLO v8/v11 pour détection des travailleurs et EPI</li>
+                                <li><strong>Drones de surveillance :</strong> Couverture aérienne des zones inaccessibles avec cartographie 3D temps réel</li>
+                                <li><strong>Caméras de profondeur (LiDAR) :</strong> Mesure précise des distances et hauteurs pour calcul des risques de chute</li>
+                                <li><strong>Images thermiques :</strong> Détection de travailleurs dans des conditions de faible visibilité (nuit, brouillard)</li>
+                                <li><strong>Fréquence de capture :</strong> 1 frame/seconde analysée, 30 fps stockés pour audit</li>
+                            </ul>
+
+                            <h3>⌚ Données Physiologiques (Wearables)</h3>
+                            <ul>
+                                <li><strong>Accéléromètres 3 axes :</strong> Détection de chutes, mouvements brusques, tremblements (fréquence 100 Hz)</li>
+                                <li><strong>Capteurs de fréquence cardiaque :</strong> Surveillance du stress, fatigue et charge mentale</li>
+                                <li><strong>Gyroscopes :</strong> Analyse de l'équilibre et de la posture en temps réel</li>
+                                <li><strong>Géolocalisation indoor/outdoor :</strong> Triangulation UWB (Ultra-Wideband) avec précision <50cm</li>
+                                <li><strong>Température corporelle :</strong> Détection de l'hyperthermie ou hypothermie affectant la vigilance</li>
+                                <li><strong>Capteurs de pression :</strong> Vérification du port correct des harnais de sécurité</li>
+                            </ul>
+
+                            <h3>📚 Historiques CNESST (Knowledge Graph)</h3>
+                            <ul>
+                                <li><strong>Base de données incidents :</strong> 793,737 lésions professionnelles (2010-2024) structurées dans Neo4j</li>
+                                <li><strong>Données détaillées par incident :</strong> Type d'accident, gravité, secteur SCIAN, partie du corps lésée, jours d'arrêt, coûts, facteurs contributifs</li>
+                                <li><strong>Patterns de similarité :</strong> Algorithmes de matching pour trouver les cas historiques les plus similaires à la situation actuelle (578 cas pour scénario 4.2m)</li>
+                                <li><strong>Normes et règlements :</strong> 150+ normes (ISO 45001, CSA Z259, LSST, RSST, CSTC) encodées sémantiquement</li>
+                                <li><strong>Guides de prévention :</strong> DC 100-1083, DC 100-1713, DC 100-427 intégrés pour recommandations contextuelles</li>
+                            </ul>
+
+                            <h3>🏗️ Plans BIM 3D (Contexte Spatial)</h3>
+                            <ul>
+                                <li><strong>Modèles IFC :</strong> Plans 3D du bâtiment avec zones à risque identifiées (toits, échafaudages, trémies)</li>
+                                <li><strong>Calculs géométriques :</strong> Hauteurs de chute, distances de sécurité, zones de protection requises</li>
+                                <li><strong>Mise à jour dynamique :</strong> Évolution du modèle BIM en temps réel avec l'avancement du chantier</li>
+                                <li><strong>Points d'ancrage certifiés :</strong> Localisation et capacité (22.2 kN) des ancrages disponibles</li>
+                                <li><strong>Zones interdites temporaires :</strong> Marquage dynamique des zones dangereuses (ex: ouverture temporaire)</li>
+                            </ul>
+
+                            <h3>🌦️ Données Contextuelles Complémentaires</h3>
+                            <ul>
+                                <li><strong>Météorologie temps réel :</strong> Température, précipitations, vitesse du vent, visibilité (API Environnement Canada)</li>
+                                <li><strong>Temporalité :</strong> Heure du jour, saison, fatigue accumulée en fonction du shift</li>
+                                <li><strong>Profil travailleur :</strong> Expérience (ancienneté), formations SST validées, historique d'incidents personnels</li>
+                                <li><strong>État équipements :</strong> Dernière inspection, âge, défauts signalés (échelles, harnais, ancrage)</li>
+                                <li><strong>Phase de projet :</strong> Contexte opérationnel (fondations, charpente, finition) influençant les risques</li>
+                            </ul>
+
+                            <div class="data-tags">
+                                <span class="data-tag">Caméras HD Chantier</span>
+                                <span class="data-tag">Wearables Accéléromètres</span>
+                                <span class="data-tag">793K Incidents CNESST</span>
+                                <span class="data-tag">Plans BIM 3D</span>
+                                <span class="data-tag">Météo Temps Réel</span>
+                                <span class="data-tag">Profils Travailleurs</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 4: Architecture Recommandée -->
+                <div class="accordion-item">
+                    <div class="accordion-header">
+                        <div class="accordion-title">
+                            <span class="accordion-icon">🏗️</span>
+                            <span>Architecture Technique Recommandée</span>
+                        </div>
+                        <span class="accordion-toggle">▼</span>
+                    </div>
+                    <div class="accordion-content">
+                        <div class="accordion-body">
+                            <p><strong>L'architecture UC-P01 combine quatre composants technologiques essentiels</strong> pour une détection, prédiction et intervention optimale. Cette architecture multi-couches garantit une couverture complète du cycle de prévention.</p>
+
+                            <div class="architecture-grid">
+                                <div class="arch-card">
+                                    <div class="arch-card-header">
+                                        <div class="arch-icon">👁️</div>
+                                        <div class="arch-title">VISION</div>
+                                    </div>
+                                    <div class="arch-description">
+                                        <p><strong>Détection visuelle automatique des situations à risque</strong></p>
+                                        <div class="arch-features">
+                                            <ul>
+                                                <li><strong>YOLO v8/v11 :</strong> Détection temps réel des travailleurs en hauteur avec reconnaissance des EPI (harnais, casque, gants)</li>
+                                                <li><strong>Segmentation sémantique :</strong> Identification précise des zones dangereuses (bords de toit, trémies, échafaudages)</li>
+                                                <li><strong>Analyse multi-caméras :</strong> Fusion des flux pour couverture 360° et élimination des angles morts</li>
+                                                <li><strong>Tracking persistant :</strong> Suivi continu des individus à travers les différentes zones du chantier</li>
+                                                <li><strong>Détection anomalies :</strong> Identification de comportements inhabituels (déséquilibre, chute imminente)</li>
+                                                <li><strong>Infrastructure :</strong> Caméras IP POE HD 30fps + Edge AI (Jetson Orin) + Cloud processing</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="arch-card">
+                                    <div class="arch-card-header">
+                                        <div class="arch-icon">⌚</div>
+                                        <div class="arch-title">WEARABLES</div>
+                                    </div>
+                                    <div class="arch-description">
+                                        <p><strong>Surveillance physiologique et biomécanique en temps réel</strong></p>
+                                        <div class="arch-features">
+                                            <ul>
+                                                <li><strong>Détection de chute :</strong> Algorithme IMU (accéléromètre + gyroscope) détectant une chute en <100ms avec précision 99%</li>
+                                                <li><strong>Analyse de posture :</strong> Machine Learning identifiant les positions instables ou dangereuses (penché, déséquilibré)</li>
+                                                <li><strong>Surveillance fatigue :</strong> Corrélation entre fréquence cardiaque, variabilité HRV et risque accru d'accident</li>
+                                                <li><strong>Géolocalisation précise :</strong> UWB (Ultra-Wideband) pour localisation indoor/outdoor avec précision <50cm</li>
+                                                <li><strong>Conformité EPI :</strong> Capteurs de pression validant le port correct du harnais (tension des sangles)</li>
+                                                <li><strong>Dispositifs :</strong> Smartwatch + IMU vest + Smart helmet + UWB anchors</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="arch-card">
+                                    <div class="arch-card-header">
+                                        <div class="arch-icon">🤖</div>
+                                        <div class="arch-title">AGENTIC</div>
+                                    </div>
+                                    <div class="arch-description">
+                                        <p><strong>Agents autonomes pour décision et intervention intelligente</strong></p>
+                                        <div class="arch-features">
+                                            <ul>
+                                                <li><strong>Agent Détecteur :</strong> Fusion des données Vision + Wearables pour identification des situations critiques en temps réel</li>
+                                                <li><strong>Agent Oracle HSE :</strong> Prédiction ML (Random Forest + GNN) calculant la probabilité et gravité d'un incident (89.4% précision)</li>
+                                                <li><strong>Agent Normateur :</strong> Validation automatique de la conformité réglementaire (RSST Art. 352, CSTC 2.9.1)</li>
+                                                <li><strong>Agent BehaviorX :</strong> Coaching adaptatif personnalisé selon le profil et l'historique du travailleur</li>
+                                                <li><strong>Agent Coordinateur :</strong> Orchestration des interventions multi-agents avec priorisation des actions</li>
+                                                <li><strong>Technologie :</strong> Architecture multi-agents (LangGraph), LLM Claude 4 Sonnet, Reinforcement Learning</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="arch-card">
+                                    <div class="arch-card-header">
+                                        <div class="arch-icon">🕸️</div>
+                                        <div class="arch-title">KNOWLEDGE GRAPH</div>
+                                    </div>
+                                    <div class="arch-description">
+                                        <p><strong>Graphe de connaissances sémantique pour contexte et apprentissage</strong></p>
+                                        <div class="arch-features">
+                                            <ul>
+                                                <li><strong>Neo4j 1M+ nœuds :</strong> Base de connaissances structurée incluant incidents, normes, équipements, profils, zones à risque</li>
+                                                <li><strong>Similarité contextuelle :</strong> Graph Neural Networks pour trouver les 578 cas CNESST les plus similaires en <200ms</li>
+                                                <li><strong>Raisonnement causal :</strong> Identification des facteurs contributifs et prédiction des conséquences potentielles</li>
+                                                <li><strong>Normes sémantiques :</strong> 150+ normes (ISO, CSA, LSST) encodées avec relations logiques pour validation automatique</li>
+                                                <li><strong>Apprentissage continu :</strong> Enrichissement automatique avec chaque incident, near-miss et intervention</li>
+                                                <li><strong>Infrastructure :</strong> Neo4j Enterprise + GraphQL API + Vector embeddings (OpenAI ada-002)</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="info-box" style="margin-top: 30px;">
+                                <div class="info-box-title">Flux d'Information Architecture Intégrée</div>
+                                <p><strong>1. ACQUISITION (50ms) :</strong> Vision (30 fps) + Wearables (100 Hz) → Données brutes multi-sources</p>
+                                <p><strong>2. FUSION (100ms) :</strong> Agent Détecteur fusionne les flux et interroge Knowledge Graph pour contexte</p>
+                                <p><strong>3. ANALYSE (300ms) :</strong> Agent Oracle HSE calcule le score de risque et Agent Normateur valide la conformité</p>
+                                <p><strong>4. DÉCISION (50ms) :</strong> Agent Coordinateur priorise les actions selon la criticité</p>
+                                <p><strong>5. INTERVENTION (<2s) :</strong> Agent BehaviorX exécute les actions (alertes, coaching, blocage équipement)</p>
+                                <p><strong>6. APPRENTISSAGE (post) :</strong> Enrichissement du Knowledge Graph avec le nouvel événement pour amélioration continue</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 5: Modules SafetyGraph -->
+                <div class="accordion-item">
+                    <div class="accordion-header">
+                        <div class="accordion-title">
+                            <span class="accordion-icon">🔧</span>
+                            <span>Modules SafetyGraph Impliqués</span>
+                        </div>
+                        <span class="accordion-toggle">▼</span>
+                    </div>
+                    <div class="accordion-content">
+                        <div class="accordion-body">
+                            <p><strong>Le scénario UC-P01 mobilise quatre modules clés de l'écosystème SafetyGraph</strong>, chacun apportant des capacités spécifiques pour une prévention optimale des chutes de hauteur.</p>
+
+                            <div class="modules-grid">
+                                <div class="module-card">
+                                    <div class="module-header">
+                                        <div class="module-icon">🏗️</div>
+                                        <div class="module-name">Module Construction HSE</div>
+                                    </div>
+                                    <div class="module-description">
+                                        Module sectoriel spécialisé pour le secteur de la construction (SCIAN 23xxxx), intégrant les spécificités réglementaires du Code de sécurité des travaux de construction (CSTC) et les risques prioritaires du secteur.
+                                    </div>
+                                    <div class="module-features">
+                                        <h4>Fonctionnalités Clés :</h4>
+                                        <ul>
+                                            <li>Analyse des 47,000+ cas de chutes annuels dans la construction</li>
+                                            <li>Base de connaissances CSTC (articles 2.9.1 à 2.14.1)</li>
+                                            <li>Modèles prédictifs spécifiques aux phases de chantier (fondations, charpente, finition)</li>
+                                            <li>Intégration BIM 3D pour cartographie des zones à risque</li>
+                                            <li>Gestion des équipements de chantier (échafaudages, plateformes, échelles)</li>
+                                            <li>Conformité CSA Z259 (protection antichute) et Z11-12 (échelles)</li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <div class="module-card">
+                                    <div class="module-header">
+                                        <div class="module-icon">🔮</div>
+                                        <div class="module-name">Oracle HSE Prédicteur</div>
+                                    </div>
+                                    <div class="module-description">
+                                        Moteur de prédiction ML avec 89.4% de précision, entraîné sur 793,000 incidents CNESST pour calculer la probabilité et la gravité d'un accident de chute en temps réel.
+                                    </div>
+                                    <div class="module-features">
+                                        <h4>Fonctionnalités Clés :</h4>
+                                        <ul>
+                                            <li>Random Forest + Graph Neural Network pour prédiction multi-facteurs</li>
+                                            <li>Score de risque dynamique (0-10) calculé en <100ms</li>
+                                            <li>Prédiction gravité (jours d'arrêt, coûts, séquelles) avec confiance 89.4%</li>
+                                            <li>Identification des 578 cas similaires dans la base CNESST</li>
+                                            <li>Explicabilité IA (XAI) : justification transparente de chaque prédiction</li>
+                                            <li>Apprentissage continu avec chaque incident et near-miss enregistré</li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <div class="module-card">
+                                    <div class="module-header">
+                                        <div class="module-icon">🎯</div>
+                                        <div class="module-name">BehaviorX Module 6</div>
+                                    </div>
+                                    <div class="module-description">
+                                        Module de coaching temps réel proposant des interventions comportementales personnalisées pour prévenir les comportements à risque et encourager les bonnes pratiques de sécurité.
+                                    </div>
+                                    <div class="module-features">
+                                        <h4>Fonctionnalités Clés :</h4>
+                                        <ul>
+                                            <li>Recommandations vocales via wearable (délai <2 secondes)</li>
+                                            <li>Nudges comportementaux adaptatifs selon profil travailleur</li>
+                                            <li>Feedback positif pour renforcer les comportements sécuritaires</li>
+                                            <li>Escalade progressive : rappel doux → alerte ferme → blocage si ignoré</li>
+                                            <li>Personnalisation basée sur l'historique et les préférences d'apprentissage</li>
+                                            <li>Suivi de l'efficacité des interventions avec métriques de conformité</li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <div class="module-card">
+                                    <div class="module-header">
+                                        <div class="module-icon">📊</div>
+                                        <div class="module-name">Dashboard Construction SST</div>
+                                    </div>
+                                    <div class="module-description">
+                                        Interface de visualisation en temps réel des indicateurs de sécurité chantier avec analytics avancés pour superviseurs, gestionnaires et direction HSE.
+                                    </div>
+                                    <div class="module-features">
+                                        <h4>Fonctionnalités Clés :</h4>
+                                        <ul>
+                                            <li>Cartographie des zones à risque avec alertes actives géolocalisées</li>
+                                            <li>KPIs temps réel : taux de conformité EPI, incidents évités, near-miss</li>
+                                            <li>Drill-down par zone, phase de projet, équipe ou travailleur</li>
+                                            <li>Historique incidents avec analyse de tendances et patterns récurrents</li>
+                                            <li>Export rapports conformité pour audits CNESST et inspections</li>
+                                            <li>Notifications push multi-canaux (mobile, email, SMS) configurables</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="warning-box" style="margin-top: 30px;">
+                                <div class="warning-box-title">Intégration des Modules</div>
+                                <p>Les quatre modules fonctionnent en synergie pour une protection maximale :</p>
+                                <ul class="highlight-list">
+                                    <li><strong>Module Construction HSE</strong> fournit le contexte sectoriel et les normes applicables</li>
+                                    <li><strong>Oracle HSE Prédicteur</strong> calcule le risque et prédit les conséquences</li>
+                                    <li><strong>BehaviorX Module 6</strong> intervient auprès du travailleur pour modifier le comportement</li>
+                                    <li><strong>Dashboard Construction SST</strong> centralise les données pour supervision et amélioration continue</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 6: Justification Priorité CRITIQUE -->
+                <div class="accordion-item">
+                    <div class="accordion-header">
+                        <div class="accordion-title">
+                            <span class="accordion-icon">🔴</span>
+                            <span>Justification de la Priorité CRITIQUE</span>
+                        </div>
+                        <span class="accordion-toggle">▼</span>
+                    </div>
+                    <div class="accordion-content">
+                        <div class="accordion-body">
+                            <div class="warning-box" style="border-color: var(--danger-color); background: linear-gradient(135deg, #fee2e2 0%, #fef2f2 100%);">
+                                <div class="warning-box-title" style="color: var(--danger-color);">Pourquoi UC-P01 est Classé CRITIQUE</div>
+                                <p style="font-weight: 600; font-size: 1.05rem;">Les chutes de hauteur représentent le risque le plus mortel dans la construction et justifient une priorité maximale pour les raisons suivantes :</p>
+                            </div>
+
+                            <h3>☠️ Mortalité et Gravité Extrême</h3>
+                            <ul>
+                                <li><strong>Première cause de décès :</strong> 30-40% des décès dans la construction sont dus aux chutes de hauteur</li>
+                                <li><strong>Conséquences irréversibles :</strong> Traumatismes crâniens sévères, paralysie, fractures multiples, séquelles permanentes dans 15-20% des cas graves</li>
+                                <li><strong>Impact familial :</strong> Coût humain incalculable pour les familles des victimes</li>
+                                <li><strong>Arrêts prolongés :</strong> Moyenne de 87 jours d'arrêt de travail, pouvant atteindre 200+ jours pour les cas graves</li>
+                            </ul>
+
+                            <h3>📈 Fréquence Élevée et Coûts Massifs</h3>
+                            <ul>
+                                <li><strong>47,000+ cas annuels :</strong> Volume extrêmement élevé dans le seul secteur de la construction au Québec</li>
+                                <li><strong>Coût moyen 142,000$ CAD :</strong> Par incident (médical + indemnités + remplacement + retards de projet)</li>
+                                <li><strong>Coûts indirects :</strong> Perte de productivité, atteinte à la réputation, augmentation des primes d'assurance</li>
+                                <li><strong>Impact économique sectoriel :</strong> Plusieurs milliards de dollars annuellement à l'échelle du Québec</li>
+                            </ul>
+
+                            <h3>⚖️ Enjeux Légaux et Réglementaires</h3>
+                            <ul>
+                                <li><strong>Obligation légale stricte :</strong> Article 352 RSST et Article 2.9.1 CSTC imposent la protection antichute >3m</li>
+                                <li><strong>Sanctions financières :</strong> Amendes de 1,000$ à 5,000$ CAD pour non-conformité, pouvant atteindre 100,000$+ en cas de récidive</li>
+                                <li><strong>Responsabilité criminelle :</strong> Poursuites possibles sous C-21 (loi sur la criminalité en santé et sécurité au travail)</li>
+                                <li><strong>Inspections CNESST :</strong> Surveillance accrue du secteur construction avec arrêts de chantier fréquents</li>
+                            </ul>
+
+                            <h3>🎯 Opportunité Technologique Unique</h3>
+                            <ul>
+                                <li><strong>Détection temps réel possible :</strong> La vision par ordinateur et les wearables permettent une détection précoce impossible avec les méthodes traditionnelles</li>
+                                <li><strong>Prédiction ML validée :</strong> Précision de 89.4% sur base CNESST démontre la faisabilité d'anticiper les incidents</li>
+                                <li><strong>ROI démontrable :</strong> Réduction mesurable des incidents et coûts associés, justifiant l'investissement technologique</li>
+                                <li><strong>Scalabilité :</strong> Solution applicable à tous les chantiers, toutes les phases, tous les types de travaux en hauteur</li>
+                            </ul>
+
+                            <h3>🔄 Facteur Culturel et Prévention Systémique</h3>
+                            <ul>
+                                <li><strong>Normalisation du risque :</strong> Habitude dangereuse de minimiser les dangers en hauteur ("Je fais toujours comme ça")</li>
+                                <li><strong>Sous-déclaration :</strong> Nombreux near-miss non signalés, empêchant l'apprentissage organisationnel</li>
+                                <li><strong>Transformation culturelle :</strong> L'approche agentique change la perception du risque et renforce la culture de sécurité</li>
+                                <li><strong>Effet d'entraînement :</strong> Succès sur les chutes inspire confiance pour d'autres use-cases HSE</li>
+                            </ul>
+
+                            <div class="info-box" style="margin-top: 30px; background: linear-gradient(135deg, #dcfce7 0%, #f0fdf4 100%); border-color: var(--success-color);">
+                                <div class="info-box-title" style="color: var(--success-color);">Impact Attendu de l'Approche Agentique</div>
+                                <p><strong>Basé sur les pilotes en cours, l'approche AgenticX5 permet de :</strong></p>
+                                <ul class="highlight-list">
+                                    <li>Réduire les incidents de chute de 60-75% (détection + prédiction + intervention précoce)</li>
+                                    <li>Éviter 100% des violations réglementaires non détectées (validation automatique RSST/CSTC)</li>
+                                    <li>Améliorer le taux de conformité EPI de 45% à 92% (coaching temps réel)</li>
+                                    <li>Transformer la culture de sécurité avec un engagement travailleur accru (+30% de signalements proactifs)</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <div class="footer-logo">AgenticX5 • SafetyGraph</div>
+            <div class="footer-text">GenAISafety | Preventera - Intelligence Agentique au Service de la Sécurité au Travail</div>
+            <div class="footer-text" style="margin-top: 10px; font-size: 0.8rem;">Conforme LSST • RSST • CSTC • ISO 45001:2018 • C-25</div>
+        </div>
+    </div>
+
+    <script>
+        // Accordion functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const accordionItems = document.querySelectorAll('.accordion-item');
+            
+            accordionItems.forEach(item => {
+                const header = item.querySelector('.accordion-header');
+                
+                header.addEventListener('click', function() {
+                    // Close all other accordion items
+                    accordionItems.forEach(otherItem => {
+                        if (otherItem !== item && otherItem.classList.contains('active')) {
+                            otherItem.classList.remove('active');
+                        }
+                    });
+                    
+                    // Toggle current item
+                    item.classList.toggle('active');
+                });
+            });
+
+            // Open first accordion by default
+            if (accordionItems.length > 0) {
+                accordionItems[0].classList.add('active');
+            }
+        });
+
+        // Smooth scroll for internal links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

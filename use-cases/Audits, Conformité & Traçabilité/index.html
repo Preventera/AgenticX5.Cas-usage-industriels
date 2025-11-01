@@ -1,0 +1,1418 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Audits, Conformité & Traçabilité - SafetyGraph</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0a0a0f;
+            color: #e0e0e0;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Background effects */
+        .stars-container {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 3s infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+
+        .gradient-orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(100px);
+            opacity: 0.3;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .orb-1 {
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, #10b981 0%, transparent 70%);
+            top: -200px;
+            right: -200px;
+            animation: float 20s infinite ease-in-out;
+        }
+
+        .orb-2 {
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, #06b6d4 0%, transparent 70%);
+            bottom: -150px;
+            left: -150px;
+            animation: float 15s infinite ease-in-out reverse;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(50px, -50px) scale(1.1); }
+            66% { transform: translate(-30px, 30px) scale(0.9); }
+        }
+
+        /* Header */
+        header {
+            position: relative;
+            z-index: 10;
+            padding: 2rem 4rem;
+            background: rgba(10, 10, 15, 0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #10b981 0%, #06b6d4 50%, #3b82f6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            border-radius: 20px;
+            font-size: 0.875rem;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: #10b981;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* Main Container */
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem 4rem;
+        }
+
+        /* Stats Overview */
+        .stats-bar {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: rgba(17, 17, 27, 0.6);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(16, 185, 129, 0.5);
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #10b981 0%, #06b6d4 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            color: #94a3b8;
+            margin-top: 0.5rem;
+        }
+
+        .stat-trend {
+            font-size: 0.75rem;
+            color: #10b981;
+            margin-top: 0.25rem;
+        }
+
+        /* Dashboard Grid */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 1.5rem;
+        }
+
+        /* Card Styles */
+        .card {
+            background: rgba(17, 17, 27, 0.6);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            border-color: rgba(16, 185, 129, 0.5);
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(16, 185, 129, 0.15);
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #10b981, #06b6d4, #3b82f6);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .card:hover::before {
+            opacity: 1;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .card-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: #fff;
+        }
+
+        .card-badge {
+            padding: 0.25rem 0.75rem;
+            background: rgba(16, 185, 129, 0.2);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            border-radius: 12px;
+            font-size: 0.75rem;
+            color: #6ee7b7;
+        }
+
+        .card-full {
+            grid-column: 1 / -1;
+        }
+
+        /* Checklist Items */
+        .checklist {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin-top: 1rem;
+        }
+
+        .checklist-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: rgba(30, 30, 45, 0.4);
+            border-radius: 12px;
+            border-left: 3px solid;
+            transition: all 0.2s;
+        }
+
+        .checklist-item:hover {
+            background: rgba(30, 30, 45, 0.7);
+            transform: translateX(4px);
+        }
+
+        .checklist-compliant { border-left-color: #10b981; }
+        .checklist-warning { border-left-color: #f59e0b; }
+        .checklist-critical { border-left-color: #ef4444; }
+
+        .checklist-checkbox {
+            width: 24px;
+            height: 24px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .checklist-checkbox.checked {
+            background: #10b981;
+            border-color: #10b981;
+        }
+
+        .checklist-content {
+            flex: 1;
+        }
+
+        .checklist-title {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .checklist-meta {
+            font-size: 0.75rem;
+            color: #64748b;
+        }
+
+        .checklist-frequency {
+            font-size: 0.75rem;
+            padding: 0.25rem 0.5rem;
+            background: rgba(245, 158, 11, 0.2);
+            border-radius: 8px;
+            color: #fbbf24;
+        }
+
+        /* Evidence Cards */
+        .evidence-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .evidence-item {
+            background: rgba(30, 30, 45, 0.4);
+            border-radius: 12px;
+            padding: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .evidence-icon {
+            width: 50px;
+            height: 50px;
+            background: rgba(16, 185, 129, 0.2);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .evidence-label {
+            font-size: 0.875rem;
+            color: #94a3b8;
+            margin-bottom: 0.25rem;
+        }
+
+        .evidence-value {
+            font-weight: 600;
+            color: #10b981;
+        }
+
+        /* Gap Mapping */
+        .gap-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem;
+            background: rgba(30, 30, 45, 0.4);
+            border-radius: 12px;
+            margin-bottom: 0.75rem;
+            border-left: 3px solid;
+        }
+
+        .gap-critical { border-left-color: #ef4444; }
+        .gap-major { border-left-color: #f59e0b; }
+        .gap-minor { border-left-color: #3b82f6; }
+
+        .gap-info {
+            flex: 1;
+        }
+
+        .gap-title {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .gap-ref {
+            font-size: 0.75rem;
+            color: #64748b;
+        }
+
+        .gap-status {
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+
+        .status-open {
+            background: rgba(239, 68, 68, 0.2);
+            color: #fca5a5;
+        }
+
+        .status-progress {
+            background: rgba(245, 158, 11, 0.2);
+            color: #fbbf24;
+        }
+
+        .status-closed {
+            background: rgba(16, 185, 129, 0.2);
+            color: #6ee7b7;
+        }
+
+        /* Action Plan */
+        .action-matrix {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .action-item {
+            background: rgba(30, 30, 45, 0.4);
+            padding: 1rem;
+            border-radius: 12px;
+            border-top: 3px solid;
+            text-align: center;
+        }
+
+        .priority-high { border-top-color: #ef4444; }
+        .priority-medium { border-top-color: #f59e0b; }
+        .priority-low { border-top-color: #10b981; }
+
+        .action-priority {
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .action-count {
+            font-size: 2rem;
+            font-weight: 700;
+            margin: 0.5rem 0;
+        }
+
+        .action-label {
+            font-size: 0.75rem;
+            color: #94a3b8;
+        }
+
+        /* Progress Timeline */
+        .timeline {
+            position: relative;
+            padding-left: 2rem;
+            margin-top: 1rem;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0.5rem;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-bottom: 1.5rem;
+        }
+
+        .timeline-dot {
+            position: absolute;
+            left: -1.5rem;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            border: 2px solid;
+        }
+
+        .timeline-dot.completed { background: #10b981; border-color: #10b981; }
+        .timeline-dot.pending { background: #f59e0b; border-color: #f59e0b; }
+        .timeline-dot.overdue { background: #ef4444; border-color: #ef4444; }
+
+        .timeline-content {
+            background: rgba(30, 30, 45, 0.4);
+            padding: 1rem;
+            border-radius: 12px;
+        }
+
+        .timeline-title {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .timeline-date {
+            font-size: 0.75rem;
+            color: #64748b;
+        }
+
+        /* Data Table */
+        .data-table {
+            width: 100%;
+            margin-top: 1rem;
+            border-collapse: collapse;
+        }
+
+        .data-table th,
+        .data-table td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .data-table th {
+            color: #94a3b8;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        .data-table tr:hover {
+            background: rgba(16, 185, 129, 0.05);
+        }
+
+        .table-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .badge-high { background: rgba(239, 68, 68, 0.2); color: #fca5a5; }
+        .badge-medium { background: rgba(245, 158, 11, 0.2); color: #fbbf24; }
+        .badge-low { background: rgba(16, 185, 129, 0.2); color: #6ee7b7; }
+
+        /* NLP Analysis */
+        .nlp-results {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .nlp-item {
+            background: rgba(30, 30, 45, 0.4);
+            padding: 1rem;
+            border-radius: 12px;
+            border-left: 3px solid #06b6d4;
+        }
+
+        .nlp-keyword {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            background: rgba(6, 182, 212, 0.2);
+            border-radius: 12px;
+            font-size: 0.75rem;
+            color: #67e8f9;
+            margin-right: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .nlp-sentiment {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 12px;
+            font-size: 0.875rem;
+            margin-top: 0.5rem;
+        }
+
+        .sentiment-positive {
+            background: rgba(16, 185, 129, 0.2);
+            color: #6ee7b7;
+        }
+
+        .sentiment-neutral {
+            background: rgba(59, 130, 246, 0.2);
+            color: #93c5fd;
+        }
+
+        .sentiment-negative {
+            background: rgba(239, 68, 68, 0.2);
+            color: #fca5a5;
+        }
+
+        /* PROV-O Trace */
+        .prov-trace {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            margin-top: 1rem;
+            padding: 1rem;
+            background: rgba(30, 30, 45, 0.4);
+            border-radius: 12px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.875rem;
+        }
+
+        .prov-line {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .prov-label {
+            color: #06b6d4;
+            font-weight: 600;
+            min-width: 120px;
+        }
+
+        .prov-value {
+            color: #10b981;
+        }
+
+        /* Alert Cards */
+        .alert-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin-top: 1rem;
+        }
+
+        .alert-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: rgba(30, 30, 45, 0.4);
+            border-radius: 12px;
+            border-left: 3px solid;
+            transition: all 0.2s;
+        }
+
+        .alert-item:hover {
+            background: rgba(30, 30, 45, 0.7);
+            transform: translateX(4px);
+        }
+
+        .alert-critical { border-left-color: #ef4444; }
+        .alert-warning { border-left-color: #f59e0b; }
+        .alert-info { border-left-color: #3b82f6; }
+
+        .alert-icon {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            font-size: 1.25rem;
+        }
+
+        .alert-content {
+            flex: 1;
+        }
+
+        .alert-title {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .alert-time {
+            font-size: 0.75rem;
+            color: #64748b;
+        }
+
+        /* Chart Container */
+        .chart-container {
+            position: relative;
+            height: 250px;
+            margin-top: 1rem;
+        }
+
+        /* Document Preview */
+        .document-preview {
+            background: rgba(30, 30, 45, 0.4);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-top: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .document-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .document-title {
+            font-weight: 600;
+            font-size: 1.125rem;
+        }
+
+        .document-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .document-btn {
+            padding: 0.5rem 1rem;
+            background: rgba(16, 185, 129, 0.2);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            border-radius: 8px;
+            color: #6ee7b7;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .document-btn:hover {
+            background: rgba(16, 185, 129, 0.3);
+        }
+
+        .document-section {
+            margin-bottom: 1rem;
+        }
+
+        .document-section-title {
+            font-weight: 600;
+            color: #06b6d4;
+            margin-bottom: 0.5rem;
+        }
+
+        .document-text {
+            color: #94a3b8;
+            line-height: 1.6;
+            font-size: 0.875rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats-bar {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            header, .container {
+                padding: 1.5rem 2rem;
+            }
+
+            .evidence-grid,
+            .action-matrix {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Background Effects -->
+    <div class="stars-container" id="stars"></div>
+    <div class="gradient-orb orb-1"></div>
+    <div class="gradient-orb orb-2"></div>
+
+    <!-- Header -->
+    <header>
+        <div class="header-content">
+            <h1>📋 Audits, Conformité & Traçabilité</h1>
+            <div class="status-indicator">
+                <div class="status-dot"></div>
+                <span>100% Conforme</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Stats Overview -->
+        <div class="stats-bar">
+            <div class="stat-card">
+                <div class="stat-value">97.2%</div>
+                <div class="stat-label">Taux Conformité</div>
+                <div class="stat-trend">↑ +3.5%</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">142</div>
+                <div class="stat-label">Audits Complétés</div>
+                <div class="stat-trend">↑ +12</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">23</div>
+                <div class="stat-label">Actions Ouvertes</div>
+                <div class="stat-trend">↓ -8</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">8.5j</div>
+                <div class="stat-label">Délai Moyen Fermeture</div>
+                <div class="stat-trend">↓ -2.3j</div>
+            </div>
+        </div>
+
+        <!-- Dashboard Grid -->
+        <div class="dashboard-grid">
+            <!-- 1. Dynamic Checklists -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">✅ Checklists Dynamiques</h3>
+                    <span class="card-badge">Auto-ajustées</span>
+                </div>
+                <div class="checklist">
+                    <div class="checklist-item checklist-critical">
+                        <div class="checklist-checkbox">✓</div>
+                        <div class="checklist-content">
+                            <div class="checklist-title">Vérification EPI soudeurs</div>
+                            <div class="checklist-meta">Zone Atelier • Non-conformité récurrente (7x)</div>
+                        </div>
+                        <span class="checklist-frequency">Quotidien</span>
+                    </div>
+                    <div class="checklist-item checklist-warning">
+                        <div class="checklist-checkbox">✓</div>
+                        <div class="checklist-content">
+                            <div class="checklist-title">État des échafaudages</div>
+                            <div class="checklist-meta">Zone Construction • (4x détectées)</div>
+                        </div>
+                        <span class="checklist-frequency">Hebdo</span>
+                    </div>
+                    <div class="checklist-item checklist-compliant">
+                        <div class="checklist-checkbox checked">✓</div>
+                        <div class="checklist-content">
+                            <div class="checklist-title">Inspection extincteurs</div>
+                            <div class="checklist-meta">Tous sites • Conforme (21/21)</div>
+                        </div>
+                        <span class="checklist-frequency">Mensuel</span>
+                    </div>
+                    <div class="checklist-item checklist-warning">
+                        <div class="checklist-checkbox"></div>
+                        <div class="checklist-content">
+                            <div class="checklist-title">Signalisation voies évacuation</div>
+                            <div class="checklist-meta">Bâtiment B • (3x manquements)</div>
+                        </div>
+                        <span class="checklist-frequency">Quotidien</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. Evidence Tracking -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">📸 Preuves Probatoires</h3>
+                    <span class="card-badge">Géolocalisé</span>
+                </div>
+                <div class="evidence-grid">
+                    <div class="evidence-item">
+                        <div class="evidence-icon">📷</div>
+                        <div class="evidence-label">Photos/Vidéos</div>
+                        <div class="evidence-value">1,847 fichiers</div>
+                    </div>
+                    <div class="evidence-item">
+                        <div class="evidence-icon">🕐</div>
+                        <div class="evidence-label">Horodatages</div>
+                        <div class="evidence-value">100% tracés</div>
+                    </div>
+                    <div class="evidence-item">
+                        <div class="evidence-icon">📍</div>
+                        <div class="evidence-label">Géolocalisation</div>
+                        <div class="evidence-value">±2m précision</div>
+                    </div>
+                    <div class="evidence-item">
+                        <div class="evidence-icon">🔒</div>
+                        <div class="evidence-label">Blockchain</div>
+                        <div class="evidence-value">Inviolable</div>
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <canvas id="evidenceChart"></canvas>
+                </div>
+            </div>
+
+            <!-- 3. Gap Mapping -->
+            <div class="card card-full">
+                <div class="card-header">
+                    <h3 class="card-title">🗺️ Cartographie Écarts CSTC/RSST</h3>
+                    <span class="card-badge">Québec</span>
+                </div>
+                <div>
+                    <div class="gap-item gap-critical">
+                        <div class="gap-info">
+                            <div class="gap-title">Article 51 LSST - Formation obligatoire</div>
+                            <div class="gap-ref">Référence: RSST Art. 312 • Site: Atelier Montréal</div>
+                        </div>
+                        <span class="gap-status status-open">Ouvert</span>
+                    </div>
+                    <div class="gap-item gap-major">
+                        <div class="gap-info">
+                            <div class="gap-title">CSTC Section 2.10 - Équipements protection</div>
+                            <div class="gap-ref">Référence: CSTC 2.10.3 • Site: Entrepôt Laval</div>
+                        </div>
+                        <span class="gap-status status-progress">En cours</span>
+                    </div>
+                    <div class="gap-item gap-minor">
+                        <div class="gap-info">
+                            <div class="gap-title">RSST Art. 2.9.1 - Affichage consignes</div>
+                            <div class="gap-ref">Référence: RSST 2.9.1 • Site: Bureau Québec</div>
+                        </div>
+                        <span class="gap-status status-closed">Fermé</span>
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <canvas id="gapChart"></canvas>
+                </div>
+            </div>
+
+            <!-- 4. Action Plan Priority Matrix -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">🎯 Plan d'Actions Auto-Priorisé</h3>
+                    <span class="card-badge">Matrice C×P</span>
+                </div>
+                <div class="action-matrix">
+                    <div class="action-item priority-high">
+                        <div class="action-priority">🔴 Critique</div>
+                        <div class="action-count">8</div>
+                        <div class="action-label">C=5 × P=5</div>
+                    </div>
+                    <div class="action-item priority-medium">
+                        <div class="action-priority">🟡 Élevé</div>
+                        <div class="action-count">15</div>
+                        <div class="action-label">C=4 × P=4</div>
+                    </div>
+                    <div class="action-item priority-low">
+                        <div class="action-priority">🟢 Moyen</div>
+                        <div class="action-count">23</div>
+                        <div class="action-label">C=3 × P=3</div>
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <canvas id="priorityChart"></canvas>
+                </div>
+            </div>
+
+            <!-- 5. Action Closure Tracking -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">⏱️ Suivi Fermeture < 15j</h3>
+                    <span class="card-badge">8.5j moyen</span>
+                </div>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-dot completed"></div>
+                        <div class="timeline-content">
+                            <div class="timeline-title">Action #A-2024-089 - Fermée</div>
+                            <div class="timeline-date">Complétée en 6 jours • 22 oct 2025</div>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot pending"></div>
+                        <div class="timeline-content">
+                            <div class="timeline-title">Action #A-2024-090 - En cours</div>
+                            <div class="timeline-date">Jour 9/15 • Échéance: 3 nov 2025</div>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot overdue"></div>
+                        <div class="timeline-content">
+                            <div class="timeline-title">Action #A-2024-087 - Retard</div>
+                            <div class="timeline-date">Jour 18/15 • Alerte envoyée</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <canvas id="closureChart"></canvas>
+                </div>
+            </div>
+
+            <!-- 6. Recurrence Detection -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">🔁 Détection Répétitivité</h3>
+                    <span class="card-badge">Par Lot/Équipe</span>
+                </div>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Type Écart</th>
+                            <th>Lot/Équipe</th>
+                            <th>Fréquence</th>
+                            <th>Sévérité</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>EPI non porté</td>
+                            <td>Équipe Soudure A</td>
+                            <td>7 × 30j</td>
+                            <td><span class="table-badge badge-high">Haute</span></td>
+                        </tr>
+                        <tr>
+                            <td>Désordre chantier</td>
+                            <td>Lot Construction B</td>
+                            <td>5 × 30j</td>
+                            <td><span class="table-badge badge-medium">Moyenne</span></td>
+                        </tr>
+                        <tr>
+                            <td>Outils défectueux</td>
+                            <td>Équipe Maintenance</td>
+                            <td>4 × 30j</td>
+                            <td><span class="table-badge badge-medium">Moyenne</span></td>
+                        </tr>
+                        <tr>
+                            <td>Procédure non suivie</td>
+                            <td>Lot Logistique C</td>
+                            <td>3 × 30j</td>
+                            <td><span class="table-badge badge-low">Faible</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- 7. CNESST Audit Package -->
+            <div class="card card-full">
+                <div class="card-header">
+                    <h3 class="card-title">📁 Dossier Audit CNESST</h3>
+                    <span class="card-badge">Clé en main</span>
+                </div>
+                <div class="document-preview">
+                    <div class="document-header">
+                        <div class="document-title">📄 Rapport d'Audit Annuel 2024-2025</div>
+                        <div class="document-actions">
+                            <button class="document-btn">📥 Exporter PDF</button>
+                            <button class="document-btn">📧 Envoyer CNESST</button>
+                        </div>
+                    </div>
+                    <div class="document-section">
+                        <div class="document-section-title">1. Identification de l'établissement</div>
+                        <div class="document-text">
+                            • Raison sociale: Industries SafetyGraph Inc.<br>
+                            • NEQ: 1234567890 • Secteur: Fabrication métallique<br>
+                            • Adresse: 1234 rue Principale, Montréal, QC H1A 1A1
+                        </div>
+                    </div>
+                    <div class="document-section">
+                        <div class="document-section-title">2. Conformité réglementaire</div>
+                        <div class="document-text">
+                            • LSST: 97.2% conforme (142/146 items)<br>
+                            • RSST: 98.5% conforme (267/271 articles)<br>
+                            • CSTC: 96.8% conforme (89/92 sections)
+                        </div>
+                    </div>
+                    <div class="document-section">
+                        <div class="document-section-title">3. Plan d'action correctif</div>
+                        <div class="document-text">
+                            • Actions critiques: 8 (toutes < 48h)<br>
+                            • Actions majeures: 15 (délai moyen 8.5j)<br>
+                            • Actions mineures: 23 (délai moyen 12.3j)
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 8. NLP Analysis -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">🤖 Analyse NLP Rapports</h3>
+                    <span class="card-badge">IA Sémantique</span>
+                </div>
+                <div class="nlp-results">
+                    <div class="nlp-item">
+                        <div style="margin-bottom: 0.5rem;">
+                            <strong>Rapport #R-2024-142</strong> • Analyse complétée
+                        </div>
+                        <div>
+                            <span class="nlp-keyword">échafaudage</span>
+                            <span class="nlp-keyword">sécurité défaillante</span>
+                            <span class="nlp-keyword">urgence</span>
+                            <span class="nlp-keyword">formation requise</span>
+                        </div>
+                        <div class="nlp-sentiment sentiment-negative">
+                            😟 Sentiment: Négatif (82% confiance) • Priorité Haute
+                        </div>
+                    </div>
+                    <div class="nlp-item">
+                        <div style="margin-bottom: 0.5rem;">
+                            <strong>Rapport #R-2024-141</strong> • Analyse complétée
+                        </div>
+                        <div>
+                            <span class="nlp-keyword">amélioration continue</span>
+                            <span class="nlp-keyword">bonnes pratiques</span>
+                            <span class="nlp-keyword">engagement équipe</span>
+                        </div>
+                        <div class="nlp-sentiment sentiment-positive">
+                            😊 Sentiment: Positif (91% confiance) • À reproduire
+                        </div>
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <canvas id="nlpChart"></canvas>
+                </div>
+            </div>
+
+            <!-- 9. PROV-O Traceability -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">🔍 Traçabilité PROV-O</h3>
+                    <span class="card-badge">W3C Standard</span>
+                </div>
+                <div class="prov-trace">
+                    <div class="prov-line">
+                        <span class="prov-label">Entity:</span>
+                        <span class="prov-value">audit:inspection_A2024_089</span>
+                    </div>
+                    <div class="prov-line">
+                        <span class="prov-label">Agent:</span>
+                        <span class="prov-value">user:marie_tremblay (Inspectrice SST)</span>
+                    </div>
+                    <div class="prov-line">
+                        <span class="prov-label">Activity:</span>
+                        <span class="prov-value">audit:site_inspection</span>
+                    </div>
+                    <div class="prov-line">
+                        <span class="prov-label">Generated At:</span>
+                        <span class="prov-value">2025-10-28T14:32:15-04:00</span>
+                    </div>
+                    <div class="prov-line">
+                        <span class="prov-label">Location:</span>
+                        <span class="prov-value">geo:45.5017,-73.5673 (Atelier MTL)</span>
+                    </div>
+                    <div class="prov-line">
+                        <span class="prov-label">Used:</span>
+                        <span class="prov-value">checklist:CSTC_v2024, device:tablet_07</span>
+                    </div>
+                    <div class="prov-line">
+                        <span class="prov-label">Was Derived From:</span>
+                        <span class="prov-value">audit:inspection_A2024_088</span>
+                    </div>
+                    <div class="prov-line">
+                        <span class="prov-label">Was Associated With:</span>
+                        <span class="prov-value">plan:quarterly_audit_Q4_2024</span>
+                    </div>
+                    <div class="prov-line">
+                        <span class="prov-label">Hash (SHA-256):</span>
+                        <span class="prov-value">a3f5c8d2...</span>
+                    </div>
+                </div>
+                <div style="margin-top: 1rem; padding: 1rem; background: rgba(16, 185, 129, 0.1); border-radius: 12px; border-left: 3px solid #10b981;">
+                    <strong>✅ Intégrité vérifiée</strong> • Chaîne de provenance complète
+                </div>
+            </div>
+
+            <!-- 10. Training & Certification Alerts -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">🎓 Alertes Formations/Attestations</h3>
+                    <span class="card-badge">8 Expirations</span>
+                </div>
+                <div class="alert-list">
+                    <div class="alert-item alert-critical">
+                        <div class="alert-icon">🔴</div>
+                        <div class="alert-content">
+                            <div class="alert-title">Formation Travail en hauteur - Équipe A</div>
+                            <div class="alert-time">Expire dans 3 jours • 5 employés concernés</div>
+                        </div>
+                    </div>
+                    <div class="alert-item alert-warning">
+                        <div class="alert-icon">⚠️</div>
+                        <div class="alert-content">
+                            <div class="alert-title">Certification SIMDUT 2015 - Jean Lapierre</div>
+                            <div class="alert-time">Expire dans 14 jours • Renouvellement planifié</div>
+                        </div>
+                    </div>
+                    <div class="alert-item alert-warning">
+                        <div class="alert-icon">⚠️</div>
+                        <div class="alert-content">
+                            <div class="alert-title">RCR/DEA - Équipe Premiers Soins</div>
+                            <div class="alert-time">Expire dans 21 jours • 3 employés</div>
+                        </div>
+                    </div>
+                    <div class="alert-item alert-info">
+                        <div class="alert-icon">ℹ️</div>
+                        <div class="alert-content">
+                            <div class="alert-title">Formation Chariot Élévateur - Mise à jour</div>
+                            <div class="alert-time">Nouvelle norme disponible • 12 employés</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <canvas id="certificationChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Generate stars
+        function createStars() {
+            const container = document.getElementById('stars');
+            for (let i = 0; i < 100; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.animationDelay = Math.random() * 3 + 's';
+                container.appendChild(star);
+            }
+        }
+        createStars();
+
+        // Chart.js Default Config
+        Chart.defaults.color = '#94a3b8';
+        Chart.defaults.borderColor = 'rgba(255, 255, 255, 0.1)';
+        Chart.defaults.font.family = 'Inter, sans-serif';
+
+        // 2. Evidence Chart
+        const evidenceCtx = document.getElementById('evidenceChart').getContext('2d');
+        new Chart(evidenceCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Photos', 'Vidéos', 'Audio', 'Documents'],
+                datasets: [{
+                    data: [1247, 385, 142, 73],
+                    backgroundColor: [
+                        'rgba(16, 185, 129, 0.8)',
+                        'rgba(6, 182, 212, 0.8)',
+                        'rgba(59, 130, 246, 0.8)',
+                        'rgba(139, 92, 246, 0.8)'
+                    ],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: true, position: 'bottom' }
+                }
+            }
+        });
+
+        // 3. Gap Chart
+        const gapCtx = document.getElementById('gapChart').getContext('2d');
+        new Chart(gapCtx, {
+            type: 'bar',
+            data: {
+                labels: ['LSST', 'RSST', 'CSTC', 'Autres'],
+                datasets: [{
+                    label: 'Conforme',
+                    data: [142, 267, 89, 156],
+                    backgroundColor: 'rgba(16, 185, 129, 0.8)'
+                }, {
+                    label: 'Non-conforme',
+                    data: [4, 4, 3, 7],
+                    backgroundColor: 'rgba(239, 68, 68, 0.8)'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: true } },
+                scales: {
+                    x: { stacked: true },
+                    y: { stacked: true, beginAtZero: true }
+                }
+            }
+        });
+
+        // 4. Priority Matrix Chart
+        const priorityCtx = document.getElementById('priorityChart').getContext('2d');
+        new Chart(priorityCtx, {
+            type: 'scatter',
+            data: {
+                datasets: [{
+                    label: 'Actions Critiques',
+                    data: [
+                        {x: 5, y: 5}, {x: 4.8, y: 4.9}, {x: 4.5, y: 5},
+                        {x: 5, y: 4.7}, {x: 4.9, y: 4.8}
+                    ],
+                    backgroundColor: 'rgba(239, 68, 68, 0.8)',
+                    pointRadius: 8
+                }, {
+                    label: 'Actions Élevées',
+                    data: [
+                        {x: 4, y: 4}, {x: 3.8, y: 4.2}, {x: 4.2, y: 3.9},
+                        {x: 3.5, y: 4.1}, {x: 4.1, y: 3.7}
+                    ],
+                    backgroundColor: 'rgba(245, 158, 11, 0.8)',
+                    pointRadius: 8
+                }, {
+                    label: 'Actions Moyennes',
+                    data: [
+                        {x: 3, y: 3}, {x: 2.8, y: 3.2}, {x: 3.2, y: 2.9},
+                        {x: 2.5, y: 3.1}, {x: 3.1, y: 2.7}
+                    ],
+                    backgroundColor: 'rgba(16, 185, 129, 0.8)',
+                    pointRadius: 8
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: true } },
+                scales: {
+                    x: { 
+                        title: { display: true, text: 'Criticité' },
+                        min: 0, max: 6
+                    },
+                    y: { 
+                        title: { display: true, text: 'Probabilité' },
+                        min: 0, max: 6
+                    }
+                }
+            }
+        });
+
+        // 5. Closure Timeline Chart
+        const closureCtx = document.getElementById('closureChart').getContext('2d');
+        new Chart(closureCtx, {
+            type: 'line',
+            data: {
+                labels: ['J1', 'J3', 'J5', 'J7', 'J9', 'J11', 'J13', 'J15'],
+                datasets: [{
+                    label: 'Actions Fermées (Cumul)',
+                    data: [0, 5, 12, 18, 25, 32, 38, 46],
+                    borderColor: '#10b981',
+                    backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                    tension: 0.4,
+                    fill: true
+                }, {
+                    label: 'Objectif (15j)',
+                    data: [0, 7, 14, 21, 28, 35, 42, 50],
+                    borderColor: '#06b6d4',
+                    borderDash: [5, 5],
+                    tension: 0.4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: true } },
+                scales: { y: { beginAtZero: true } }
+            }
+        });
+
+        // 8. NLP Sentiment Chart
+        const nlpCtx = document.getElementById('nlpChart').getContext('2d');
+        new Chart(nlpCtx, {
+            type: 'pie',
+            data: {
+                labels: ['Positif', 'Neutre', 'Négatif'],
+                datasets: [{
+                    data: [45, 38, 17],
+                    backgroundColor: [
+                        'rgba(16, 185, 129, 0.8)',
+                        'rgba(59, 130, 246, 0.8)',
+                        'rgba(239, 68, 68, 0.8)'
+                    ],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: true, position: 'bottom' }
+                }
+            }
+        });
+
+        // 10. Certification Expiry Chart
+        const certCtx = document.getElementById('certificationChart').getContext('2d');
+        new Chart(certCtx, {
+            type: 'bar',
+            data: {
+                labels: ['< 7j', '7-14j', '14-30j', '30-60j', '> 60j'],
+                datasets: [{
+                    label: 'Formations à renouveler',
+                    data: [3, 5, 12, 18, 47],
+                    backgroundColor: [
+                        'rgba(239, 68, 68, 0.8)',
+                        'rgba(245, 158, 11, 0.8)',
+                        'rgba(59, 130, 246, 0.8)',
+                        'rgba(16, 185, 129, 0.8)',
+                        'rgba(16, 185, 129, 0.5)'
+                    ]
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: { y: { beginAtZero: true } }
+            }
+        });
+
+        // Interactive checklist
+        document.querySelectorAll('.checklist-checkbox').forEach(checkbox => {
+            checkbox.addEventListener('click', function() {
+                this.classList.toggle('checked');
+                if (this.classList.contains('checked')) {
+                    this.innerHTML = '✓';
+                } else {
+                    this.innerHTML = '';
+                }
+            });
+        });
+
+        // Auto-refresh simulation
+        setInterval(() => {
+            // Simulate real-time updates
+            const statValues = document.querySelectorAll('.stat-value');
+            statValues.forEach(el => {
+                if (el.textContent.includes('%')) {
+                    const currentValue = parseFloat(el.textContent);
+                    const change = (Math.random() - 0.5) * 0.5;
+                    el.textContent = (currentValue + change).toFixed(1) + '%';
+                }
+            });
+        }, 5000);
+
+        // Document export simulation
+        document.querySelectorAll('.document-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const action = this.textContent.includes('Exporter') ? 'exportation' : 'envoi';
+                alert(`Simulation: ${action} du dossier d'audit initié avec succès!`);
+            });
+        });
+    </script>
+</body>
+</html>

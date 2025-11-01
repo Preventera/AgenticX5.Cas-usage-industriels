@@ -1,0 +1,1702 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UC-P11: Incendie / Explosion | AgenticX5</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a0000 0%, #330000 100%);
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        .presentation-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Language Toggle */
+        .language-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+            border-radius: 50px;
+            padding: 10px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .lang-btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 50px;
+            background: transparent;
+            color: #fff;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        .lang-btn.active {
+            background: #FF4500;
+            box-shadow: 0 5px 15px rgba(255,69,0,0.4);
+        }
+
+        .lang-btn:hover:not(.active) {
+            background: rgba(255,255,255,0.1);
+        }
+
+        .slide {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 60px 40px;
+            opacity: 0;
+            animation: slideIn 1s forwards;
+            margin-bottom: 40px;
+        }
+
+        @keyframes slideIn {
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* Hero Slide */
+        .hero-slide {
+            background: linear-gradient(135deg, #1a0000 0%, #FF4500 50%, #FF6347 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-slide::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 50% 50%, rgba(255,69,0,0.3) 0%, transparent 70%);
+            animation: fireGlow 3s ease-in-out infinite;
+        }
+
+        @keyframes fireGlow {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.2); opacity: 0.8; }
+        }
+
+        .hero-content {
+            text-align: center;
+            z-index: 1;
+        }
+
+        .fire-icon {
+            font-size: 120px;
+            margin-bottom: 30px;
+            animation: fireFlicker 0.5s infinite alternate;
+            filter: drop-shadow(0 0 20px rgba(255,69,0,0.8));
+        }
+
+        @keyframes fireFlicker {
+            0% { transform: scale(1) translateY(0); }
+            100% { transform: scale(1.05) translateY(-5px); }
+        }
+
+        h1 {
+            font-size: 4em;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            animation: fadeInUp 1s ease-out 0.3s both;
+        }
+
+        .subtitle {
+            font-size: 1.8em;
+            opacity: 0.9;
+            margin-bottom: 30px;
+            animation: fadeInUp 1s ease-out 0.5s both;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .badge {
+            display: inline-block;
+            background: rgba(139,0,0,0.9);
+            padding: 15px 35px;
+            border-radius: 50px;
+            font-size: 1.3em;
+            font-weight: bold;
+            margin-top: 20px;
+            animation: emergencyPulse 1s infinite;
+            border: 3px solid #FF4500;
+        }
+
+        @keyframes emergencyPulse {
+            0%, 100% { 
+                transform: scale(1);
+                box-shadow: 0 0 20px rgba(255,69,0,0.5);
+            }
+            50% { 
+                transform: scale(1.05);
+                box-shadow: 0 0 40px rgba(255,69,0,1);
+            }
+        }
+
+        /* Content Slides */
+        .content-slide {
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 60px;
+            max-width: 1200px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+        }
+
+        h2 {
+            font-size: 2.8em;
+            margin-bottom: 40px;
+            text-align: center;
+            border-bottom: 3px solid #FF4500;
+            padding-bottom: 20px;
+        }
+
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+
+        .stat-card {
+            background: rgba(255,255,255,0.1);
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: 2px solid rgba(255,255,255,0.2);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(255,69,0,0.4);
+        }
+
+        .stat-number {
+            font-size: 3.5em;
+            font-weight: bold;
+            color: #FF4500;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        /* Thermal Vision Display */
+        .thermal-display {
+            background: linear-gradient(135deg, rgba(255,69,0,0.3) 0%, rgba(255,69,0,0.1) 100%);
+            padding: 40px;
+            border-radius: 20px;
+            margin: 40px 0;
+            border: 3px solid rgba(255,69,0,0.5);
+        }
+
+        .thermal-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .thermal-zone {
+            background: linear-gradient(135deg, #000 0%, #1a1a1a 100%);
+            padding: 20px;
+            border-radius: 12px;
+            border: 2px solid #333;
+            position: relative;
+        }
+
+        .thermal-zone.cold {
+            border-color: #2196F3;
+            box-shadow: 0 0 20px rgba(33,150,243,0.3);
+        }
+
+        .thermal-zone.normal {
+            border-color: #4CAF50;
+            box-shadow: 0 0 20px rgba(76,175,80,0.3);
+        }
+
+        .thermal-zone.hot {
+            border-color: #FFC107;
+            box-shadow: 0 0 20px rgba(255,193,7,0.3);
+        }
+
+        .thermal-zone.critical {
+            border-color: #FF4500;
+            box-shadow: 0 0 30px rgba(255,69,0,0.6);
+            animation: thermalAlert 1s infinite;
+        }
+
+        @keyframes thermalAlert {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+        }
+
+        .temp-reading {
+            font-size: 2.5em;
+            font-weight: bold;
+            font-family: 'Courier New', monospace;
+            text-align: center;
+            margin: 15px 0;
+        }
+
+        .thermal-zone.cold .temp-reading { color: #2196F3; }
+        .thermal-zone.normal .temp-reading { color: #4CAF50; }
+        .thermal-zone.hot .temp-reading { color: #FFC107; }
+        .thermal-zone.critical .temp-reading { 
+            color: #FF4500;
+            animation: blinkRed 0.5s infinite;
+        }
+
+        @keyframes blinkRed {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* Architecture Layers */
+        .architecture-container {
+            margin: 40px 0;
+        }
+
+        .arch-layer {
+            background: linear-gradient(90deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
+            padding: 30px;
+            margin: 20px 0;
+            border-radius: 15px;
+            border-left: 5px solid #FF4500;
+            transition: all 0.3s;
+        }
+
+        .arch-layer:hover {
+            transform: translateX(10px);
+            background: linear-gradient(90deg, rgba(255,69,0,0.2) 0%, rgba(255,69,0,0.1) 100%);
+        }
+
+        .arch-layer h3 {
+            font-size: 1.8em;
+            margin-bottom: 15px;
+            color: #FF4500;
+        }
+
+        .arch-layer p {
+            font-size: 1.2em;
+            line-height: 1.6;
+            opacity: 0.9;
+        }
+
+        /* Data Grid */
+        .data-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            margin: 40px 0;
+        }
+
+        .data-card {
+            background: linear-gradient(135deg, rgba(255,69,0,0.2) 0%, rgba(255,69,0,0.05) 100%);
+            padding: 30px;
+            border-radius: 15px;
+            border: 2px solid rgba(255,69,0,0.3);
+        }
+
+        .data-card h3 {
+            font-size: 1.8em;
+            margin-bottom: 15px;
+            color: #FF4500;
+        }
+
+        .data-card ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .data-card li {
+            padding: 10px 0;
+            padding-left: 30px;
+            position: relative;
+            font-size: 1.1em;
+        }
+
+        .data-card li::before {
+            content: '🔥';
+            position: absolute;
+            left: 0;
+            font-size: 1.2em;
+        }
+
+        /* Modules Grid */
+        .modules-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 25px;
+            margin: 40px 0;
+        }
+
+        .module-card {
+            background: rgba(255,255,255,0.08);
+            padding: 25px;
+            border-radius: 12px;
+            border-left: 4px solid #4CAF50;
+            transition: all 0.3s;
+        }
+
+        .module-card:hover {
+            background: rgba(255,255,255,0.12);
+            transform: translateX(5px);
+        }
+
+        .module-card h4 {
+            font-size: 1.5em;
+            margin-bottom: 10px;
+            color: #4CAF50;
+        }
+
+        .module-card p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        /* Flow Chart */
+        .flow-chart {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            margin: 40px 0;
+            flex-wrap: wrap;
+        }
+
+        .flow-step {
+            background: rgba(255,255,255,0.1);
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            min-width: 180px;
+            position: relative;
+            margin: 10px;
+        }
+
+        .flow-step::after {
+            content: '→';
+            position: absolute;
+            right: -40px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 2em;
+            color: #FF4500;
+        }
+
+        .flow-step:last-child::after {
+            content: '';
+        }
+
+        .flow-step .step-number {
+            background: #FF4500;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+
+        .flow-step h4 {
+            font-size: 1.3em;
+            margin-bottom: 10px;
+        }
+
+        /* Evacuation Timeline */
+        .evacuation-timeline {
+            background: rgba(255,255,255,0.05);
+            padding: 40px;
+            border-radius: 15px;
+            margin: 40px 0;
+        }
+
+        .timeline-item {
+            display: flex;
+            align-items: center;
+            margin: 25px 0;
+            padding: 20px;
+            background: rgba(255,69,0,0.1);
+            border-radius: 10px;
+            border-left: 5px solid #FF4500;
+        }
+
+        .timeline-time {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #FFD700;
+            min-width: 150px;
+        }
+
+        .timeline-content {
+            flex: 1;
+            font-size: 1.2em;
+            line-height: 1.6;
+        }
+
+        /* Critical Warning */
+        .critical-warning {
+            background: linear-gradient(135deg, rgba(139,0,0,0.4) 0%, rgba(139,0,0,0.2) 100%);
+            padding: 40px;
+            border-radius: 20px;
+            border: 4px solid #8B0000;
+            margin: 40px 0;
+            text-align: center;
+            animation: warningPulse 2s infinite;
+        }
+
+        @keyframes warningPulse {
+            0%, 100% { border-color: #8B0000; }
+            50% { border-color: #FF4500; }
+        }
+
+        .critical-warning h3 {
+            color: #FF4500;
+            font-size: 2.2em;
+            margin-bottom: 20px;
+        }
+
+        .critical-warning p {
+            font-size: 1.3em;
+            line-height: 1.8;
+        }
+
+        /* BIM Floor Plan */
+        .bim-display {
+            background: rgba(0,0,0,0.5);
+            padding: 30px;
+            border-radius: 15px;
+            margin: 30px 0;
+            border: 2px solid #FF4500;
+        }
+
+        .floor-plan {
+            width: 100%;
+            max-width: 600px;
+            margin: 20px auto;
+            position: relative;
+            padding: 40px;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+            border-radius: 10px;
+        }
+
+        .exit-point {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            background: #4CAF50;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5em;
+            animation: exitPulse 2s infinite;
+        }
+
+        @keyframes exitPulse {
+            0%, 100% { transform: scale(1); box-shadow: 0 0 10px #4CAF50; }
+            50% { transform: scale(1.1); box-shadow: 0 0 20px #4CAF50; }
+        }
+
+        .fire-location {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background: #FF4500;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8em;
+            animation: fireAlert 0.5s infinite;
+        }
+
+        @keyframes fireAlert {
+            0%, 100% { transform: scale(1); box-shadow: 0 0 20px #FF4500; }
+            50% { transform: scale(1.15); box-shadow: 0 0 40px #FF4500; }
+        }
+
+        /* CTA Section */
+        .cta-section {
+            text-align: center;
+            padding: 60px 40px;
+            background: linear-gradient(135deg, #FF4500 0%, #8B0000 100%);
+            border-radius: 20px;
+            margin-top: 40px;
+        }
+
+        .cta-section h2 {
+            border: none;
+            margin-bottom: 30px;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 30px;
+        }
+
+        .cta-button {
+            padding: 20px 40px;
+            font-size: 1.3em;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: bold;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .cta-button.primary {
+            background: #fff;
+            color: #FF4500;
+        }
+
+        .cta-button.primary:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .cta-button.secondary {
+            background: transparent;
+            color: #fff;
+            border: 3px solid #fff;
+        }
+
+        .cta-button.secondary:hover {
+            background: #fff;
+            color: #FF4500;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 40px;
+            opacity: 0.7;
+            font-size: 1.1em;
+        }
+
+        .logo {
+            font-size: 2em;
+            font-weight: bold;
+            color: #FF4500;
+            margin-bottom: 10px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 { font-size: 2.5em; }
+            h2 { font-size: 2em; }
+            .subtitle { font-size: 1.3em; }
+            .stat-grid { grid-template-columns: 1fr; }
+            .data-grid { grid-template-columns: 1fr; }
+            .modules-grid { grid-template-columns: 1fr; }
+            .thermal-grid { grid-template-columns: 1fr; }
+            .flow-chart { flex-direction: column; }
+            .flow-step::after { 
+                content: '↓';
+                right: 50%;
+                top: auto;
+                bottom: -40px;
+            }
+            .language-toggle {
+                top: 10px;
+                right: 10px;
+                padding: 5px;
+            }
+            .lang-btn {
+                padding: 8px 16px;
+                font-size: 0.9em;
+            }
+        }
+
+        /* Hidden language content */
+        .lang-content {
+            display: none;
+        }
+
+        .lang-content.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <!-- Language Toggle -->
+    <div class="language-toggle">
+        <button class="lang-btn active" onclick="switchLanguage('fr')">🇫🇷 FR</button>
+        <button class="lang-btn" onclick="switchLanguage('en')">🇬🇧 EN</button>
+    </div>
+
+    <div class="presentation-container">
+        <!-- Slide 1: Hero -->
+        <section class="slide hero-slide">
+            <div class="hero-content">
+                <div class="fire-icon">🔥💥</div>
+                <div class="lang-content active" data-lang="fr">
+                    <h1>UC-P11: Incendie / Explosion</h1>
+                    <p class="subtitle">Détection Précoce & Évacuation Orchestrée par IA</p>
+                    <div class="badge">🔴 PRIORITÉ CRITIQUE - Impact Catastrophique</div>
+                </div>
+                <div class="lang-content" data-lang="en">
+                    <h1>UC-P11: Fire / Explosion</h1>
+                    <p class="subtitle">Early Detection & AI-Orchestrated Evacuation</p>
+                    <div class="badge">🔴 CRITICAL PRIORITY - Catastrophic Impact</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 2: Le Problème -->
+        <section class="slide">
+            <div class="content-slide">
+                <div class="lang-content active" data-lang="fr">
+                    <h2>🚨 Le Problème Critique</h2>
+                    <div class="stat-grid">
+                        <div class="stat-card">
+                            <div class="stat-number">234</div>
+                            <div class="stat-label">Incendies / an secteur industriel</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">>10M$</div>
+                            <div class="stat-label">Pertes potentielles par incident</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">40%</div>
+                            <div class="stat-label">Réduction délai évacuation visée</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">💀</div>
+                            <div class="stat-label">Risque de décès multiple</div>
+                        </div>
+                    </div>
+                    <div class="critical-warning">
+                        <h3>⚠️ DANGER CATASTROPHIQUE</h3>
+                        <p>
+                            Les incendies et explosions industriels sont des <strong>événements à faible probabilité 
+                            mais impact MAXIMAL</strong>: pertes humaines, destruction d'installations, 
+                            contamination environnementale.<br><br>
+                            <strong>La détection précoce (fumée, chaleur, gaz explosifs) combinée à une évacuation 
+                            orchestrée</strong> peut faire la différence entre incident mineur et catastrophe.<br><br>
+                            <strong>Chaque seconde compte.</strong> Les matières inflammables peuvent créer des 
+                            conditions mortelles en <2 minutes.
+                        </p>
+                    </div>
+                    <div class="thermal-display">
+                        <h3 style="text-align: center; font-size: 2em; margin-bottom: 20px; color: #FF4500;">
+                            🌡️ Surveillance Thermique Temps Réel
+                        </h3>
+                        <div class="thermal-grid">
+                            <div class="thermal-zone normal">
+                                <div style="font-weight: bold; text-align: center;">Zone A - Stockage</div>
+                                <div class="temp-reading">22°C</div>
+                                <div style="text-align: center; font-size: 0.9em; opacity: 0.8;">✅ Normal</div>
+                            </div>
+                            <div class="thermal-zone hot">
+                                <div style="font-weight: bold; text-align: center;">Zone B - Production</div>
+                                <div class="temp-reading">45°C</div>
+                                <div style="text-align: center; font-size: 0.9em; opacity: 0.8;">⚠️ Élevé</div>
+                            </div>
+                            <div class="thermal-zone critical">
+                                <div style="font-weight: bold; text-align: center;">Zone C - Transformateurs</div>
+                                <div class="temp-reading">87°C</div>
+                                <div style="text-align: center; font-size: 0.9em; opacity: 0.8;">🚨 CRITIQUE</div>
+                            </div>
+                        </div>
+                        <p style="text-align: center; margin-top: 20px; font-size: 1.1em;">
+                            Caméras FLIR détectent points chauds anormaux <strong>avant</strong> déclenchement incendie
+                        </p>
+                    </div>
+                </div>
+                <div class="lang-content" data-lang="en">
+                    <h2>🚨 The Critical Problem</h2>
+                    <div class="stat-grid">
+                        <div class="stat-card">
+                            <div class="stat-number">234</div>
+                            <div class="stat-label">Fires / year industrial sector</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">>10M$</div>
+                            <div class="stat-label">Potential losses per incident</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">40%</div>
+                            <div class="stat-label">Target evacuation time reduction</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">💀</div>
+                            <div class="stat-label">Multiple fatality risk</div>
+                        </div>
+                    </div>
+                    <div class="critical-warning">
+                        <h3>⚠️ CATASTROPHIC DANGER</h3>
+                        <p>
+                            Industrial fires and explosions are <strong>low-probability but MAXIMUM-impact</strong> 
+                            events: loss of life, facility destruction, environmental contamination.<br><br>
+                            <strong>Early detection (smoke, heat, explosive gases) combined with orchestrated 
+                            evacuation</strong> can mean the difference between minor incident and catastrophe.<br><br>
+                            <strong>Every second counts.</strong> Flammable materials can create deadly 
+                            conditions in <2 minutes.
+                        </p>
+                    </div>
+                    <div class="thermal-display">
+                        <h3 style="text-align: center; font-size: 2em; margin-bottom: 20px; color: #FF4500;">
+                            🌡️ Real-Time Thermal Monitoring
+                        </h3>
+                        <div class="thermal-grid">
+                            <div class="thermal-zone normal">
+                                <div style="font-weight: bold; text-align: center;">Zone A - Storage</div>
+                                <div class="temp-reading">22°C</div>
+                                <div style="text-align: center; font-size: 0.9em; opacity: 0.8;">✅ Normal</div>
+                            </div>
+                            <div class="thermal-zone hot">
+                                <div style="font-weight: bold; text-align: center;">Zone B - Production</div>
+                                <div class="temp-reading">45°C</div>
+                                <div style="text-align: center; font-size: 0.9em; opacity: 0.8;">⚠️ High</div>
+                            </div>
+                            <div class="thermal-zone critical">
+                                <div style="font-weight: bold; text-align: center;">Zone C - Transformers</div>
+                                <div class="temp-reading">87°C</div>
+                                <div style="text-align: center; font-size: 0.9em; opacity: 0.8;">🚨 CRITICAL</div>
+                            </div>
+                        </div>
+                        <p style="text-align: center; margin-top: 20px; font-size: 1.1em;">
+                            FLIR cameras detect abnormal hot spots <strong>before</strong> fire outbreak
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 3: La Solution -->
+        <section class="slide">
+            <div class="content-slide">
+                <div class="lang-content active" data-lang="fr">
+                    <h2>✨ La Solution AgenticX5</h2>
+                    <h3 style="text-align: center; font-size: 1.8em; margin-bottom: 40px; color: #4CAF50;">
+                        Détection Multi-Capteurs + Évacuation Orchestrée par IA
+                    </h3>
+                    <div class="flow-chart">
+                        <div class="flow-step">
+                            <div class="step-number">1</div>
+                            <h4>Détection Précoce</h4>
+                            <p>Vision thermique + IoT fumée/chaleur/gaz</p>
+                        </div>
+                        <div class="flow-step">
+                            <div class="step-number">2</div>
+                            <h4>Localisation</h4>
+                            <p>Wearables identifient tous les travailleurs présents</p>
+                        </div>
+                        <div class="flow-step">
+                            <div class="step-number">3</div>
+                            <h4>Orchestration IA</h4>
+                            <p>Agent calcule meilleurs itinéraires évacuation</p>
+                        </div>
+                        <div class="flow-step">
+                            <div class="step-number">4</div>
+                            <h4>Coordination</h4>
+                            <p>Alertes ciblées + guidage + pompiers notifiés</p>
+                        </div>
+                    </div>
+                    <div class="bim-display">
+                        <h3 style="text-align: center; color: #FF4500; margin-bottom: 20px; font-size: 1.8em;">
+                            🗺️ Plans Évacuation BIM Dynamiques
+                        </h3>
+                        <div class="floor-plan">
+                            <div style="text-align: center; font-size: 1.2em; margin-bottom: 20px;">
+                                Étage 2 - Zone Production
+                            </div>
+                            <div class="fire-location" style="top: 50%; left: 30%;">🔥</div>
+                            <div class="exit-point" style="top: 10%; right: 10%;">🚪</div>
+                            <div class="exit-point" style="bottom: 10%; left: 10%;">🚪</div>
+                            <div class="exit-point" style="bottom: 10%; right: 10%;">🚪</div>
+                            <div style="text-align: center; margin-top: 20px; font-size: 1.1em;">
+                                <span style="color: #FF4500;">●</span> Incendie détecté<br>
+                                <span style="color: #4CAF50;">●</span> Sorties de secours (3)
+                            </div>
+                        </div>
+                        <p style="text-align: center; font-size: 1.1em; margin-top: 20px;">
+                            L'agent calcule itinéraires optimaux en fonction: localisation feu, 
+                            position travailleurs, sorties disponibles, fumée
+                        </p>
+                    </div>
+                    <div style="background: rgba(76,175,80,0.2); padding: 30px; border-radius: 15px; margin-top: 40px; text-align: center;">
+                        <h3 style="color: #4CAF50; font-size: 2em; margin-bottom: 15px;">💡 Innovation Clé</h3>
+                        <p style="font-size: 1.3em; line-height: 1.6;">
+                            <strong>5 technologies convergentes</strong> (Vision thermique + IoT + Wearables + Agentic + KG) 
+                            pour détection ultra-précoce + évacuation orchestrée en temps réel sauvant des vies
+                        </p>
+                    </div>
+                </div>
+                <div class="lang-content" data-lang="en">
+                    <h2>✨ The AgenticX5 Solution</h2>
+                    <h3 style="text-align: center; font-size: 1.8em; margin-bottom: 40px; color: #4CAF50;">
+                        Multi-Sensor Detection + AI-Orchestrated Evacuation
+                    </h3>
+                    <div class="flow-chart">
+                        <div class="flow-step">
+                            <div class="step-number">1</div>
+                            <h4>Early Detection</h4>
+                            <p>Thermal vision + IoT smoke/heat/gas</p>
+                        </div>
+                        <div class="flow-step">
+                            <div class="step-number">2</div>
+                            <h4>Location</h4>
+                            <p>Wearables identify all present workers</p>
+                        </div>
+                        <div class="flow-step">
+                            <div class="step-number">3</div>
+                            <h4>AI Orchestration</h4>
+                            <p>Agent calculates optimal evacuation routes</p>
+                        </div>
+                        <div class="flow-step">
+                            <div class="step-number">4</div>
+                            <h4>Coordination</h4>
+                            <p>Targeted alerts + guidance + firefighters notified</p>
+                        </div>
+                    </div>
+                    <div class="bim-display">
+                        <h3 style="text-align: center; color: #FF4500; margin-bottom: 20px; font-size: 1.8em;">
+                            🗺️ Dynamic BIM Evacuation Plans
+                        </h3>
+                        <div class="floor-plan">
+                            <div style="text-align: center; font-size: 1.2em; margin-bottom: 20px;">
+                                Floor 2 - Production Zone
+                            </div>
+                            <div class="fire-location" style="top: 50%; left: 30%;">🔥</div>
+                            <div class="exit-point" style="top: 10%; right: 10%;">🚪</div>
+                            <div class="exit-point" style="bottom: 10%; left: 10%;">🚪</div>
+                            <div class="exit-point" style="bottom: 10%; right: 10%;">🚪</div>
+                            <div style="text-align: center; margin-top: 20px; font-size: 1.1em;">
+                                <span style="color: #FF4500;">●</span> Fire detected<br>
+                                <span style="color: #4CAF50;">●</span> Emergency exits (3)
+                            </div>
+                        </div>
+                        <p style="text-align: center; font-size: 1.1em; margin-top: 20px;">
+                            Agent calculates optimal routes based on: fire location, 
+                            worker positions, available exits, smoke
+                        </p>
+                    </div>
+                    <div style="background: rgba(76,175,80,0.2); padding: 30px; border-radius: 15px; margin-top: 40px; text-align: center;">
+                        <h3 style="color: #4CAF50; font-size: 2em; margin-bottom: 15px;">💡 Key Innovation</h3>
+                        <p style="font-size: 1.3em; line-height: 1.6;">
+                            <strong>5 converging technologies</strong> (Thermal vision + IoT + Wearables + Agentic + KG) 
+                            for ultra-early detection + real-time orchestrated evacuation saving lives
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 4: Architecture -->
+        <section class="slide">
+            <div class="content-slide">
+                <div class="lang-content active" data-lang="fr">
+                    <h2>🏗️ Architecture Technique</h2>
+                    <div class="architecture-container">
+                        <div class="arch-layer">
+                            <h3>🌡️ VISION - Caméras Thermiques (FLIR)</h3>
+                            <p>• Caméras infrarouges détectent points chauds anormaux<br>
+                            • Surveillance 24/7 zones critiques (transformateurs, stockage inflammables)<br>
+                            • Détection préchauffage AVANT inflammation (prévention)<br>
+                            • Alertes automatiques si température >seuils définis</p>
+                        </div>
+                        <div class="arch-layer">
+                            <h3>🌐 IoT - Réseau Détecteurs Fumée/Chaleur/Gaz</h3>
+                            <p>• Détecteurs fumée optiques haute sensibilité<br>
+                            • Capteurs chaleur à seuils multiples<br>
+                            • Détecteurs gaz explosifs (LEL - Lower Explosive Limit)<br>
+                            • Réseau maillé redondant pour fiabilité maximale</p>
+                        </div>
+                        <div class="arch-layer">
+                            <h3>⌚ WEARABLES - Localisation Travailleurs</h3>
+                            <p>• Tags UWB ou badges RFID pour localisation précise<br>
+                            • Identification qui est présent dans chaque zone<br>
+                            • Alertes vibratoires + sonores personnalisées<br>
+                            • Guidage dynamique vers sortie la plus sûre</p>
+                        </div>
+                        <div class="arch-layer">
+                            <h3>🤖 AGENTIC - Orchestration Évacuation</h3>
+                            <p>• Router Agent coordonne toutes les actions d'urgence<br>
+                            • Calcul itinéraires évacuation optimaux en temps réel<br>
+                            • Alertes ciblées par zone (évite panique généralisée)<br>
+                            • Notification automatique pompiers avec localisation précise feu</p>
+                        </div>
+                        <div class="arch-layer">
+                            <h3>🧠 KNOWLEDGE GRAPH - Plans BIM + Matières Dangereuses</h3>
+                            <p>• Plans bâtiment 3D (BIM) avec sorties secours<br>
+                            • Base de données matières dangereuses par zone<br>
+                            • Procédures urgence contextuelles (types d'incendie)<br>
+                            • Historique incidents et REX (retours d'expérience)</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="lang-content" data-lang="en">
+                    <h2>🏗️ Technical Architecture</h2>
+                    <div class="architecture-container">
+                        <div class="arch-layer">
+                            <h3>🌡️ VISION - Thermal Cameras (FLIR)</h3>
+                            <p>• Infrared cameras detect abnormal hot spots<br>
+                            • 24/7 monitoring of critical zones (transformers, flammable storage)<br>
+                            • Pre-heating detection BEFORE ignition (prevention)<br>
+                            • Automatic alerts if temperature exceeds defined thresholds</p>
+                        </div>
+                        <div class="arch-layer">
+                            <h3>🌐 IoT - Network of Smoke/Heat/Gas Detectors</h3>
+                            <p>• High-sensitivity optical smoke detectors<br>
+                            • Multi-threshold heat sensors<br>
+                            • Explosive gas detectors (LEL - Lower Explosive Limit)<br>
+                            • Redundant mesh network for maximum reliability</p>
+                        </div>
+                        <div class="arch-layer">
+                            <h3>⌚ WEARABLES - Worker Location</h3>
+                            <p>• UWB tags or RFID badges for precise location<br>
+                            • Identification of who is present in each zone<br>
+                            • Personalized vibration + sound alerts<br>
+                            • Dynamic guidance to safest exit</p>
+                        </div>
+                        <div class="arch-layer">
+                            <h3>🤖 AGENTIC - Evacuation Orchestration</h3>
+                            <p>• Router Agent coordinates all emergency actions<br>
+                            • Real-time calculation of optimal evacuation routes<br>
+                            • Zone-targeted alerts (avoids widespread panic)<br>
+                            • Automatic firefighter notification with precise fire location</p>
+                        </div>
+                        <div class="arch-layer">
+                            <h3>🧠 KNOWLEDGE GRAPH - BIM Plans + Hazardous Materials</h3>
+                            <p>• 3D building plans (BIM) with emergency exits<br>
+                            • Database of hazardous materials by zone<br>
+                            • Contextual emergency procedures (fire types)<br>
+                            • Incident history and lessons learned</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 5: Données -->
+        <section class="slide">
+            <div class="content-slide">
+                <div class="lang-content active" data-lang="fr">
+                    <h2>📊 Données Utilisées</h2>
+                    <div class="data-grid">
+                        <div class="data-card">
+                            <h3>🔥 Capteurs Fumée/Chaleur</h3>
+                            <ul>
+                                <li>Niveaux fumée en temps réel (ppm)</li>
+                                <li>Températures par zone (°C)</li>
+                                <li>Taux de changement température (vitesse montée)</li>
+                                <li>Historiques déclenchements capteurs</li>
+                            </ul>
+                        </div>
+                        <div class="data-card">
+                            <h3>🌡️ Vision Thermique (FLIR)</h3>
+                            <ul>
+                                <li>Images infrarouges haute résolution</li>
+                                <li>Cartographie thermique zones à risque</li>
+                                <li>Détection points chauds anormaux</li>
+                                <li>Tracking évolution température équipements</li>
+                            </ul>
+                        </div>
+                        <div class="data-card">
+                            <h3>💨 Détecteurs Gaz Explosifs (LEL)</h3>
+                            <ul>
+                                <li>Concentration gaz inflammables (%LEL)</li>
+                                <li>Types gaz détectés (CH₄, propane, etc.)</li>
+                                <li>Vitesse accumulation gaz</li>
+                                <li>Zones à risque explosion identifiées</li>
+                            </ul>
+                        </div>
+                        <div class="data-card">
+                            <h3>🗺️ Plans Évacuation BIM</h3>
+                            <ul>
+                                <li>Plans 3D avec sorties secours géolocalisées</li>
+                                <li>Capacité de chaque sortie (débit personnes/min)</li>
+                                <li>Zones confinement temporaire si nécessaire</li>
+                                <li>Points rassemblement extérieurs</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="lang-content" data-lang="en">
+                    <h2>📊 Data Used</h2>
+                    <div class="data-grid">
+                        <div class="data-card">
+                            <h3>🔥 Smoke/Heat Sensors</h3>
+                            <ul>
+                                <li>Real-time smoke levels (ppm)</li>
+                                <li>Temperature by zone (°C)</li>
+                                <li>Temperature change rate (rise speed)</li>
+                                <li>Sensor activation histories</li>
+                            </ul>
+                        </div>
+                        <div class="data-card">
+                            <h3>🌡️ Thermal Vision (FLIR)</h3>
+                            <ul>
+                                <li>High-resolution infrared images</li>
+                                <li>Thermal mapping of risk zones</li>
+                                <li>Abnormal hot spot detection</li>
+                                <li>Equipment temperature evolution tracking</li>
+                            </ul>
+                        </div>
+                        <div class="data-card">
+                            <h3>💨 Explosive Gas Detectors (LEL)</h3>
+                            <ul>
+                                <li>Flammable gas concentration (%LEL)</li>
+                                <li>Detected gas types (CH₄, propane, etc.)</li>
+                                <li>Gas accumulation speed</li>
+                                <li>Identified explosion risk zones</li>
+                            </ul>
+                        </div>
+                        <div class="data-card">
+                            <h3>🗺️ BIM Evacuation Plans</h3>
+                            <ul>
+                                <li>3D plans with geolocated emergency exits</li>
+                                <li>Capacity of each exit (people/min flow)</li>
+                                <li>Temporary containment zones if needed</li>
+                                <li>External assembly points</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 6: Modules -->
+        <section class="slide">
+            <div class="content-slide">
+                <div class="lang-content active" data-lang="fr">
+                    <h2>🔧 Modules SafetyGraph</h2>
+                    <div class="modules-grid">
+                        <div class="module-card">
+                            <h4>🗺️ Dashboard Zones Géographiques</h4>
+                            <p>Visualisation temps réel statut toutes zones avec alertes thermiques et détecteurs actifs</p>
+                        </div>
+                        <div class="module-card">
+                            <h4>📍 Context Agent (Localisation)</h4>
+                            <p>Agent contextuel fusionne wearables + BIM pour localisation précise tous les travailleurs</p>
+                        </div>
+                        <div class="module-card">
+                            <h4>🔀 Router Agent (Orchestration)</h4>
+                            <p>Agent maître coordonne évacuation: calcul routes, alertes ciblées, notification pompiers</p>
+                        </div>
+                        <div class="module-card">
+                            <h4>🧠 SafetyOntology (Procédures Urgence)</h4>
+                            <p>Base de connaissances procédures incendie/explosion par type matière et zone</p>
+                        </div>
+                    </div>
+                    <div style="background: rgba(255,255,255,0.1); padding: 30px; border-radius: 15px; margin-top: 40px;">
+                        <h3 style="color: #FF4500; font-size: 1.8em; margin-bottom: 20px; text-align: center;">
+                            🔗 Orchestration Critique Temps Réel
+                        </h3>
+                        <p style="font-size: 1.2em; text-align: center; line-height: 1.6;">
+                            Les 4 modules collaborent via <strong>SafetyGraph Core</strong> pour créer un système 
+                            d'évacuation <strong>intelligent, adaptatif et sauvant des vies</strong> en situation extrême
+                        </p>
+                    </div>
+                </div>
+                <div class="lang-content" data-lang="en">
+                    <h2>🔧 SafetyGraph Modules</h2>
+                    <div class="modules-grid">
+                        <div class="module-card">
+                            <h4>🗺️ Geographic Zones Dashboard</h4>
+                            <p>Real-time visualization of all zone status with thermal alerts and active detectors</p>
+                        </div>
+                        <div class="module-card">
+                            <h4>📍 Context Agent (Location)</h4>
+                            <p>Contextual agent fuses wearables + BIM for precise location of all workers</p>
+                        </div>
+                        <div class="module-card">
+                            <h4>🔀 Router Agent (Orchestration)</h4>
+                            <p>Master agent coordinates evacuation: route calculation, targeted alerts, firefighter notification</p>
+                        </div>
+                        <div class="module-card">
+                            <h4>🧠 SafetyOntology (Emergency Procedures)</h4>
+                            <p>Knowledge base of fire/explosion procedures by material type and zone</p>
+                        </div>
+                    </div>
+                    <div style="background: rgba(255,255,255,0.1); padding: 30px; border-radius: 15px; margin-top: 40px;">
+                        <h3 style="color: #FF4500; font-size: 1.8em; margin-bottom: 20px; text-align: center;">
+                            🔗 Real-Time Critical Orchestration
+                        </h3>
+                        <p style="font-size: 1.2em; text-align: center; line-height: 1.6;">
+                            All 4 modules collaborate via <strong>SafetyGraph Core</strong> to create an 
+                            <strong>intelligent, adaptive, life-saving</strong> evacuation system in extreme situations
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 7: Standards et Normes -->
+        <section class="slide">
+            <div class="content-slide">
+                <div class="lang-content active" data-lang="fr">
+                    <h2>📋 Standards & Normes Applicables</h2>
+                    <div style="background: rgba(255,152,0,0.2); padding: 30px; border-radius: 15px; margin-bottom: 30px; text-align: center;">
+                        <h3 style="color: #FF9800; font-size: 1.8em; margin-bottom: 15px;">🏛️ Conformité Réglementaire Complète</h3>
+                        <p style="font-size: 1.2em; line-height: 1.6;">
+                            AgenticX5 UC-P11 respecte l'ensemble des normes Québec, Canada et internationales (NFPA/OSHA)
+                        </p>
+                    </div>
+                    
+                    <div class="data-grid" style="margin: 40px 0;">
+                        <div class="data-card">
+                            <h3>🇨🇦 Québec - Standards SST</h3>
+                            <ul style="font-size: 1em;">
+                                <li><strong>LSST & RSST</strong> - Loi santé sécurité travail + Règlement (plans urgence, exercices, contrôles risques)</li>
+                                <li><strong>Code construction QC / Code sécurité</strong> - Chapitre Bâtiment (intègre CNPI)</li>
+                                <li><strong>CAN/ULC-S524</strong> - Installation systèmes alarme incendie</li>
+                                <li><strong>CAN/ULC-S537</strong> - Vérification conformité à S524</li>
+                                <li><strong>CAN/ULC-S536</strong> - Inspection/essais périodiques (annuels, mensuels)</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="data-card">
+                            <h3>🍁 Canada - Standards Nationaux</h3>
+                            <ul style="font-size: 1em;">
+                                <li><strong>CEC C22.1:24 Section 18</strong> - Code électricité emplacements dangereux (gaz/poussières)</li>
+                                <li><strong>CSA C22.2 No. 60079-29-1</strong> - Détecteurs gaz inflammables (performance)</li>
+                                <li><strong>CNPI 2020</strong> - Code national prévention incendies</li>
+                                <li><strong>CNB 2020</strong> - Code national bâtiment</li>
+                                <li><strong>CSA Z731</strong> - Planification & réponse d'urgence</li>
+                                <li><strong>CAN/ULC-S1001</strong> - Essais intégration systèmes sécurité incendie</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="data-card">
+                            <h3>🇺🇸 USA - NFPA Standards</h3>
+                            <ul style="font-size: 1em;">
+                                <li><strong>NFPA 72 (2022/2025)</strong> - National Fire Alarm & Signaling Code</li>
+                                <li><strong>NFPA 101 (2024)</strong> - Life Safety Code (évacuation, compartimentage)</li>
+                                <li><strong>NFPA 68 (2023)</strong> - Déflagrations (décharge par évents)</li>
+                                <li><strong>NFPA 69 (2024)</strong> - Prévention/maîtrise d'explosion</li>
+                                <li><strong>NFPA 654 (2020)</strong> - Poussières combustibles</li>
+                                <li><strong>NFPA 400 (2025)</strong> - Code matières dangereuses</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="data-card">
+                            <h3>🏭 USA - OSHA Regulations</h3>
+                            <ul style="font-size: 1em;">
+                                <li><strong>OSHA 1910.36-37</strong> - Issues d'évacuation (moyens d'évacuation)</li>
+                                <li><strong>OSHA 1910.38</strong> - Plan d'action d'urgence (EAP)</li>
+                                <li><strong>OSHA 1910.106</strong> - Liquides inflammables (stockage, manipulation)</li>
+                                <li><strong>OSHA 1910.119 PSM</strong> - Process Safety Management (pétrochimie)</li>
+                                <li><strong>NEC Art. 500-516</strong> - Emplacements dangereux (Class/Division/Zone)</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div style="background: rgba(76,175,80,0.2); padding: 30px; border-radius: 15px; margin-top: 30px;">
+                        <h3 style="color: #4CAF50; font-size: 1.8em; margin-bottom: 20px; text-align: center;">
+                            🎯 Mapping Techno UC-P11 → Standards
+                        </h3>
+                        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin-top: 20px;">
+                            <div style="background: rgba(0,0,0,0.2); padding: 20px; border-radius: 10px;">
+                                <strong style="color: #FF9800; font-size: 1.2em;">🔥 Détection Incendie & Notification</strong>
+                                <p style="margin-top: 10px; line-height: 1.6;">
+                                    → NFPA 72<br>
+                                    → CAN/ULC-S524, S537, S536<br>
+                                    → CNPI 2020
+                                </p>
+                            </div>
+                            <div style="background: rgba(0,0,0,0.2); padding: 20px; border-radius: 10px;">
+                                <strong style="color: #FF9800; font-size: 1.2em;">💨 Détection Gaz Explosifs (%LEL)</strong>
+                                <p style="margin-top: 10px; line-height: 1.6;">
+                                    → CSA C22.2 No. 60079-29-1<br>
+                                    → CEC Section 18<br>
+                                    → NEC Art. 500-516
+                                </p>
+                            </div>
+                            <div style="background: rgba(0,0,0,0.2); padding: 20px; border-radius: 10px;">
+                                <strong style="color: #FF9800; font-size: 1.2em;">🏃 Évacuation Orchestrée</strong>
+                                <p style="margin-top: 10px; line-height: 1.6;">
+                                    → NFPA 101 (Life Safety)<br>
+                                    → OSHA 1910.36-38<br>
+                                    → LSST/RSST + CNPI<br>
+                                    → CSA Z731
+                                </p>
+                            </div>
+                            <div style="background: rgba(0,0,0,0.2); padding: 20px; border-radius: 10px;">
+                                <strong style="color: #FF9800; font-size: 1.2em;">💥 Poussières / Explosions</strong>
+                                <p style="margin-top: 10px; line-height: 1.6;">
+                                    → NFPA 654 (combustibles)<br>
+                                    → NFPA 68 (déflagrations)<br>
+                                    → NFPA 69 (prévention)
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="lang-content" data-lang="en">
+                    <h2>📋 Applicable Standards & Norms</h2>
+                    <div style="background: rgba(255,152,0,0.2); padding: 30px; border-radius: 15px; margin-bottom: 30px; text-align: center;">
+                        <h3 style="color: #FF9800; font-size: 1.8em; margin-bottom: 15px;">🏛️ Complete Regulatory Compliance</h3>
+                        <p style="font-size: 1.2em; line-height: 1.6;">
+                            AgenticX5 UC-P11 complies with all Quebec, Canada and international standards (NFPA/OSHA)
+                        </p>
+                    </div>
+                    
+                    <div class="data-grid" style="margin: 40px 0;">
+                        <div class="data-card">
+                            <h3>🇨🇦 Quebec - OHS Standards</h3>
+                            <ul style="font-size: 1em;">
+                                <li><strong>LSST & RSST</strong> - Occupational health safety law + Regulation (emergency plans, drills, risk controls)</li>
+                                <li><strong>Quebec Construction Code / Safety Code</strong> - Building Chapter (integrates NFPC)</li>
+                                <li><strong>CAN/ULC-S524</strong> - Fire alarm system installation</li>
+                                <li><strong>CAN/ULC-S537</strong> - S524 compliance verification</li>
+                                <li><strong>CAN/ULC-S536</strong> - Periodic inspection/testing (annual, monthly)</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="data-card">
+                            <h3>🍁 Canada - National Standards</h3>
+                            <ul style="font-size: 1em;">
+                                <li><strong>CEC C22.1:24 Section 18</strong> - Electrical code hazardous locations (gas/dust)</li>
+                                <li><strong>CSA C22.2 No. 60079-29-1</strong> - Flammable gas detectors (performance)</li>
+                                <li><strong>NFPC 2020</strong> - National Fire Prevention Code</li>
+                                <li><strong>NBC 2020</strong> - National Building Code</li>
+                                <li><strong>CSA Z731</strong> - Emergency preparedness & response planning</li>
+                                <li><strong>CAN/ULC-S1001</strong> - Fire safety systems integration testing</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="data-card">
+                            <h3>🇺🇸 USA - NFPA Standards</h3>
+                            <ul style="font-size: 1em;">
+                                <li><strong>NFPA 72 (2022/2025)</strong> - National Fire Alarm & Signaling Code</li>
+                                <li><strong>NFPA 101 (2024)</strong> - Life Safety Code (evacuation, compartmentation)</li>
+                                <li><strong>NFPA 68 (2023)</strong> - Deflagrations (vent discharge)</li>
+                                <li><strong>NFPA 69 (2024)</strong> - Explosion prevention/control</li>
+                                <li><strong>NFPA 654 (2020)</strong> - Combustible dust</li>
+                                <li><strong>NFPA 400 (2025)</strong> - Hazardous materials code</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="data-card">
+                            <h3>🏭 USA - OSHA Regulations</h3>
+                            <ul style="font-size: 1em;">
+                                <li><strong>OSHA 1910.36-37</strong> - Exit routes (means of egress)</li>
+                                <li><strong>OSHA 1910.38</strong> - Emergency Action Plan (EAP)</li>
+                                <li><strong>OSHA 1910.106</strong> - Flammable liquids (storage, handling)</li>
+                                <li><strong>OSHA 1910.119 PSM</strong> - Process Safety Management (petrochemical)</li>
+                                <li><strong>NEC Art. 500-516</strong> - Hazardous locations (Class/Division/Zone)</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div style="background: rgba(76,175,80,0.2); padding: 30px; border-radius: 15px; margin-top: 30px;">
+                        <h3 style="color: #4CAF50; font-size: 1.8em; margin-bottom: 20px; text-align: center;">
+                            🎯 UC-P11 Tech Mapping → Standards
+                        </h3>
+                        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin-top: 20px;">
+                            <div style="background: rgba(0,0,0,0.2); padding: 20px; border-radius: 10px;">
+                                <strong style="color: #FF9800; font-size: 1.2em;">🔥 Fire Detection & Notification</strong>
+                                <p style="margin-top: 10px; line-height: 1.6;">
+                                    → NFPA 72<br>
+                                    → CAN/ULC-S524, S537, S536<br>
+                                    → NFPC 2020
+                                </p>
+                            </div>
+                            <div style="background: rgba(0,0,0,0.2); padding: 20px; border-radius: 10px;">
+                                <strong style="color: #FF9800; font-size: 1.2em;">💨 Explosive Gas Detection (%LEL)</strong>
+                                <p style="margin-top: 10px; line-height: 1.6;">
+                                    → CSA C22.2 No. 60079-29-1<br>
+                                    → CEC Section 18<br>
+                                    → NEC Art. 500-516
+                                </p>
+                            </div>
+                            <div style="background: rgba(0,0,0,0.2); padding: 20px; border-radius: 10px;">
+                                <strong style="color: #FF9800; font-size: 1.2em;">🏃 Orchestrated Evacuation</strong>
+                                <p style="margin-top: 10px; line-height: 1.6;">
+                                    → NFPA 101 (Life Safety)<br>
+                                    → OSHA 1910.36-38<br>
+                                    → LSST/RSST + NFPC<br>
+                                    → CSA Z731
+                                </p>
+                            </div>
+                            <div style="background: rgba(0,0,0,0.2); padding: 20px; border-radius: 10px;">
+                                <strong style="color: #FF9800; font-size: 1.2em;">💥 Dust / Explosions</strong>
+                                <p style="margin-top: 10px; line-height: 1.6;">
+                                    → NFPA 654 (combustible)<br>
+                                    → NFPA 68 (deflagrations)<br>
+                                    → NFPA 69 (prevention)
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 8: Scénario -->
+        <section class="slide">
+            <div class="content-slide">
+                <div class="lang-content active" data-lang="fr">
+                    <h2>📖 Scénario Concret</h2>
+                    <div style="background: rgba(255,255,255,0.05); padding: 40px; border-radius: 15px;">
+                        <h3 style="color: #FF4500; font-size: 2em; margin-bottom: 30px; text-align: center;">
+                            🏭 Usine Pétrochimique - Surchauffe Transformateur
+                        </h3>
+                        <div class="evacuation-timeline">
+                            <div class="timeline-item">
+                                <div class="timeline-time">21:45</div>
+                                <div class="timeline-content">
+                                    <strong>Détection précoce:</strong> Caméra FLIR détecte anomalie<br>
+                                    🌡️ Transformateur #3: température 95°C (seuil normal: 65°C)<br>
+                                    📊 Montée rapide: +15°C en 5 minutes = ANORMAL<br>
+                                    🤖 Agent analyse: risque incendie imminent
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-time">21:46</div>
+                                <div class="timeline-content">
+                                    <strong>Alerte préventive:</strong> Équipe maintenance notifiée<br>
+                                    📱 Techniciens appelés pour inspection<br>
+                                    🔌 Préparation coupure électrique si nécessaire<br>
+                                    👷 6 travailleurs présents identifiés par wearables
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-time">21:48</div>
+                                <div class="timeline-content">
+                                    <strong>🚨 ESCALADE - Fumée détectée:</strong><br>
+                                    💨 Détecteur fumée zone transformateurs activé<br>
+                                    🌡️ Température: 127°C et montée continue<br>
+                                    🤖 <strong>Router Agent active protocole évacuation</strong><br>
+                                    🚨 Alarmes activées: secteur affecté uniquement (évite panique)
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-time">21:48:30</div>
+                                <div class="timeline-content">
+                                    <strong>Orchestration évacuation:</strong><br>
+                                    📍 Context Agent: 6 travailleurs localisés précisément<br>
+                                    🗺️ Router Agent calcule itinéraires optimaux via BIM<br>
+                                    📱 Alertes personnalisées badges: "ÉVACUATION - Suivre flèches vertes"<br>
+                                    🚪 Sorties dynamiques affichées sur écrans + wearables<br>
+                                    🔥 Sortie principale bloquée fumée → redirection automatique sorties secondaires
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-time">21:49:45</div>
+                                <div class="timeline-content">
+                                    <strong>Notification services urgence:</strong><br>
+                                    🚒 Pompiers alertés automatiquement avec:<br>
+                                    • Localisation précise GPS installation<br>
+                                    • Type incident: incendie électrique transformateur<br>
+                                    • Matières dangereuses présentes (base KG)<br>
+                                    • Nombre personnes à risque + confirmation évacuation en cours
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-time">21:51</div>
+                                <div class="timeline-content">
+                                    <strong>✅ Évacuation complète:</strong><br>
+                                    👥 Les 6 travailleurs au point rassemblement (confirmé wearables)<br>
+                                    🚒 Pompiers arrivés et informés situation précise<br>
+                                    📊 Temps évacuation total: <strong>2 min 30 sec</strong> (vs. 4+ min méthode classique)<br>
+                                    🛡️ <strong>Zéro blessure - Incendie maîtrisé rapidement</strong>
+                                </div>
+                            </div>
+                        </div>
+                        <p style="font-size: 1.3em; margin-top: 30px; text-align: center; line-height: 1.6;">
+                            <strong style="color: #4CAF50;">Résultat:</strong> Détection ultra-précoce (FLIR) + 
+                            évacuation orchestrée IA = 40% temps réduit + zéro blessure + incendie contenu
+                        </p>
+                    </div>
+                </div>
+                <div class="lang-content" data-lang="en">
+                    <h2>📖 Concrete Scenario</h2>
+                    <div style="background: rgba(255,255,255,0.05); padding: 40px; border-radius: 15px;">
+                        <h3 style="color: #FF4500; font-size: 2em; margin-bottom: 30px; text-align: center;">
+                            🏭 Petrochemical Plant - Transformer Overheating
+                        </h3>
+                        <div class="evacuation-timeline">
+                            <div class="timeline-item">
+                                <div class="timeline-time">21:45</div>
+                                <div class="timeline-content">
+                                    <strong>Early detection:</strong> FLIR camera detects anomaly<br>
+                                    🌡️ Transformer #3: temperature 95°C (normal threshold: 65°C)<br>
+                                    📊 Rapid rise: +15°C in 5 minutes = ABNORMAL<br>
+                                    🤖 Agent analysis: imminent fire risk
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-time">21:46</div>
+                                <div class="timeline-content">
+                                    <strong>Preventive alert:</strong> Maintenance team notified<br>
+                                    📱 Technicians called for inspection<br>
+                                    🔌 Preparing power cut if necessary<br>
+                                    👷 6 present workers identified by wearables
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-time">21:48</div>
+                                <div class="timeline-content">
+                                    <strong>🚨 ESCALATION - Smoke detected:</strong><br>
+                                    💨 Smoke detector in transformer zone activated<br>
+                                    🌡️ Temperature: 127°C and continuing to rise<br>
+                                    🤖 <strong>Router Agent activates evacuation protocol</strong><br>
+                                    🚨 Alarms activated: affected sector only (avoids panic)
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-time">21:48:30</div>
+                                <div class="timeline-content">
+                                    <strong>Evacuation orchestration:</strong><br>
+                                    📍 Context Agent: 6 workers precisely located<br>
+                                    🗺️ Router Agent calculates optimal routes via BIM<br>
+                                    📱 Personalized badge alerts: "EVACUATION - Follow green arrows"<br>
+                                    🚪 Dynamic exits displayed on screens + wearables<br>
+                                    🔥 Main exit blocked by smoke → automatic redirection to secondary exits
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-time">21:49:45</div>
+                                <div class="timeline-content">
+                                    <strong>Emergency services notification:</strong><br>
+                                    🚒 Firefighters automatically alerted with:<br>
+                                    • Precise GPS location of facility<br>
+                                    • Incident type: electrical transformer fire<br>
+                                    • Hazardous materials present (KG database)<br>
+                                    • Number of people at risk + evacuation confirmation in progress
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-time">21:51</div>
+                                <div class="timeline-content">
+                                    <strong>✅ Complete evacuation:</strong><br>
+                                    👥 All 6 workers at assembly point (confirmed by wearables)<br>
+                                    🚒 Firefighters arrived and informed of precise situation<br>
+                                    📊 Total evacuation time: <strong>2 min 30 sec</strong> (vs. 4+ min traditional method)<br>
+                                    🛡️ <strong>Zero injuries - Fire quickly contained</strong>
+                                </div>
+                            </div>
+                        </div>
+                        <p style="font-size: 1.3em; margin-top: 30px; text-align: center; line-height: 1.6;">
+                            <strong style="color: #4CAF50;">Result:</strong> Ultra-early detection (FLIR) + 
+                            AI-orchestrated evacuation = 40% time reduced + zero injuries + fire contained
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 9: CTA -->
+        <section class="slide">
+            <div class="cta-section">
+                <div class="lang-content active" data-lang="fr">
+                    <h2>🚀 Chaque Seconde Compte en Urgence</h2>
+                    <p style="font-size: 1.5em; margin: 30px 0; line-height: 1.6;">
+                        Déployez UC-P11 et transformez votre réponse incendie avec <strong>détection précoce + évacuation orchestrée</strong>
+                    </p>
+                    <div class="stat-grid" style="margin: 40px 0;">
+                        <div class="stat-card" style="background: rgba(255,255,255,0.2);">
+                            <div class="stat-number" style="color: #fff;">40%</div>
+                            <div class="stat-label">Réduction délai évacuation</div>
+                        </div>
+                        <div class="stat-card" style="background: rgba(255,255,255,0.2);">
+                            <div class="stat-number" style="color: #fff;">5</div>
+                            <div class="stat-label">Technologies convergentes</div>
+                        </div>
+                        <div class="stat-card" style="background: rgba(255,255,255,0.2);">
+                            <div class="stat-number" style="color: #fff;">24/7</div>
+                            <div class="stat-label">Surveillance thermique</div>
+                        </div>
+                        <div class="stat-card" style="background: rgba(255,255,255,0.2);">
+                            <div class="stat-number" style="color: #fff;">🛡️</div>
+                            <div class="stat-label">Évacuation orchestrée IA</div>
+                        </div>
+                    </div>
+                    <div class="cta-buttons">
+                        <a href="#contact" class="cta-button primary">Demander une Démo</a>
+                        <a href="#whitepaper" class="cta-button secondary">Guide Incendie/Explosion</a>
+                    </div>
+                    <p style="margin-top: 40px; font-size: 1.2em; opacity: 0.9;">
+                        🔥 Détection ultra-précoce - Évacuation intelligente - Vies sauvées
+                    </p>
+                </div>
+                <div class="lang-content" data-lang="en">
+                    <h2>🚀 Every Second Counts in Emergency</h2>
+                    <p style="font-size: 1.5em; margin: 30px 0; line-height: 1.6;">
+                        Deploy UC-P11 and transform your fire response with <strong>early detection + orchestrated evacuation</strong>
+                    </p>
+                    <div class="stat-grid" style="margin: 40px 0;">
+                        <div class="stat-card" style="background: rgba(255,255,255,0.2);">
+                            <div class="stat-number" style="color: #fff;">40%</div>
+                            <div class="stat-label">Evacuation time reduction</div>
+                        </div>
+                        <div class="stat-card" style="background: rgba(255,255,255,0.2);">
+                            <div class="stat-number" style="color: #fff;">5</div>
+                            <div class="stat-label">Converging technologies</div>
+                        </div>
+                        <div class="stat-card" style="background: rgba(255,255,255,0.2);">
+                            <div class="stat-number" style="color: #fff;">24/7</div>
+                            <div class="stat-label">Thermal monitoring</div>
+                        </div>
+                        <div class="stat-card" style="background: rgba(255,255,255,0.2);">
+                            <div class="stat-number" style="color: #fff;">🛡️</div>
+                            <div class="stat-label">AI-orchestrated evacuation</div>
+                        </div>
+                    </div>
+                    <div class="cta-buttons">
+                        <a href="#contact" class="cta-button primary">Request a Demo</a>
+                        <a href="#whitepaper" class="cta-button secondary">Fire/Explosion Guide</a>
+                    </div>
+                    <p style="margin-top: 40px; font-size: 1.2em; opacity: 0.9;">
+                        🔥 Ultra-early detection - Smart evacuation - Lives saved
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="logo">AgenticX5 | GenAISafety</div>
+            <div class="lang-content active" data-lang="fr">
+                <p>Propulsé par SafetyGraph - Intelligence Agentique au Service de la SST</p>
+                <p style="margin-top: 15px;">© 2025 GenAISafety - Preventera | Tous droits réservés</p>
+            </div>
+            <div class="lang-content" data-lang="en">
+                <p>Powered by SafetyGraph - Agentic Intelligence for Occupational Safety</p>
+                <p style="margin-top: 15px;">© 2025 GenAISafety - Preventera | All rights reserved</p>
+            </div>
+            <p style="margin-top: 10px; font-size: 0.9em;">
+                🌐 genaisafety.com | 📧 contact@genaisafety.com | 📱 +1 (XXX) XXX-XXXX
+            </p>
+        </footer>
+    </div>
+
+    <script>
+        // Language Switching
+        let currentLang = 'fr';
+
+        function switchLanguage(lang) {
+            currentLang = lang;
+            
+            // Update button states
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Update content visibility
+            document.querySelectorAll('.lang-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            document.querySelectorAll(`[data-lang="${lang}"]`).forEach(content => {
+                content.classList.add('active');
+            });
+            
+            // Update HTML lang attribute
+            document.documentElement.lang = lang;
+        }
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // Intersection Observer for slide animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.slide').forEach(slide => {
+            slide.style.opacity = '0';
+            slide.style.transform = 'translateY(30px)';
+            slide.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(slide);
+        });
+
+        // Keyboard navigation
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowDown' || e.key === 'PageDown') {
+                e.preventDefault();
+                currentSlide = Math.min(currentSlide + 1, slides.length - 1);
+                slides[currentSlide].scrollIntoView({ behavior: 'smooth' });
+            } else if (e.key === 'ArrowUp' || e.key === 'PageUp') {
+                e.preventDefault();
+                currentSlide = Math.max(currentSlide - 1, 0);
+                slides[currentSlide].scrollIntoView({ behavior: 'smooth' });
+            }
+        });
+
+        // Update current slide on scroll
+        window.addEventListener('scroll', () => {
+            slides.forEach((slide, index) => {
+                const rect = slide.getBoundingClientRect();
+                if (rect.top >= 0 && rect.top < window.innerHeight / 2) {
+                    currentSlide = index;
+                }
+            });
+        });
+
+        // Console log
+        console.log('%c🔥 UC-P11: Incendie / Explosion', 'color: #FF4500; font-size: 20px; font-weight: bold;');
+        console.log('%cAgenticX5 | GenAISafety - Powered by SafetyGraph', 'color: #4CAF50; font-size: 14px;');
+    </script>
+</body>
+</html>

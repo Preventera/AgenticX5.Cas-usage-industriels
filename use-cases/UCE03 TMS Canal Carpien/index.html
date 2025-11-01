@@ -1,0 +1,2856 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UC-E03: TMS - Canal Carpien | AgenticX5 - SafetyGraph</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 50%, #0f1419 100%);
+            color: #e0e6ed;
+            line-height: 1.6;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Animated Background Orbs */
+        .orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.15;
+            pointer-events: none;
+            z-index: 0;
+            animation: float 20s infinite ease-in-out;
+        }
+
+        .orb1 {
+            width: 500px;
+            height: 500px;
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+            top: -10%;
+            left: -10%;
+            animation-delay: 0s;
+        }
+
+        .orb2 {
+            width: 400px;
+            height: 400px;
+            background: linear-gradient(135deg, #f76b1c 0%, #faa819 100%);
+            top: 50%;
+            right: -10%;
+            animation-delay: 7s;
+        }
+
+        .orb3 {
+            width: 600px;
+            height: 600px;
+            background: linear-gradient(135deg, #fa8231 0%, #ffd166 100%);
+            bottom: -20%;
+            left: 30%;
+            animation-delay: 14s;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translate(0, 0) scale(1);
+            }
+            33% {
+                transform: translate(50px, -50px) scale(1.1);
+            }
+            66% {
+                transform: translate(-50px, 50px) scale(0.9);
+            }
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Header */
+        header {
+            text-align: center;
+            margin-bottom: 60px;
+            position: relative;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #ff6b6b 0%, #f76b1c 50%, #faa819 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.5px;
+        }
+
+        .uc-badge {
+            background: linear-gradient(135deg, #ff6b6b 0%, #f76b1c 100%);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+        }
+
+        .system-status {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 10px 20px;
+            border-radius: 25px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .status-indicator {
+            width: 12px;
+            height: 12px;
+            background: #4ade80;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 0.5;
+                transform: scale(1.1);
+            }
+        }
+
+        h1 {
+            font-size: 56px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #ff6b6b 0%, #f76b1c 50%, #faa819 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.2;
+        }
+
+        .subtitle {
+            font-size: 20px;
+            color: #94a3b8;
+            font-weight: 400;
+        }
+
+        /* Navigation Tabs */
+        .nav-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .nav-tab {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 12px 24px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            font-weight: 500;
+            backdrop-filter: blur(10px);
+        }
+
+        .nav-tab:hover {
+            background: rgba(255, 107, 107, 0.15);
+            border-color: rgba(255, 107, 107, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .nav-tab.active {
+            background: linear-gradient(135deg, rgba(255, 107, 107, 0.2) 0%, rgba(247, 107, 28, 0.2) 100%);
+            border-color: #ff6b6b;
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+        }
+
+        /* Content Sections */
+        .content-section {
+            display: none;
+        }
+
+        .content-section.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Cards */
+        .card {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #ff6b6b 0%, #f76b1c 50%, #faa819 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .card:hover {
+            border-color: rgba(255, 107, 107, 0.3);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 40px rgba(255, 107, 107, 0.2);
+        }
+
+        .card:hover::before {
+            opacity: 1;
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .card-icon {
+            font-size: 32px;
+        }
+
+        .card-title {
+            font-size: 28px;
+            font-weight: 700;
+            flex: 1;
+            background: linear-gradient(135deg, #fff 0%, #e0e6ed 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Risk Levels */
+        .risk-level {
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .risk-high {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);
+        }
+
+        .risk-critical {
+            background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(220, 38, 38, 0.4);
+            animation: pulse-critical 2s infinite;
+        }
+
+        @keyframes pulse-critical {
+            0%, 100% {
+                box-shadow: 0 4px 15px rgba(220, 38, 38, 0.4);
+            }
+            50% {
+                box-shadow: 0 4px 25px rgba(220, 38, 38, 0.6);
+            }
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, rgba(255, 107, 107, 0.1) 0%, rgba(247, 107, 28, 0.05) 100%);
+            border: 1px solid rgba(255, 107, 107, 0.2);
+            border-radius: 16px;
+            padding: 25px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(255, 107, 107, 0.4);
+            box-shadow: 0 10px 30px rgba(255, 107, 107, 0.2);
+        }
+
+        .stat-value {
+            font-size: 42px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #ff6b6b 0%, #f76b1c 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: #94a3b8;
+            font-weight: 500;
+        }
+
+        .stat-trend {
+            display: inline-block;
+            margin-top: 8px;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .stat-trend.positive {
+            background: rgba(74, 222, 128, 0.1);
+            color: #4ade80;
+        }
+
+        .stat-trend.negative {
+            background: rgba(248, 113, 113, 0.1);
+            color: #f87171;
+        }
+
+        /* Architecture Grid */
+        .architecture-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+
+        .arch-module {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 25px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .arch-module::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(180deg, #ff6b6b 0%, #f76b1c 50%, #faa819 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .arch-module:hover {
+            border-color: rgba(255, 107, 107, 0.3);
+            transform: translateX(5px);
+        }
+
+        .arch-module:hover::before {
+            opacity: 1;
+        }
+
+        .arch-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+
+        .arch-icon {
+            font-size: 28px;
+        }
+
+        .arch-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .feature-list {
+            list-style: none;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin-bottom: 12px;
+            padding: 10px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .feature-item:hover {
+            background: rgba(255, 107, 107, 0.05);
+        }
+
+        .feature-icon {
+            color: #ff6b6b;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        /* Timeline */
+        .timeline {
+            position: relative;
+            padding: 20px 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 30px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(180deg, #ff6b6b 0%, #f76b1c 50%, #faa819 100%);
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-left: 70px;
+            margin-bottom: 30px;
+        }
+
+        .timeline-marker {
+            position: absolute;
+            left: 20px;
+            width: 22px;
+            height: 22px;
+            background: #ff6b6b;
+            border-radius: 50%;
+            border: 4px solid #0a0e27;
+            box-shadow: 0 0 0 4px rgba(255, 107, 107, 0.2);
+        }
+
+        .timeline-content {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        .timeline-time {
+            color: #ff6b6b;
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        /* Norms Table */
+        .norms-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0 10px;
+            margin: 20px 0;
+        }
+
+        .norms-table th {
+            background: linear-gradient(135deg, rgba(255, 107, 107, 0.15) 0%, rgba(247, 107, 28, 0.1) 100%);
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+            border: 1px solid rgba(255, 107, 107, 0.2);
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .norms-table th:first-child {
+            border-radius: 12px 0 0 12px;
+        }
+
+        .norms-table th:last-child {
+            border-radius: 0 12px 12px 0;
+        }
+
+        .norms-table td {
+            background: rgba(255, 255, 255, 0.03);
+            padding: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.3s ease;
+        }
+
+        .norms-table tr:hover td {
+            background: rgba(255, 107, 107, 0.05);
+            border-color: rgba(255, 107, 107, 0.2);
+        }
+
+        .norms-table td:first-child {
+            border-radius: 12px 0 0 12px;
+            font-weight: 600;
+        }
+
+        .norms-table td:last-child {
+            border-radius: 0 12px 12px 0;
+        }
+
+        .norm-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+            background: linear-gradient(135deg, #ff6b6b 0%, #f76b1c 100%);
+            color: white;
+        }
+
+        /* Process Flow */
+        .process-flow {
+            display: flex;
+            gap: 15px;
+            margin: 30px 0;
+            overflow-x: auto;
+            padding: 20px 0;
+        }
+
+        .process-step {
+            flex: 1;
+            min-width: 200px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 25px;
+            text-align: center;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .process-step:hover {
+            transform: scale(1.05);
+            border-color: rgba(255, 107, 107, 0.3);
+            box-shadow: 0 10px 30px rgba(255, 107, 107, 0.2);
+        }
+
+        .process-step::after {
+            content: '→';
+            position: absolute;
+            right: -25px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 24px;
+            color: #ff6b6b;
+            font-weight: 700;
+        }
+
+        .process-step:last-child::after {
+            display: none;
+        }
+
+        .process-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+
+        .process-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: #fff;
+        }
+
+        .process-desc {
+            font-size: 14px;
+            color: #94a3b8;
+        }
+
+        /* Alert Box */
+        .alert-box {
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.15) 0%, rgba(220, 38, 38, 0.1) 100%);
+            border: 2px solid rgba(239, 68, 68, 0.3);
+            border-radius: 16px;
+            padding: 25px;
+            margin: 25px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .alert-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 6px;
+            height: 100%;
+            background: linear-gradient(180deg, #ef4444 0%, #dc2626 100%);
+        }
+
+        .alert-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .alert-icon {
+            font-size: 32px;
+        }
+
+        .alert-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        /* Chat Interface */
+        .chat-container {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 30px;
+            margin: 30px 0;
+            max-height: 600px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            margin-bottom: 20px;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 12px;
+        }
+
+        .message {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .message-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+
+        .message.user .message-avatar {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .message.agent .message-avatar {
+            background: linear-gradient(135deg, #ff6b6b 0%, #f76b1c 100%);
+        }
+
+        .message-content {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 15px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .message-time {
+            font-size: 12px;
+            color: #94a3b8;
+            margin-top: 5px;
+        }
+
+        .chat-input-container {
+            display: flex;
+            gap: 10px;
+        }
+
+        .chat-input {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 12px 20px;
+            color: #e0e6ed;
+            font-size: 14px;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .chat-input:focus {
+            border-color: rgba(255, 107, 107, 0.3);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .chat-send-btn {
+            background: linear-gradient(135deg, #ff6b6b 0%, #f76b1c 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .chat-send-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+        }
+
+        /* Interactive Demo */
+        .demo-container {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 40px;
+            margin: 30px 0;
+        }
+
+        .sensor-display {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .sensor-box {
+            background: linear-gradient(135deg, rgba(255, 107, 107, 0.1) 0%, rgba(247, 107, 28, 0.05) 100%);
+            border: 1px solid rgba(255, 107, 107, 0.2);
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .sensor-value {
+            font-size: 36px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #ff6b6b 0%, #f76b1c 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin: 10px 0;
+        }
+
+        .sensor-label {
+            font-size: 14px;
+            color: #94a3b8;
+            font-weight: 500;
+        }
+
+        /* Hand Visualization */
+        .hand-viz {
+            width: 300px;
+            height: 400px;
+            margin: 30px auto;
+            position: relative;
+            background: rgba(255, 255, 255, 0.03);
+            border: 2px solid rgba(255, 107, 107, 0.2);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 120px;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            padding: 14px 32px;
+            border-radius: 12px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #ff6b6b 0%, #f76b1c 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(255, 107, 107, 0.4);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.05);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 107, 107, 0.3);
+        }
+
+        /* Code Block */
+        .code-block {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            color: #4ade80;
+        }
+
+        /* Exercise Card */
+        .exercise-card {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.1) 0%, rgba(124, 58, 237, 0.05) 100%);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            border-radius: 16px;
+            padding: 20px;
+            margin: 15px 0;
+            transition: all 0.3s ease;
+        }
+
+        .exercise-card:hover {
+            transform: translateX(10px);
+            border-color: rgba(139, 92, 246, 0.5);
+        }
+
+        .exercise-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #a78bfa;
+            margin-bottom: 10px;
+        }
+
+        .exercise-duration {
+            display: inline-block;
+            background: rgba(139, 92, 246, 0.2);
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #a78bfa;
+            margin-bottom: 10px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 36px;
+            }
+
+            .subtitle {
+                font-size: 16px;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .header-content {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .nav-tabs {
+                flex-direction: column;
+            }
+
+            .process-flow {
+                flex-direction: column;
+            }
+
+            .process-step::after {
+                content: '↓';
+                right: 50%;
+                top: auto;
+                bottom: -25px;
+                transform: translateX(50%);
+            }
+
+            .architecture-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated Background Orbs -->
+    <div class="orb orb1"></div>
+    <div class="orb orb2"></div>
+    <div class="orb orb3"></div>
+
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <div class="header-content">
+                <div class="logo-section">
+                    <div class="logo">AgenticX5</div>
+                    <span class="uc-badge">UC-E03</span>
+                </div>
+                <div class="system-status">
+                    <div class="status-indicator"></div>
+                    <span>Système Opérationnel</span>
+                </div>
+            </div>
+            <h1>🖐️ TMS - Canal Carpien</h1>
+            <p class="subtitle">Prévention Syndrome du Canal Carpien | Travail Répétitif Main/Poignet | Coaching Intelligent</p>
+        </header>
+
+        <!-- Navigation Tabs -->
+        <div class="nav-tabs">
+            <div class="nav-tab active" onclick="showSection('overview')">📊 Vue d'ensemble</div>
+            <div class="nav-tab" onclick="showSection('norms')">📜 Normes & Standards</div>
+            <div class="nav-tab" onclick="showSection('architecture')">🏗️ Architecture Technique</div>
+            <div class="nav-tab" onclick="showSection('workflow')">⚙️ Workflow AgenticX5</div>
+            <div class="nav-tab" onclick="showSection('scenarios')">🎯 Scénarios Concrets</div>
+            <div class="nav-tab" onclick="showSection('coaching')">💬 Coaching Conversationnel</div>
+            <div class="nav-tab" onclick="showSection('demo')">🎮 Démo Interactive</div>
+        </div>
+
+        <!-- Overview Section -->
+        <div id="overview" class="content-section active">
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-icon">🎯</span>
+                    <h2 class="card-title">Contexte du Use Case</h2>
+                    <span class="risk-level risk-high">RISQUE ÉLEVÉ</span>
+                </div>
+                <p>Le syndrome du canal carpien est l'une des pathologies professionnelles les plus fréquentes, particulièrement dans les environnements de bureau et les postes impliquant des mouvements répétitifs de la main et du poignet. Cette condition résulte d'une compression du nerf médian au niveau du poignet, causée par des postures inadéquates, des mouvements répétitifs ou une force excessive prolongée.</p>
+            </div>
+
+            <!-- Stats Grid -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-value">8,923</div>
+                    <div class="stat-label">Cas CNESST Annuels</div>
+                    <div class="stat-trend positive">+11% vs 2023</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">22,000$</div>
+                    <div class="stat-label">Coût Moyen par Cas</div>
+                    <div class="stat-trend negative">Chirurgie incluse</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">30%</div>
+                    <div class="stat-label">Réduction Potentielle</div>
+                    <div class="stat-trend positive">Avec AgenticX5</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">97.8%</div>
+                    <div class="stat-label">Taux de Détection</div>
+                    <div class="stat-trend positive">Gants Capteurs</div>
+                </div>
+            </div>
+
+            <!-- Risk Factors -->
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-icon">⚠️</span>
+                    <h2 class="card-title">Facteurs de Risque Principaux</h2>
+                </div>
+                <div class="architecture-grid">
+                    <div class="arch-module">
+                        <div class="arch-header">
+                            <span class="arch-icon">🔄</span>
+                            <h3 class="arch-title">Mouvements Répétitifs</h3>
+                        </div>
+                        <ul class="feature-list">
+                            <li class="feature-item">
+                                <span class="feature-icon">▸</span>
+                                <span>Frappes clavier prolongées (> 8h/jour)</span>
+                            </li>
+                            <li class="feature-item">
+                                <span class="feature-icon">▸</span>
+                                <span>Clics souris répétitifs (> 5000/jour)</span>
+                            </li>
+                            <li class="feature-item">
+                                <span class="feature-icon">▸</span>
+                                <span>Assemblage de petites pièces (précision)</span>
+                            </li>
+                            <li class="feature-item">
+                                <span class="feature-icon">▸</span>
+                                <span>Saisie de données intensive</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="arch-module">
+                        <div class="arch-header">
+                            <span class="arch-icon">📐</span>
+                            <h3 class="arch-title">Postures Contraignantes</h3>
+                        </div>
+                        <ul class="feature-list">
+                            <li class="feature-item">
+                                <span class="feature-icon">▸</span>
+                                <span>Flexion/extension poignet > 20°</span>
+                            </li>
+                            <li class="feature-item">
+                                <span class="feature-icon">▸</span>
+                                <span>Déviation ulnaire/radiale excessive</span>
+                            </li>
+                            <li class="feature-item">
+                                <span class="feature-icon">▸</span>
+                                <span>Absence de support poignet</span>
+                            </li>
+                            <li class="feature-item">
+                                <span class="feature-icon">▸</span>
+                                <span>Hauteur clavier/souris inadéquate</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="arch-module">
+                        <div class="arch-header">
+                            <span class="arch-icon">💪</span>
+                            <h3 class="arch-title">Force & Préhension</h3>
+                        </div>
+                        <ul class="feature-list">
+                            <li class="feature-item">
+                                <span class="feature-icon">▸</span>
+                                <span>Prise pince prolongée (outils, souris)</span>
+                            </li>
+                            <li class="feature-item">
+                                <span class="feature-icon">▸</span>
+                                <span>Force excessive sur périphériques</span>
+                            </li>
+                            <li class="feature-item">
+                                <span class="feature-icon">▸</span>
+                                <span>Appui paume sur rebord bureau</span>
+                            </li>
+                            <li class="feature-item">
+                                <span class="feature-icon">▸</span>
+                                <span>Vibrations main-bras (outils électriques)</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sectors Affected -->
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-icon">🏢</span>
+                    <h2 class="card-title">Secteurs Particulièrement Affectés</h2>
+                </div>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-value">34%</div>
+                        <div class="stat-label">Bureautique / Admin</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">28%</div>
+                        <div class="stat-label">Assemblage Électronique</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">18%</div>
+                        <div class="stat-label">Agroalimentaire</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">12%</div>
+                        <div class="stat-label">Services de Santé</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Impact Analysis -->
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-icon">📉</span>
+                    <h2 class="card-title">Impact Organisationnel & Personnel</h2>
+                </div>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-value">62</div>
+                        <div class="stat-label">Jours d'Arrêt Moyen</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">23%</div>
+                        <div class="stat-label">Nécessitent Chirurgie</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">189K$</div>
+                        <div class="stat-label">Coût Indirect Annuel</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">-18%</div>
+                        <div class="stat-label">Impact Productivité</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Norms Section -->
+        <div id="norms" class="content-section">
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-icon">📜</span>
+                    <h2 class="card-title">Cadre Réglementaire Applicable</h2>
+                </div>
+                
+                <!-- Québec Standards -->
+                <h3 style="color: #fff; margin: 30px 0 20px 0; font-size: 24px; border-bottom: 2px solid rgba(255, 107, 107, 0.3); padding-bottom: 10px;">
+                    🍁 Normes Québec
+                </h3>
+                <table class="norms-table">
+                    <thead>
+                        <tr>
+                            <th>Norme</th>
+                            <th>Description</th>
+                            <th>Application UC-E03</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="norm-badge">CNESST RSST</span></td>
+                            <td>Règlement sur la santé et la sécurité du travail</td>
+                            <td>Ergonomie poste de bureau & TMS - Art. 51-52</td>
+                        </tr>
+                        <tr>
+                            <td><span class="norm-badge">INSPQ</span></td>
+                            <td>Institut national de santé publique du Québec</td>
+                            <td>Guides prévention TMS membres supérieurs</td>
+                        </tr>
+                        <tr>
+                            <td><span class="norm-badge">IRSST</span></td>
+                            <td>Institut de recherche en SST</td>
+                            <td>Outils d'évaluation risques poste informatique</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <!-- Canada Standards -->
+                <h3 style="color: #fff; margin: 30px 0 20px 0; font-size: 24px; border-bottom: 2px solid rgba(255, 107, 107, 0.3); padding-bottom: 10px;">
+                    🇨🇦 Normes Canada
+                </h3>
+                <table class="norms-table">
+                    <thead>
+                        <tr>
+                            <th>Norme</th>
+                            <th>Description</th>
+                            <th>Application UC-E03</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="norm-badge">CSA Z1004:2024</span></td>
+                            <td>Workplace Ergonomics - Management & Implementation</td>
+                            <td>Structure programme ergo (PDCA, KPI, amélioration)</td>
+                        </tr>
+                        <tr>
+                            <td><span class="norm-badge">CCOHS</span></td>
+                            <td>Centre canadien d'hygiène et de sécurité</td>
+                            <td>WMSDs & Canal carpien - Fiches prévention</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <!-- USA Standards -->
+                <h3 style="color: #fff; margin: 30px 0 20px 0; font-size: 24px; border-bottom: 2px solid rgba(255, 107, 107, 0.3); padding-bottom: 10px;">
+                    🇺🇸 Normes USA
+                </h3>
+                <table class="norms-table">
+                    <thead>
+                        <tr>
+                            <th>Norme</th>
+                            <th>Description</th>
+                            <th>Application UC-E03</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="norm-badge">OSHA</span></td>
+                            <td>Ergonomics Guidelines & eTool Workstations</td>
+                            <td>Lignes directrices postes informatiques</td>
+                        </tr>
+                        <tr>
+                            <td><span class="norm-badge">NIOSH</span></td>
+                            <td>National Institute for Occupational Safety</td>
+                            <td>Critères travail répétitif main/poignet</td>
+                        </tr>
+                        <tr>
+                            <td><span class="norm-badge">ACGIH TLV</span></td>
+                            <td>Hand Activity Level (HAL) - Révisé 2018</td>
+                            <td>Couples fréquence×force avec AL/TLV</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <!-- International Standards -->
+                <h3 style="color: #fff; margin: 30px 0 20px 0; font-size: 24px; border-bottom: 2px solid rgba(255, 107, 107, 0.3); padding-bottom: 10px;">
+                    🌍 Normes Internationales (ISO)
+                </h3>
+                <table class="norms-table">
+                    <thead>
+                        <tr>
+                            <th>Norme</th>
+                            <th>Description</th>
+                            <th>Application UC-E03</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="norm-badge">ISO 9241-5:2024</span></td>
+                            <td>Aménagement du poste & exigences posturales</td>
+                            <td>Principes postes à écrans (hauteurs, portées, neutralité)</td>
+                        </tr>
+                        <tr>
+                            <td><span class="norm-badge">ISO 9241-410</span></td>
+                            <td>Dispositifs d'entrée (claviers, souris, touch, stylets)</td>
+                            <td>Critères ergonomiques périphériques</td>
+                        </tr>
+                        <tr>
+                            <td><span class="norm-badge">ISO 11228-3</span></td>
+                            <td>Petites charges à haute fréquence (membres supérieurs)</td>
+                            <td>Recommandations travail répétitif (annexe OCRA)</td>
+                        </tr>
+                        <tr>
+                            <td><span class="norm-badge">ISO 11226</span></td>
+                            <td>Évaluation des postures de travail statiques</td>
+                            <td>Limites angles/temps pour seuils IMU poignet</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Compliance Snippets -->
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-icon">💻</span>
+                    <h2 class="card-title">Snippets de Conformité AgenticX5</h2>
+                </div>
+                
+                <h4 style="color: #fff; margin: 25px 0 15px 0; font-size: 18px;">🤖 Règle 1: Neutralité Poignet (ISO 11226 + ISO 9241-5)</h4>
+                <div class="code-block">
+if wrist_flexion > |20°| OR wrist_extension > |20°| 
+   AND cumulative_time > 10% of work_time:
+   
+   agent.coach({
+       message: "⚠️ Poignet hors position neutre détecté",
+       actions: [
+           "Revenir à la position neutre (0° flex/ext)",
+           "Ajuster hauteur clavier (-2 cm recommandé)",
+           "Vérifier position souris (même plan que clavier)",
+           "Utiliser repose-poignets si disponible"
+       ],
+       urgency: "MODERATE",
+       norm_reference: "ISO 9241-5:2024 § 4.3.2"
+   })
+   
+   log_to_dashboard({
+       event: "wrist_posture_violation",
+       timestamp: now(),
+       angles: {flexion, extension},
+       duration_percent: cumulative_time_percent
+   })
+                </div>
+
+                <h4 style="color: #fff; margin: 25px 0 15px 0; font-size: 18px;">🤖 Règle 2: Hand Activity Level - ACGIH TLV (2018)</h4>
+                <div class="code-block">
+# Calcul HAL selon ACGIH
+HAL = compute_hand_activity_level(
+    frequency = keystrokes_per_minute + clicks_per_minute,
+    force = grip_force_estimated  # from pressure sensors
+)
+
+if HAL >= ACTION_LIMIT:
+   agent.schedule_microbreak({
+       duration: "30-60 seconds",
+       interval: "every 5-10 minutes",
+       exercises: ["wrist_circles", "finger_stretches"],
+       message: "Pause préventive - Niveau d'activité main élevé"
+   })
+
+if HAL >= THRESHOLD_LIMIT_VALUE:
+   agent.escalate({
+       priority: "HIGH",
+       action: "Replanifier tâches + équipement alternatif requis",
+       recommendations: [
+           "Rotation tâche immédiate",
+           "Évaluation ergonomique poste obligatoire (CSA Z1004)",
+           "Considérer périphériques force activation réduite (ISO 9241-410)"
+       ],
+       norm_reference: "ACGIH TLV HAL 2018"
+   })
+                </div>
+
+                <h4 style="color: #fff; margin: 25px 0 15px 0; font-size: 18px;">🤖 Règle 3: Configuration Workstation (ISO 9241-5 + ISO 9241-410)</h4>
+                <div class="code-block">
+# Détection configuration non-optimale
+if keyboard_height > elbow_height + 2cm:
+   agent.alert("Clavier trop haut - Risque hyperextension poignet")
+   
+if mouse_distance > 40cm OR mouse_height != keyboard_height:
+   agent.alert("Souris mal positionnée - Risque déviation ulnaire")
+   
+agent.recommend_iso_9241_5_layout({
+   keyboard: {
+       height: "niveau coudes (90-100° flexion)",
+       tilt: "négative ou nulle (-5° à 0°)",
+       distance: "portée confortable (30-40 cm)"
+   },
+   mouse: {
+       position: "même plan que clavier",
+       distance: "proche du clavier (< 15 cm)",
+       type: "considérer souris verticale (ISO 9241-410)"
+   },
+   monitor: {
+       height: "haut écran niveau yeux",
+       distance: "50-70 cm",
+       angle: "légère inclinaison arrière (10-20°)"
+   }
+})
+
+# Log dans Dashboard TMS
+dashboard.log_workstation_compliance({
+   iso_9241_5_compliant: compliance_score,
+   deviations: [list_of_issues],
+   recommended_adjustments: [actions]
+})
+                </div>
+            </div>
+        </div>
+
+        <!-- Architecture Section -->
+        <div id="architecture" class="content-section">
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-icon">🏗️</span>
+                    <h2 class="card-title">Architecture Technique AgenticX5</h2>
+                </div>
+                <p style="margin-bottom: 30px;">Solution intégrant wearables intelligents, IA conversationnelle, machine learning et knowledge graph pour la détection précoce et la prévention personnalisée du syndrome du canal carpien.</p>
+                
+                <div class="architecture-grid">
+                    <!-- WEARABLES Module -->
+                    <div class="arch-module">
+                        <div class="arch-header">
+                            <span class="arch-icon">🧤</span>
+                            <h3 class="arch-title">WEARABLES</h3>
+                        </div>
+                        <ul class="feature-list">
+                            <li class="feature-item">
+                                <span class="feature-icon">▸</span>
+                                <span><strong>Gants Capteurs Flex :</strong> Mesure angles flexion/extension poignet (résolution 1°)</span>
+                            </li>
+                            <li class="feature-item">
+                                <span class="feature-icon">▸</span>
+                                <span><strong>Capteurs Pression :</strong> Force de préhension paume/doigts (0-100N)</span>
+                            </li>
+                            <li class="feature-item">
+                                <span class="feature-icon">▸</span>
+                                <span><strong>IMU 6-axes :</strong> Déviation ulnaire/radiale, pronation/supination</span>
+                            </li>
+                            <li class="feature-item">
+                                <span class="feature-icon">▸</span>
+                                <span><strong>Compteur Mouvements :</strong> Frappes clavier, clics souris, cycles manuels</span>
+                            </li>
+                            <li class="feature-item">
+                                <span class="feature-icon">▸</span>
+                                <span><strong>Feedback Tactile :</strong> Vibration douce alertes posture non-neutre</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- AGENTIC AI Module -->
+                    <div class="arch-module">
+                        <div class="arch-header">
+                            <span class="arch-icon">🤖</span>
+                            <h3 class="arch-title">AGENTIC AI</h3>
+                        </div>
+                        <ul class="feature-list">
+                            <li class="feature-item">
+                                <span class="feature-icon">▸</span>
+                                <span><strong>Calcul Dose Cumulative :</strong> f(#cycles, %temps hors neutre, intensité préhension)</span>
+                            </li>
+                            <li class="feature-item">
+                                <span class="feature-icon">▸</span>
+                                <span><strong>Orchestration Pauses :</strong> Micro-pauses adaptatives selon HAL ACGIH</span>
+                            </li>
+                            <li class="feature-item">
+                                <span class="feature-icon">▸</span>
+                                <span><strong>Alertes Graduées :</strong> Info → Attention → Action selon seuils ISO</span>
+                            </li>
+                            <li class="feature-item">
+                                <span class="feature-icon">▸</span>
+                                <span><strong>Recommandations Ergo :</strong> Ajustements poste temps réel (hauteur, angle)</span>
+                            </li>
+                            <li class="feature-item">
+                                <span class="feature-icon">▸</span>
+                                <span><strong>Coordination Équipe :</strong> Rotation tâches intelligente si HAL > TLV</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- KNOWLEDGE GRAPH Module -->
+                    <div class="arch-module">
+                        <div class="arch-header">
+                            <span class="arch-icon">🕸️</span>
+                            <h3 class="arch-title">KNOWLEDGE GRAPH</h3>
+                        </div>
+                        <ul class="feature-list">
+                            <li class="feature-item">
+                                <span class="feature-icon">▸</span>
+                                <span><strong>Ontologie Tâches :</strong> Tâche ↔ Gestes (frappes, clics, prise pince)</span>
+                            </li>
+                            <li class="feature-item">
+                                <span class="feature-icon">▸</span>
+                                <span><strong>Liens Normes :</strong> Geste → Seuils ISO 9241-5/410, ISO 11226, ACGIH HAL</span>
+                            </li>
+                            <li class="feature-item">
+                                <span class="feature-icon">▸</span>
+                                <span><strong>Historiques Pathologies :</strong> Base cas canal carpien sectorielle</span>
+                            </li>
+                            <li class="feature-item">
+                                <span class="feature-icon">▸</span>
+                                <span><strong>Solutions Ergonomiques :</strong> Périphériques alternatifs, repose-poignets, macros</span>
+                            </li>
+                            <li class="feature-item">
+                                <span class="feature-icon">▸</span>
+                                <span><strong>Requêtes Causales :</strong> Neo4j MATCH patterns risque multi-facteurs</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- CONVERSATIONAL AI Module -->
+                    <div class="arch-module">
+                        <div class="arch-header">
+                            <span class="arch-icon">💬</span>
+                            <h3 class="arch-title">CONVERSATIONNEL</h3>
+                        </div>
+                        <ul class="feature-list">
+                            <li class="feature-item">
+                                <span class="feature-icon">▸</span>
+                                <span><strong>SafetyAgent Assistant :</strong> Coaching exercices d'étirement guidés</span>
+                            </li>
+                            <li class="feature-item">
+                                <span class="feature-icon">▸</span>
+                                <span><strong>Scripts CCOHS/OSHA :</strong> Auto-ajustement siège/table/clavier/souris</span>
+                            </li>
+                            <li class="feature-item">
+                                <span class="feature-icon">▸</span>
+                                <span><strong>Micro-Exercices Guidés :</strong> 2-3 min routines préventives (voix/vidéo)</span>
+                            </li>
+                            <li class="feature-item">
+                                <span class="feature-icon">▸</span>
+                                <span><strong>Q&A Ergonomie :</strong> Réponses contextuelles basées sur KG</span>
+                            </li>
+                            <li class="feature-item">
+                                <span class="feature-icon">▸</span>
+                                <span><strong>Feedback Personnalisé :</strong> Adaptation langage selon profil utilisateur</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- MACHINE LEARNING Module -->
+                    <div class="arch-module">
+                        <div class="arch-header">
+                            <span class="arch-icon">🧠</span>
+                            <h3 class="arch-title">MACHINE LEARNING</h3>
+                        </div>
+                        <ul class="feature-list">
+                            <li class="feature-item">
+                                <span class="feature-icon">▸</span>
+                                <span><strong>Classification Posture :</strong> Random Forest neutre vs non-neutre (98.2%)</span>
+                            </li>
+                            <li class="feature-item">
+                                <span class="feature-icon">▸</span>
+                                <span><strong>Prédiction Fatigue :</strong> LSTM analyse patterns temporels 8h travail</span>
+                            </li>
+                            <li class="feature-item">
+                                <span class="feature-icon">▸</span>
+                                <span><strong>Détection Anomalies :</strong> Isolation Forest mouvements inhabituels</span>
+                            </li>
+                            <li class="feature-item">
+                                <span class="feature-icon">▸</span>
+                                <span><strong>Scoring Risque :</strong> Gradient Boosting multi-facteurs (HAL, angles, durée)</span>
+                            </li>
+                            <li class="feature-item">
+                                <span class="feature-icon">▸</span>
+                                <span><strong>Personnalisation :</strong> Seuils adaptatifs par utilisateur (historique 30 jours)</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- SafetyGraph Modules -->
+                    <div class="arch-module">
+                        <div class="arch-header">
+                            <span class="arch-icon">📊</span>
+                            <h3 class="arch-title">SAFETYGRAPH MODULES</h3>
+                        </div>
+                        <ul class="feature-list">
+                            <li class="feature-item">
+                                <span class="feature-icon">▸</span>
+                                <span><strong>BehaviorX Module 6 :</strong> Coaching exercices préventifs personnalisés</span>
+                            </li>
+                            <li class="feature-item">
+                                <span class="feature-icon">▸</span>
+                                <span><strong>SafetyAgent :</strong> Assistant conversationnel micro-exercices</span>
+                            </li>
+                            <li class="feature-item">
+                                <span class="feature-icon">▸</span>
+                                <span><strong>Dashboard TMS :</strong> Métriques HAL, %temps neutre, cycles cumulés</span>
+                            </li>
+                            <li class="feature-item">
+                                <span class="feature-icon">▸</span>
+                                <span><strong>Analytics Dashboard :</strong> Tendances hebdo/mensuelles par poste</span>
+                            </li>
+                            <li class="feature-item">
+                                <span class="feature-icon">▸</span>
+                                <span><strong>Compliance Tracker :</strong> Suivi conformité ISO 9241-5, CSA Z1004</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tech Stack -->
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-icon">💻</span>
+                    <h2 class="card-title">Stack Technologique</h2>
+                </div>
+                <div class="code-block">
+# Wearables & IoT<br>
+- Gants: StretchSense, Manus VR, Rokoko Smartgloves<br>
+- Capteurs flex: SparkFun Flex Sensor 2.2" (résistance variable)<br>
+- Force: FlexiForce A201 (0-100 lbs), Tekscan pressure mapping<br>
+- Protocoles: BLE 5.2, MQTT, WebSocket<br>
+- Fréquence: 100 Hz (IMU), 50 Hz (flex/pression)<br>
+<br>
+# Conversational AI<br>
+- LLM: GPT-4-turbo (coaching), Claude 3 Opus (Q&A technique)<br>
+- TTS: ElevenLabs (voix naturelle exercices guidés)<br>
+- Speech-to-Text: Whisper v3 (commandes vocales)<br>
+- RAG: LangChain + Pinecone (base exercices CCOHS/OSHA)<br>
+<br>
+# Machine Learning<br>
+- Training: TensorFlow 2.x, scikit-learn<br>
+- Models: Random Forest (posture), LSTM (fatigue temporelle)<br>
+- Deployment: TensorFlow Lite (edge), ONNX Runtime<br>
+- Feature Engineering: Pandas, NumPy<br>
+<br>
+# Knowledge Graph<br>
+- Database: Neo4j 5.x (graphe causal), PostgreSQL<br>
+- Query: Cypher (patterns risque), GraphQL (API)<br>
+- Ontologie: OWL 2 (tâches→gestes→pathologies)<br>
+- Integration: py2neo, neo4j-driver<br>
+<br>
+# Analytics & Viz<br>
+- Backend: FastAPI, Celery (tasks async), Redis<br>
+- Frontend: React, Recharts, D3.js<br>
+- Dashboards: Grafana (métriques), Metabase (BI)
+                </div>
+            </div>
+
+            <!-- ROI Estimation -->
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-icon">💰</span>
+                    <h2 class="card-title">Retour sur Investissement Estimé</h2>
+                </div>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-value">-30%</div>
+                        <div class="stat-label">Réduction Canal Carpien</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">267K$</div>
+                        <div class="stat-label">Économies Annuelles</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">22 mois</div>
+                        <div class="stat-label">Période Amortissement</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">218%</div>
+                        <div class="stat-label">ROI à 3 ans</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Workflow Section -->
+        <div id="workflow" class="content-section">
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-icon">⚙️</span>
+                    <h2 class="card-title">Workflow AgenticX5 - Détection & Intervention</h2>
+                </div>
+                
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-marker"></div>
+                        <div class="timeline-content">
+                            <div class="timeline-time">T+0s : Détection Initiale</div>
+                            <h3 style="color: #fff; margin: 10px 0;">🧤 Gants Capteurs + Compteur Périphériques</h3>
+                            <p>• Gants détectent flexion poignet 28° prolongée (> seuil ISO 11226: 20°)<br>
+                            • Déviation ulnaire 15° détectée simultanément<br>
+                            • Compteur: 3,847 frappes clavier + 1,234 clics souris en 45 minutes<br>
+                            • Force préhension souris: 12.4 N moyenne (élevée pour souris standard)</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-marker"></div>
+                        <div class="timeline-content">
+                            <div class="timeline-time">T+2s : Analyse Contextuelle KG</div>
+                            <h3 style="color: #fff; margin: 10px 0;">🕸️ Knowledge Graph Query</h3>
+                            <p>• Requête Neo4j : MATCH (t:Tâche {id: 'saisie_intensive'})-[:CAUSE]->(p:Pathologie)<br>
+                            • Résultat : 72% corrélation canal carpien après 6 mois exposition<br>
+                            • Historique utilisateur : 2 alertes posture derniers 14 jours<br>
+                            • Configuration poste : Clavier +3 cm au-dessus optimal (non conforme ISO 9241-5)</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-marker"></div>
+                        <div class="timeline-content">
+                            <div class="timeline-time">T+3s : Calcul HAL & Scoring ML</div>
+                            <h3 style="color: #fff; margin: 10px 0;">🤖 Machine Learning + ACGIH</h3>
+                            <p>• Calcul HAL = f(fréquence: 107 mouvements/min, force: 12.4N) = 14.2<br>
+                            • Comparaison seuils ACGIH : AL = 10 (dépassé), TLV = 18 (approche)<br>
+                            • Random Forest score posture : 6.8/10 (MODÉRÉ)<br>
+                            • LSTM prédiction : Fatigue musculaire 62% dans 90 minutes</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-marker"></div>
+                        <div class="timeline-content">
+                            <div class="timeline-time">T+4s : Décision Agent & Orchestration</div>
+                            <h3 style="color: #fff; margin: 10px 0;">🎯 Agentic AI Decision</h3>
+                            <p>• HAL > AL (14.2 > 10) → INTERVENTION MODÉRÉE requise<br>
+                            • Décision multi-critères : Posture + HAL + Historique + Configuration<br>
+                            • Priorisation : 1) Micro-pause immédiate, 2) Ajustement poste, 3) Coaching<br>
+                            • Escalade : Si HAL > TLV (18) → Rotation tâche automatique</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-marker"></div>
+                        <div class="timeline-content">
+                            <div class="timeline-time">T+5s : Intervention Graduée</div>
+                            <h3 style="color: #fff; margin: 10px 0;">💬 Coaching Conversationnel</h3>
+                            <p>• Vibration tactile douce gant poignet droit<br>
+                            • Notification écran : "Pause recommandée - Posture poignet non optimale"<br>
+                            • SafetyAgent déclenche : "Bonjour! Je détecte que votre poignet est en flexion depuis 12 minutes. 
+                            Prenons une pause de 2 minutes ensemble. Je vais vous guider à travers 3 exercices d'étirement."</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-marker"></div>
+                        <div class="timeline-content">
+                            <div class="timeline-time">T+5s à T+2min : Exercices Guidés</div>
+                            <h3 style="color: #fff; margin: 10px 0;">🧘 Micro-Exercices Personnalisés</h3>
+                            <p><strong>Exercice 1 (30 sec) - Cercles Poignet :</strong><br>
+                            "Faites 10 rotations lentes du poignet dans le sens horaire, puis 10 dans l'autre sens. 
+                            Gardez les doigts détendus."<br><br>
+                            
+                            <strong>Exercice 2 (45 sec) - Étirement Fléchisseurs :</strong><br>
+                            "Étendez le bras devant vous, paume vers le haut. Avec l'autre main, tirez doucement les doigts 
+                            vers l'arrière. Maintenez 15 secondes, répétez 2 fois."<br><br>
+                            
+                            <strong>Exercice 3 (45 sec) - Étirement Extenseurs :</strong><br>
+                            "Même position, mais paume vers le bas cette fois. Tirez doucement les doigts vers le sol. 
+                            Maintenez 15 secondes, répétez 2 fois."</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-marker"></div>
+                        <div class="timeline-content">
+                            <div class="timeline-time">T+2min : Recommandations Ergonomiques</div>
+                            <h3 style="color: #fff; margin: 10px 0;">🛠️ Ajustements Poste ISO 9241-5</h3>
+                            <p><strong>SafetyAgent suggère :</strong><br>
+                            "J'ai remarqué que votre clavier est légèrement trop haut. Voici comment l'ajuster :<br><br>
+                            
+                            1️⃣ <strong>Hauteur Clavier :</strong> Abaissez-le de 3 cm pour qu'il soit au niveau de vos coudes<br>
+                            2️⃣ <strong>Position Souris :</strong> Rapprochez-la du clavier (actuellement à 45 cm)<br>
+                            3️⃣ <strong>Repose-Poignets :</strong> Un support vous aiderait à maintenir la neutralité<br>
+                            4️⃣ <strong>Souris Alternative :</strong> Considérez une souris verticale (ISO 9241-410)<br><br>
+                            
+                            Voulez-vous que je commande ces équipements pour vous?"</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-marker"></div>
+                        <div class="timeline-content">
+                            <div class="timeline-time">Post-Intervention : Suivi & Analytics</div>
+                            <h3 style="color: #fff; margin: 10px 0;">📊 Dashboard TMS Update</h3>
+                            <p>• Gants confirment : retour position neutre (flexion < 10°)<br>
+                            • HAL recalculé : 8.6 (< AL, zone verte)<br>
+                            • Feedback utilisateur : 👍 Exercices complétés<br>
+                            • Dashboard log : +1 intervention préventive réussie<br>
+                            • ML update : Ajustement seuils personnalisés pour cet utilisateur<br>
+                            • Planification : Rappel ajustement poste dans 24h si non fait</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Multi-Agent Collaboration -->
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-icon">🤝</span>
+                    <h2 class="card-title">Collaboration Multi-Agents</h2>
+                </div>
+                <div class="architecture-grid">
+                    <div class="arch-module">
+                        <div class="arch-header">
+                            <span class="arch-icon">📡</span>
+                            <h3 class="arch-title">Agent Capteurs</h3>
+                        </div>
+                        <p style="color: #94a3b8; font-size: 14px;">Collecte continue données gants + périphériques (100Hz)</p>
+                    </div>
+                    <div class="arch-module">
+                        <div class="arch-header">
+                            <span class="arch-icon">🧮</span>
+                            <h3 class="arch-title">Agent Analyse</h3>
+                        </div>
+                        <p style="color: #94a3b8; font-size: 14px;">Calcul HAL + scoring ML + requêtes KG causales</p>
+                    </div>
+                    <div class="arch-module">
+                        <div class="arch-header">
+                            <span class="arch-icon">🎯</span>
+                            <h3 class="arch-title">Agent Décision</h3>
+                        </div>
+                        <p style="color: #94a3b8; font-size: 14px;">Orchestration interventions graduées selon seuils</p>
+                    </div>
+                    <div class="arch-module">
+                        <div class="arch-header">
+                            <span class="arch-icon">💬</span>
+                            <h3 class="arch-title">Agent Conversationnel</h3>
+                        </div>
+                        <p style="color: #94a3b8; font-size: 14px;">Coaching personnalisé exercices + Q&A ergonomie</p>
+                    </div>
+                    <div class="arch-module">
+                        <div class="arch-header">
+                            <span class="arch-icon">📚</span>
+                            <h3 class="arch-title">Agent Connaissance</h3>
+                        </div>
+                        <p style="color: #94a3b8; font-size: 14px;">Requêtes KG normes + historiques + solutions</p>
+                    </div>
+                    <div class="arch-module">
+                        <div class="arch-header">
+                            <span class="arch-icon">📊</span>
+                            <h3 class="arch-title">Agent Analytics</h3>
+                        </div>
+                        <p style="color: #94a3b8; font-size: 14px;">Agrégation métriques + tendances dashboard</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scenarios Section -->
+        <div id="scenarios" class="content-section">
+            <!-- Scenario 1: Office Worker -->
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-icon">💼</span>
+                    <h2 class="card-title">Scénario 1 : Travailleur de Bureau - Saisie Intensive</h2>
+                </div>
+                
+                <div class="alert-box" style="background: linear-gradient(135deg, rgba(251, 191, 36, 0.15) 0%, rgba(245, 158, 11, 0.1) 100%); border-color: rgba(251, 191, 36, 0.3);">
+                    <div class="alert-header">
+                        <span class="alert-icon">⚠️</span>
+                        <h3 class="alert-title">ALERTE MODÉRÉE - Ajustement Requis</h3>
+                    </div>
+                    <div style="margin-top: 15px;">
+                        <strong>Profil :</strong> Analyste données, 6h/jour saisie Excel + 2h emails<br>
+                        <strong>Détection :</strong> Gants capteurs détectent extension poignet 24° prolongée<br>
+                        <strong>HAL :</strong> 13.8 (> AL = 10, < TLV = 18) - Zone orange<br>
+                        <strong>Durée :</strong> 2h15 sans pause significative
+                    </div>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-value">24°</div>
+                        <div class="stat-label">Extension Poignet</div>
+                        <div class="stat-trend negative">Seuil ISO: 20°</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">5,234</div>
+                        <div class="stat-label">Frappes Clavier/h</div>
+                        <div class="stat-trend negative">Élevé</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">13.8</div>
+                        <div class="stat-label">HAL ACGIH</div>
+                        <div class="stat-trend negative">> AL (10)</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">135 min</div>
+                        <div class="stat-label">Sans Pause</div>
+                        <div class="stat-trend negative">Excessif</div>
+                    </div>
+                </div>
+
+                <h4 style="color: #fff; margin: 25px 0 15px 0; font-size: 18px;">🤖 Intervention AgenticX5</h4>
+                <ul class="feature-list">
+                    <li class="feature-item">
+                        <span class="feature-icon" style="color: #fbbf24;">⚠</span>
+                        <span><strong>T+0s :</strong> Vibration tactile douce gant</span>
+                    </li>
+                    <li class="feature-item">
+                        <span class="feature-icon" style="color: #fbbf24;">⚠</span>
+                        <span><strong>T+2s :</strong> SafetyAgent : "Bonjour Marie! Je remarque que votre poignet est en extension depuis 2h15. Prenons une pause de 3 minutes pour des étirements."</span>
+                    </li>
+                    <li class="feature-item">
+                        <span class="feature-icon" style="color: #fbbf24;">⚠</span>
+                        <span><strong>T+3s :</strong> Guidage vocal exercices (cercles poignet, étirements fléchisseurs/extenseurs)</span>
+                    </li>
+                    <li class="feature-item">
+                        <span class="feature-icon" style="color: #fbbf24;">⚠</span>
+                        <span><strong>T+3min :</strong> "J'ai analysé votre poste. Votre clavier est 4 cm trop haut selon ISO 9241-5. Voulez-vous que je vous aide à l'ajuster?"</span>
+                    </li>
+                    <li class="feature-item">
+                        <span class="feature-icon" style="color: #fbbf24;">⚠</span>
+                        <span><strong>Planification :</strong> Rappels pauses automatiques toutes les 50 minutes désormais</span>
+                    </li>
+                </ul>
+
+                <h4 style="color: #fff; margin: 25px 0 15px 0; font-size: 18px;">🛠️ Recommandations Ergonomiques</h4>
+                <div class="process-flow">
+                    <div class="process-step">
+                        <div class="process-icon">⬇️</div>
+                        <div class="process-title">Court Terme</div>
+                        <div class="process-desc">Abaisser clavier 4 cm + utiliser repose-poignets</div>
+                    </div>
+                    <div class="process-step">
+                        <div class="process-icon">⏱️</div>
+                        <div class="process-title">Pauses</div>
+                        <div class="process-desc">Micro-pauses 2 min / 50 min obligatoires</div>
+                    </div>
+                    <div class="process-step">
+                        <div class="process-icon">🖱️</div>
+                        <div class="process-title">Équipement</div>
+                        <div class="process-desc">Clavier ergonomique négatif + souris verticale</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Scenario 2: Assembly Worker -->
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-icon">🔧</span>
+                    <h2 class="card-title">Scénario 2 : Assemblage Électronique - Mouvements Précis</h2>
+                </div>
+                
+                <div class="alert-box">
+                    <div class="alert-header">
+                        <span class="alert-icon">🚨</span>
+                        <h3 class="alert-title">ALERTE CRITIQUE - HAL > TLV</h3>
+                    </div>
+                    <div style="margin-top: 15px;">
+                        <strong>Profil :</strong> Assembleur composants électroniques, prise pince répétitive<br>
+                        <strong>Détection :</strong> 487 cycles manipulation fine en 55 minutes<br>
+                        <strong>HAL :</strong> 19.4 (> TLV = 18) - Zone rouge critique<br>
+                        <strong>Force :</strong> Pression pincement 18.6 N moyenne (élevée)
+                    </div>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-value">487</div>
+                        <div class="stat-label">Cycles / 55 min</div>
+                        <div class="stat-trend negative">⚠️ Excessif</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">18.6 N</div>
+                        <div class="stat-label">Force Pincement</div>
+                        <div class="stat-trend negative">⚠️ Élevée</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">19.4</div>
+                        <div class="stat-label">HAL ACGIH</div>
+                        <div class="stat-trend negative">⚠️ > TLV (18)</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">76%</div>
+                        <div class="stat-label">Probab. TMS 6 mois</div>
+                        <div class="stat-trend negative">⚠️ Très Élevée</div>
+                    </div>
+                </div>
+
+                <h4 style="color: #fff; margin: 25px 0 15px 0; font-size: 18px;">🚨 Intervention d'Urgence AgenticX5</h4>
+                <ul class="feature-list">
+                    <li class="feature-item">
+                        <span class="feature-icon" style="color: #ef4444;">🚨</span>
+                        <span><strong>T+0s :</strong> Vibration tactile FORTE + alerte sonore</span>
+                    </li>
+                    <li class="feature-item">
+                        <span class="feature-icon" style="color: #ef4444;">🚨</span>
+                        <span><strong>T+1s :</strong> SafetyAgent : "ATTENTION! Votre HAL dépasse le seuil critique ACGIH. Arrêt immédiat requis."</span>
+                    </li>
+                    <li class="feature-item">
+                        <span class="feature-icon" style="color: #ef4444;">🚨</span>
+                        <span><strong>T+2s :</strong> Notification superviseur PRIORITAIRE : "Travailleur #156 - HAL critique détecté - Rotation tâche immédiate"</span>
+                    </li>
+                    <li class="feature-item">
+                        <span class="feature-icon" style="color: #ef4444;">🚨</span>
+                        <span><strong>T+3s :</strong> Agent déclenche protocole rotation automatique (tâche alternative sans préhension fine)</span>
+                    </li>
+                    <li class="feature-item">
+                        <span class="feature-icon" style="color: #ef4444;">🚨</span>
+                        <span><strong>T+5s :</strong> Évaluation ergonomique obligatoire planifiée (CSA Z1004 + ISO 11228-3)</span>
+                    </li>
+                </ul>
+
+                <h4 style="color: #fff; margin: 25px 0 15px 0; font-size: 18px;">🛠️ Actions Correctrices OBLIGATOIRES</h4>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-marker"></div>
+                        <div class="timeline-content">
+                            <div class="timeline-time">IMMÉDIAT (0-15 min)</div>
+                            <h4 style="color: #fff; margin: 10px 0;">Arrêt & Rotation</h4>
+                            <p>• Cessation immédiate tâche assemblage fine<br>
+                            • Rotation vers tâche sans préhension (contrôle qualité visuel)<br>
+                            • Pause obligatoire 15 min + exercices étirement main/poignet</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-marker"></div>
+                        <div class="timeline-content">
+                            <div class="timeline-time">COURT TERME (24-48h)</div>
+                            <h4 style="color: #fff; margin: 10px 0;">Analyse Ergonomique</h4>
+                            <p>• Évaluation poste par ergonome certifié CSA Z1004<br>
+                            • Analyse OCRA détaillée (ISO 11228-3 annexe)<br>
+                            • Identification solutions : outils force réduite, automatisation partielle<br>
+                            • Formation technique maniement composants</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-marker"></div>
+                        <div class="timeline-content">
+                            <div class="timeline-time">MOYEN TERME (1-2 sem)</div>
+                            <h4 style="color: #fff; margin: 10px 0;">Réorganisation Travail</h4>
+                            <p>• Rotation tâches systématique : 45 min assemblage / 45 min autre<br>
+                            • Investissement outillage ergonomique (pinces à force assistée)<br>
+                            • Réduction quotas : 487 → 320 cycles/h maximum<br>
+                            • Pauses micro obligatoires 3 min / 30 min</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="background: rgba(239, 68, 68, 0.1); border: 2px solid rgba(239, 68, 68, 0.3); border-radius: 12px; padding: 20px; margin-top: 25px;">
+                    <h4 style="color: #ef4444; margin: 0 0 15px 0; font-size: 18px;">⚠️ AVERTISSEMENT RÉGLEMENTAIRE</h4>
+                    <p style="color: #94a3b8; font-size: 14px; line-height: 1.8;">
+                        <strong>HAL > TLV (19.4 > 18) :</strong> Ce niveau d'activité main/poignet dépasse les seuils ACGIH TLV 2018 
+                        et constitue un risque élevé de développement du syndrome du canal carpien. Selon l'article 51 de la LSST (Québec), 
+                        l'employeur doit prendre les mesures nécessaires pour protéger la santé du travailleur. La détection AgenticX5 
+                        constitue une preuve documentée du risque, obligeant une action correctrice immédiate sous peine de responsabilité.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Scenario 3: Data Entry -->
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-icon">⌨️</span>
+                    <h2 class="card-title">Scénario 3 : Saisie de Données - Configuration Non-Optimale</h2>
+                </div>
+                
+                <div class="alert-box" style="background: linear-gradient(135deg, rgba(251, 191, 36, 0.15) 0%, rgba(245, 158, 11, 0.1) 100%); border-color: rgba(251, 191, 36, 0.3);">
+                    <div class="alert-header">
+                        <span class="alert-icon">⚠️</span>
+                        <h3 class="alert-title">NON-CONFORMITÉ ISO 9241-5 Détectée</h3>
+                    </div>
+                    <div style="margin-top: 15px;">
+                        <strong>Problème :</strong> Configuration poste non ergonomique (clavier, souris, écran)<br>
+                        <strong>Impact :</strong> Déviation ulnaire 18° + extension poignet 22°<br>
+                        <strong>Durée :</strong> Configuration utilisée depuis 8 mois (risque cumulatif)<br>
+                        <strong>HAL :</strong> 11.2 (> AL) malgré fréquence modérée (posture problématique)
+                    </div>
+                </div>
+
+                <h4 style="color: #fff; margin: 25px 0 15px 0; font-size: 18px;">🔍 Analyse Configuration Poste</h4>
+                <table class="norms-table">
+                    <thead>
+                        <tr>
+                            <th>Élément</th>
+                            <th>Configuration Actuelle</th>
+                            <th>ISO 9241-5:2024</th>
+                            <th>Écart</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Hauteur Clavier</strong></td>
+                            <td>74 cm (surface)</td>
+                            <td>65-70 cm (niveau coudes)</td>
+                            <td>❌ +4-9 cm trop haut</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Inclinaison Clavier</strong></td>
+                            <td>+8° (positive)</td>
+                            <td>-5° à 0° (négative/nulle)</td>
+                            <td>❌ Hyperextension poignet</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Position Souris</strong></td>
+                            <td>48 cm du bord bureau</td>
+                            <td>30-40 cm (portée confortable)</td>
+                            <td>❌ +8-18 cm trop loin</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Hauteur Souris</strong></td>
+                            <td>74 cm</td>
+                            <td>Même plan que clavier (65-70 cm)</td>
+                            <td>❌ +4-9 cm décalage</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Support Poignet</strong></td>
+                            <td>Absent</td>
+                            <td>Recommandé si frappe prolongée</td>
+                            <td>⚠️ Non fourni</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Hauteur Écran</strong></td>
+                            <td>Haut écran 15 cm sous yeux</td>
+                            <td>Haut écran niveau yeux</td>
+                            <td>❌ Flexion cervicale excessive</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h4 style="color: #fff; margin: 25px 0 15px 0; font-size: 18px;">🤖 SafetyAgent - Tutoriel Ajustement Interactif</h4>
+                <div style="background: linear-gradient(135deg, rgba(139, 92, 246, 0.1) 0%, rgba(124, 58, 237, 0.05) 100%); border: 1px solid rgba(139, 92, 246, 0.3); border-radius: 12px; padding: 25px;">
+                    <p style="color: #a78bfa; font-weight: 600; margin-bottom: 15px;">💬 SafetyAgent :</p>
+                    <p style="color: #e0e6ed; margin-bottom: 15px;">
+                        "Bonjour! J'ai détecté 6 non-conformités ISO 9241-5 à votre poste. Je vais vous guider étape par étape 
+                        pour optimiser votre configuration. Cela prendra environ 5 minutes. Êtes-vous prêt à commencer?"
+                    </p>
+                    
+                    <div style="background: rgba(0, 0, 0, 0.3); padding: 15px; border-radius: 8px; margin: 15px 0;">
+                        <p style="color: #94a3b8; font-size: 14px; margin-bottom: 10px;"><strong>Utilisateur :</strong> "Oui, allons-y!"</p>
+                    </div>
+
+                    <p style="color: #e0e6ed; margin-bottom: 15px;">
+                        <strong>Étape 1/6 - Hauteur Siège :</strong><br>
+                        "Commençons par votre siège. Asseyez-vous confortablement. Vos pieds touchent-ils le sol à plat? 
+                        Si non, réglez la hauteur du siège jusqu'à ce que vos pieds soient bien à plat et vos cuisses parallèles au sol. 
+                        Vos genoux doivent former un angle de 90-100°."<br>
+                        [Vidéo démonstration courte 15 sec]<br><br>
+
+                        <strong>Étape 2/6 - Hauteur Clavier :</strong><br>
+                        "Maintenant, placez vos mains sur le clavier. Vos coudes doivent former un angle de 90-100° et vos avant-bras 
+                        doivent être parallèles au sol. Votre clavier est actuellement 4 cm trop haut. Abaissez votre plateau clavier 
+                        ou utilisez le tiroir sous le bureau."<br>
+                        [Image annotée avec flèches et mesures]<br><br>
+
+                        <strong>Étape 3/6 - Inclinaison Clavier :</strong><br>
+                        "Votre clavier a une inclinaison positive de 8° (pieds relevés à l'arrière). Ceci force votre poignet en extension. 
+                        Abaissez les pieds arrière du clavier pour obtenir une inclinaison nulle (0°) ou légèrement négative si possible."<br>
+                        [Photo avant/après]<br><br>
+
+                        <strong>Étape 4/6 - Position Souris :</strong><br>
+                        "Votre souris est 18 cm trop loin. Rapprochez-la pour qu'elle soit à 30-40 cm du bord du bureau, 
+                        juste à côté du clavier (maximum 15 cm d'écart). Elle doit être au même niveau que le clavier."<br>
+                        [Schéma vue de dessus avec dimensions]<br><br>
+
+                        <strong>Étape 5/6 - Support Poignet :</strong><br>
+                        "Pour maintenir vos poignets en position neutre, un repose-poignets est recommandé. J'ai commandé 
+                        deux supports pour vous (clavier + souris). Ils arriveront demain. En attendant, évitez d'appuyer 
+                        vos poignets sur le rebord dur du bureau."<br><br>
+
+                        <strong>Étape 6/6 - Hauteur Écran :</strong><br>
+                        "Enfin, votre écran est trop bas de 15 cm. Rehaussez-le avec des livres ou un support d'écran pour que 
+                        le haut de l'écran soit au niveau de vos yeux. Distance optimale : 50-70 cm de vos yeux."<br>
+                        [Vidéo ajustement 20 sec]
+                    </p>
+
+                    <p style="color: #4ade80; font-weight: 600; margin-top: 20px;">
+                        ✅ "Parfait! Votre poste est maintenant conforme à ISO 9241-5. Je vais surveiller votre posture 
+                        pendant les prochains jours pour confirmer l'amélioration. N'hésitez pas à me poser des questions!"
+                    </p>
+                </div>
+
+                <h4 style="color: #fff; margin: 25px 0 15px 0; font-size: 18px;">📊 Résultats Après Ajustement (J+3)</h4>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-value">4°</div>
+                        <div class="stat-label">Extension Poignet</div>
+                        <div class="stat-trend positive">Avant: 22° ✅ -82%</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">5°</div>
+                        <div class="stat-label">Déviation Ulnaire</div>
+                        <div class="stat-trend positive">Avant: 18° ✅ -72%</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">6.8</div>
+                        <div class="stat-label">HAL ACGIH</div>
+                        <div class="stat-trend positive">Avant: 11.2 ✅ -39%</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">95%</div>
+                        <div class="stat-label">Temps Position Neutre</div>
+                        <div class="stat-trend positive">Avant: 62% ✅ +53%</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Coaching Section -->
+        <div id="coaching" class="content-section">
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-icon">💬</span>
+                    <h2 class="card-title">SafetyAgent - Assistant Conversationnel</h2>
+                </div>
+                <p style="margin-bottom: 30px;">
+                    SafetyAgent est votre coach personnel en ergonomie, disponible 24/7 pour répondre à vos questions, 
+                    vous guider dans les exercices préventifs et vous aider à optimiser votre poste de travail.
+                </p>
+            </div>
+
+            <!-- Chat Demo -->
+            <div class="chat-container">
+                <div class="chat-messages" id="chatMessages">
+                    <!-- Messages will be dynamically added here -->
+                </div>
+                <div class="chat-input-container">
+                    <input type="text" id="chatInput" class="chat-input" placeholder="Posez une question à SafetyAgent..." />
+                    <button class="chat-send-btn" onclick="sendMessage()">Envoyer</button>
+                </div>
+            </div>
+
+            <!-- Pre-defined Exercise Library -->
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-icon">🧘</span>
+                    <h2 class="card-title">Bibliothèque d'Exercices Préventifs</h2>
+                </div>
+                
+                <div class="exercise-card">
+                    <div class="exercise-title">🔄 Cercles de Poignet</div>
+                    <div class="exercise-duration">⏱️ 30 secondes</div>
+                    <p style="color: #94a3b8; margin-top: 10px;">
+                        <strong>Instructions :</strong> Faites 10 rotations lentes du poignet dans le sens horaire, 
+                        puis 10 dans le sens antihoraire. Gardez les doigts détendus et le mouvement fluide.
+                    </p>
+                    <p style="color: #94a3b8; margin-top: 10px;">
+                        <strong>Bénéfices :</strong> Améliore la mobilité articulaire, réduit la raideur, favorise la circulation sanguine.
+                    </p>
+                    <button class="btn btn-secondary" style="margin-top: 15px;" onclick="startExercise('cercles')">
+                        ▶️ Démarrer Guidage Vocal
+                    </button>
+                </div>
+
+                <div class="exercise-card">
+                    <div class="exercise-title">🙏 Étirement Fléchisseurs</div>
+                    <div class="exercise-duration">⏱️ 45 secondes</div>
+                    <p style="color: #94a3b8; margin-top: 10px;">
+                        <strong>Instructions :</strong> Étendez le bras devant vous, paume vers le haut. 
+                        Avec l'autre main, tirez doucement les doigts vers l'arrière jusqu'à sentir un étirement 
+                        dans l'avant-bras. Maintenez 15 secondes, répétez 2 fois par bras.
+                    </p>
+                    <p style="color: #94a3b8; margin-top: 10px;">
+                        <strong>Bénéfices :</strong> Étire les muscles fléchisseurs du poignet, réduit tension nerveuse, prévient canal carpien.
+                    </p>
+                    <button class="btn btn-secondary" style="margin-top: 15px;" onclick="startExercise('flechisseurs')">
+                        ▶️ Démarrer Guidage Vocal
+                    </button>
+                </div>
+
+                <div class="exercise-card">
+                    <div class="exercise-title">🙌 Étirement Extenseurs</div>
+                    <div class="exercise-duration">⏱️ 45 secondes</div>
+                    <p style="color: #94a3b8; margin-top: 10px;">
+                        <strong>Instructions :</strong> Étendez le bras devant vous, paume vers le bas. 
+                        Avec l'autre main, tirez doucement les doigts vers le sol jusqu'à sentir un étirement 
+                        sur le dessus de l'avant-bras. Maintenez 15 secondes, répétez 2 fois par bras.
+                    </p>
+                    <p style="color: #94a3b8; margin-top: 10px;">
+                        <strong>Bénéfices :</strong> Étire les muscles extenseurs du poignet, prévient tendinite, équilibre musculaire.
+                    </p>
+                    <button class="btn btn-secondary" style="margin-top: 15px;" onclick="startExercise('extenseurs')">
+                        ▶️ Démarrer Guidage Vocal
+                    </button>
+                </div>
+
+                <div class="exercise-card">
+                    <div class="exercise-title">✊ Serrage-Relâchement Main</div>
+                    <div class="exercise-duration">⏱️ 60 secondes</div>
+                    <p style="color: #94a3b8; margin-top: 10px;">
+                        <strong>Instructions :</strong> Serrez les poings fermement pendant 5 secondes, 
+                        puis ouvrez grand les mains en écartant les doigts pendant 5 secondes. Répétez 6 fois. 
+                        Option : utiliser une balle anti-stress.
+                    </p>
+                    <p style="color: #94a3b8; margin-top: 10px;">
+                        <strong>Bénéfices :</strong> Renforce muscles intrinsèques main, améliore préhension, réduit fatigue.
+                    </p>
+                    <button class="btn btn-secondary" style="margin-top: 15px;" onclick="startExercise('serrage')">
+                        ▶️ Démarrer Guidage Vocal
+                    </button>
+                </div>
+
+                <div class="exercise-card">
+                    <div class="exercise-title">🖐️ Écartement Doigts (Araignée)</div>
+                    <div class="exercise-duration">⏱️ 45 secondes</div>
+                    <p style="color: #94a3b8; margin-top: 10px;">
+                        <strong>Instructions :</strong> Placez les deux mains paume contre paume, doigts joints. 
+                        Écartez doucement les doigts tout en gardant les paumes ensemble (comme une araignée qui monte). 
+                        Maintenez 10 secondes, répétez 3 fois.
+                    </p>
+                    <p style="color: #94a3b8; margin-top: 10px;">
+                        <strong>Bénéfices :</strong> Étire muscles interosseux, améliore mobilité doigts, réduit crampes.
+                    </p>
+                    <button class="btn btn-secondary" style="margin-top: 15px;" onclick="startExercise('araignee')">
+                        ▶️ Démarrer Guidage Vocal
+                    </button>
+                </div>
+
+                <div class="exercise-card">
+                    <div class="exercise-title">🤲 Prière Inversée (Prayer Stretch)</div>
+                    <div class="exercise-duration">⏱️ 60 secondes</div>
+                    <p style="color: #94a3b8; margin-top: 10px;">
+                        <strong>Instructions :</strong> Placez les mains en position de prière devant la poitrine. 
+                        Abaissez lentement les mains vers le nombril en gardant les paumes jointes jusqu'à sentir 
+                        un étirement dans les poignets et avant-bras. Maintenez 20 secondes, répétez 2 fois.
+                    </p>
+                    <p style="color: #94a3b8; margin-top: 10px;">
+                        <strong>Bénéfices :</strong> Étirement complet fléchisseurs, décompression canal carpien, améliore flexibilité.
+                    </p>
+                    <button class="btn btn-secondary" style="margin-top: 15px;" onclick="startExercise('priere')">
+                        ▶️ Démarrer Guidage Vocal
+                    </button>
+                </div>
+            </div>
+
+            <!-- Conversational Capabilities -->
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-icon">🎯</span>
+                    <h2 class="card-title">Capacités Conversationnelles SafetyAgent</h2>
+                </div>
+                <div class="architecture-grid">
+                    <div class="arch-module">
+                        <div class="arch-header">
+                            <span class="arch-icon">💬</span>
+                            <h3 class="arch-title">Q&A Ergonomie</h3>
+                        </div>
+                        <p style="color: #94a3b8; font-size: 14px;">
+                            Réponses contextuelles sur normes ISO, ajustements poste, équipements recommandés
+                        </p>
+                    </div>
+                    <div class="arch-module">
+                        <div class="arch-header">
+                            <span class="arch-icon">🧘</span>
+                            <h3 class="arch-title">Coaching Exercices</h3>
+                        </div>
+                        <p style="color: #94a3b8; font-size: 14px;">
+                            Guidage vocal/vidéo personnalisé selon profil risque et préférences
+                        </p>
+                    </div>
+                    <div class="arch-module">
+                        <div class="arch-header">
+                            <span class="arch-icon">🛠️</span>
+                            <h3 class="arch-title">Tutoriels Ajustement</h3>
+                        </div>
+                        <p style="color: #94a3b8; font-size: 14px;">
+                            Instructions étape par étape pour optimisation poste (CCOHS/OSHA)
+                        </p>
+                    </div>
+                    <div class="arch-module">
+                        <div class="arch-header">
+                            <span class="arch-icon">📊</span>
+                            <h3 class="arch-title">Rapport Personnalisé</h3>
+                        </div>
+                        <p style="color: #94a3b8; font-size: 14px;">
+                            Analyse historique HAL, tendances posture, recommandations prioritaires
+                        </p>
+                    </div>
+                    <div class="arch-module">
+                        <div class="arch-header">
+                            <span class="arch-icon">⏰</span>
+                            <h3 class="arch-title">Rappels Intelligents</h3>
+                        </div>
+                        <p style="color: #94a3b8; font-size: 14px;">
+                            Pauses adaptatives selon activité détectée, pas de notifications inutiles
+                        </p>
+                    </div>
+                    <div class="arch-module">
+                        <div class="arch-header">
+                            <span class="arch-icon">🌐</span>
+                            <h3 class="arch-title">Multilingue</h3>
+                        </div>
+                        <p style="color: #94a3b8; font-size: 14px;">
+                            Support FR/EN, adaptation langage selon niveau utilisateur (novice/expert)
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Demo Section -->
+        <div id="demo" class="content-section">
+            <div class="demo-container">
+                <div class="card-header">
+                    <span class="card-icon">🎮</span>
+                    <h2 class="card-title">Démo Interactive - Simulateur Canal Carpien</h2>
+                </div>
+                
+                <p style="margin: 20px 0; color: #94a3b8;">
+                    Simulez en temps réel la détection AgenticX5 des mouvements de poignet et de la main. 
+                    Ajustez les paramètres pour voir comment le système calcule le HAL ACGIH et déclenche les interventions.
+                </p>
+
+                <!-- Hand Visualization -->
+                <div class="hand-viz" id="handViz">
+                    🖐️
+                </div>
+
+                <!-- Sensor Display -->
+                <div class="sensor-display">
+                    <div class="sensor-box">
+                        <div class="sensor-label">Flexion/Extension</div>
+                        <div class="sensor-value" id="flexion">0°</div>
+                        <div class="sensor-label" id="flexion-status">Neutre</div>
+                    </div>
+                    <div class="sensor-box">
+                        <div class="sensor-label">Déviation Ulnaire</div>
+                        <div class="sensor-value" id="deviation">0°</div>
+                        <div class="sensor-label" id="deviation-status">Normal</div>
+                    </div>
+                    <div class="sensor-box">
+                        <div class="sensor-label">Force Préhension</div>
+                        <div class="sensor-value" id="grip">5.2 N</div>
+                        <div class="sensor-label" id="grip-status">Faible</div>
+                    </div>
+                    <div class="sensor-box">
+                        <div class="sensor-label">Frappes/Clics (min)</div>
+                        <div class="sensor-value" id="frequency">0</div>
+                        <div class="sensor-label" id="frequency-status">Aucune</div>
+                    </div>
+                    <div class="sensor-box">
+                        <div class="sensor-label">HAL ACGIH</div>
+                        <div class="sensor-value" id="hal-score">3.2</div>
+                        <div class="sensor-label" id="hal-status">Faible</div>
+                    </div>
+                    <div class="sensor-box">
+                        <div class="sensor-label">Temps Exposition</div>
+                        <div class="sensor-value" id="exposure">0:00</div>
+                        <div class="sensor-label" id="exposure-status">Début</div>
+                    </div>
+                </div>
+
+                <!-- Controls -->
+                <div style="margin: 40px 0;">
+                    <h3 style="color: #fff; margin-bottom: 20px;">Paramètres de Simulation</h3>
+                    
+                    <div style="margin-bottom: 25px;">
+                        <label style="display: block; color: #94a3b8; margin-bottom: 10px; font-weight: 600;">
+                            Angle Flexion/Extension Poignet: <span id="flex-value">0°</span>
+                        </label>
+                        <input type="range" id="flex-slider" min="-40" max="40" value="0" 
+                               style="width: 100%; height: 8px; border-radius: 5px; background: linear-gradient(90deg, #4ade80 0%, #fbbf24 50%, #ef4444 100%); outline: none;">
+                    </div>
+
+                    <div style="margin-bottom: 25px;">
+                        <label style="display: block; color: #94a3b8; margin-bottom: 10px; font-weight: 600;">
+                            Déviation Ulnaire: <span id="dev-value">0°</span>
+                        </label>
+                        <input type="range" id="dev-slider" min="0" max="30" value="0" 
+                               style="width: 100%; height: 8px; border-radius: 5px; background: linear-gradient(90deg, #4ade80 0%, #fbbf24 50%, #ef4444 100%); outline: none;">
+                    </div>
+
+                    <div style="margin-bottom: 25px;">
+                        <label style="display: block; color: #94a3b8; margin-bottom: 10px; font-weight: 600;">
+                            Force Préhension (N): <span id="force-value">5</span>
+                        </label>
+                        <input type="range" id="force-slider" min="2" max="25" value="5" 
+                               style="width: 100%; height: 8px; border-radius: 5px; background: linear-gradient(90deg, #4ade80 0%, #fbbf24 50%, #ef4444 100%); outline: none;">
+                    </div>
+
+                    <div style="margin-bottom: 25px;">
+                        <label style="display: block; color: #94a3b8; margin-bottom: 10px; font-weight: 600;">
+                            Fréquence Mouvements (cycles/min): <span id="freq-value2">0</span>
+                        </label>
+                        <input type="range" id="freq-slider2" min="0" max="150" value="0" 
+                               style="width: 100%; height: 8px; border-radius: 5px; background: linear-gradient(90deg, #4ade80 0%, #fbbf24 50%, #ef4444 100%); outline: none;">
+                    </div>
+
+                    <div style="display: flex; gap: 15px; flex-wrap: wrap;">
+                        <button class="btn btn-primary" onclick="startDemoSimulation()">
+                            ▶️ Démarrer Simulation
+                        </button>
+                        <button class="btn btn-secondary" onclick="pauseDemoSimulation()">
+                            ⏸️ Pause
+                        </button>
+                        <button class="btn btn-secondary" onclick="resetDemoSimulation()">
+                            🔄 Réinitialiser
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Alert Display -->
+                <div id="demo-alert-display" style="margin-top: 30px; min-height: 100px;">
+                    <!-- Alerts will be dynamically inserted here -->
+                </div>
+
+                <!-- Recommendations Display -->
+                <div id="demo-recommendations" style="margin-top: 30px; display: none;">
+                    <h3 style="color: #fff; margin-bottom: 15px;">🤖 Recommandations SafetyAgent</h3>
+                    <ul id="demo-recommendation-list" class="feature-list">
+                        <!-- Recommendations will be dynamically inserted here -->
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Navigation
+        function showSection(sectionId) {
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            document.querySelectorAll('.nav-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            document.getElementById(sectionId).classList.add('active');
+            event.target.classList.add('active');
+            
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        }
+
+        // Chat functionality
+        const chatMessages = document.getElementById('chatMessages');
+        const predefinedResponses = {
+            'bonjour': "Bonjour! Je suis SafetyAgent, votre assistant ergonomie. Comment puis-je vous aider aujourd'hui?",
+            'exercice': "Je peux vous guider à travers plusieurs exercices préventifs : cercles de poignet, étirements fléchisseurs/extenseurs, serrage-relâchement. Lequel vous intéresse?",
+            'douleur': "Si vous ressentez une douleur au poignet, je recommande : 1) Arrêt immédiat de l'activité, 2) Application de glace 10-15 min, 3) Consultation médicale si persistant. Voulez-vous des exercices de soulagement doux?",
+            'clavier': "Pour ajuster votre clavier selon ISO 9241-5 : abaissez-le au niveau de vos coudes, inclinaison nulle ou négative, distance 30-40 cm. Je peux vous guider étape par étape?",
+            'souris': "Position optimale souris : même plan que clavier, 30-40 cm du bord, maximum 15 cm du clavier. Considérez une souris verticale (ISO 9241-410) si problèmes persistants.",
+            'pause': "Selon votre HAL actuel, je recommande des micro-pauses de 2 min toutes les 50 min. Voulez-vous que je configure des rappels automatiques?",
+            'hal': "Le HAL (Hand Activity Level) ACGIH évalue le risque TMS selon fréquence × force. AL (10) = début risque, TLV (18) = risque élevé. Votre HAL actuel est disponible dans le dashboard.",
+            'default': "Je peux vous aider avec : configuration poste ergonomique, exercices préventifs, explications HAL/normes ISO, rappels pauses, recommandations équipement. Que souhaitez-vous savoir?"
+        };
+
+        function addMessage(text, isUser) {
+            const message = document.createElement('div');
+            message.className = `message ${isUser ? 'user' : 'agent'}`;
+            
+            const avatar = document.createElement('div');
+            avatar.className = 'message-avatar';
+            avatar.textContent = isUser ? '👤' : '🤖';
+            
+            const content = document.createElement('div');
+            content.className = 'message-content';
+            content.innerHTML = `
+                <p>${text}</p>
+                <div class="message-time">${new Date().toLocaleTimeString('fr-CA', {hour: '2-digit', minute: '2-digit'})}</div>
+            `;
+            
+            message.appendChild(avatar);
+            message.appendChild(content);
+            chatMessages.appendChild(message);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function sendMessage() {
+            const input = document.getElementById('chatInput');
+            const message = input.value.trim();
+            
+            if (message) {
+                addMessage(message, true);
+                input.value = '';
+                
+                // Simulate agent response
+                setTimeout(() => {
+                    const lowerMessage = message.toLowerCase();
+                    let response = predefinedResponses.default;
+                    
+                    for (const [key, value] of Object.entries(predefinedResponses)) {
+                        if (key !== 'default' && lowerMessage.includes(key)) {
+                            response = value;
+                            break;
+                        }
+                    }
+                    
+                    addMessage(response, false);
+                }, 1000);
+            }
+        }
+
+        document.getElementById('chatInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+
+        // Initialize chat with welcome message
+        addMessage("Bonjour! Je suis SafetyAgent, votre assistant personnel en ergonomie. Je peux vous aider avec la configuration de votre poste, des exercices préventifs, ou répondre à vos questions sur le syndrome du canal carpien. Comment puis-je vous aider?", false);
+
+        // Exercise guidance
+        function startExercise(type) {
+            alert(`🎙️ Guidage vocal de l'exercice "${type}" démarré!\n\nEn production, ceci déclencherait:\n- Voix ElevenLabs naturelle\n- Vidéo démonstration\n- Tracking complétion\n- Feedback post-exercice`);
+        }
+
+        // Demo Simulation Variables
+        let demoSimulationRunning = false;
+        let demoSimulationTime = 0;
+        let demoSimulationInterval;
+
+        function startDemoSimulation() {
+            if (demoSimulationRunning) return;
+            
+            demoSimulationRunning = true;
+            demoSimulationTime = 0;
+            
+            demoSimulationInterval = setInterval(updateDemoSimulation, 1000);
+            
+            document.getElementById('demo-alert-display').innerHTML = `
+                <div style="background: rgba(74, 222, 128, 0.1); border: 1px solid rgba(74, 222, 128, 0.3); border-radius: 12px; padding: 20px;">
+                    <div style="display: flex; align-items: center; gap: 15px;">
+                        <span style="font-size: 32px;">✅</span>
+                        <div>
+                            <h4 style="color: #4ade80; margin: 0 0 5px 0;">Simulation Démarrée</h4>
+                            <p style="color: #94a3b8; margin: 0; font-size: 14px;">Monitoring gants capteurs activé</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function pauseDemoSimulation() {
+            demoSimulationRunning = false;
+            clearInterval(demoSimulationInterval);
+        }
+
+        function resetDemoSimulation() {
+            pauseDemoSimulation();
+            demoSimulationTime = 0;
+            
+            document.getElementById('flexion').textContent = '0°';
+            document.getElementById('deviation').textContent = '0°';
+            document.getElementById('grip').textContent = '5.2 N';
+            document.getElementById('frequency').textContent = '0';
+            document.getElementById('hal-score').textContent = '3.2';
+            document.getElementById('exposure').textContent = '0:00';
+            
+            document.getElementById('flexion-status').textContent = 'Neutre';
+            document.getElementById('deviation-status').textContent = 'Normal';
+            document.getElementById('grip-status').textContent = 'Faible';
+            document.getElementById('frequency-status').textContent = 'Aucune';
+            document.getElementById('hal-status').textContent = 'Faible';
+            document.getElementById('exposure-status').textContent = 'Début';
+            
+            document.getElementById('demo-alert-display').innerHTML = '';
+            document.getElementById('demo-recommendations').style.display = 'none';
+        }
+
+        function updateDemoSimulation() {
+            demoSimulationTime++;
+            
+            const flexion = parseInt(document.getElementById('flex-slider').value);
+            const deviation = parseInt(document.getElementById('dev-slider').value);
+            const force = parseInt(document.getElementById('force-slider').value);
+            const frequency = parseInt(document.getElementById('freq-slider2').value);
+            
+            // Update displays
+            document.getElementById('flexion').textContent = (flexion >= 0 ? '+' : '') + flexion + '°';
+            document.getElementById('deviation').textContent = deviation + '°';
+            document.getElementById('grip').textContent = force.toFixed(1) + ' N';
+            document.getElementById('frequency').textContent = frequency;
+            
+            const minutes = Math.floor(demoSimulationTime / 60);
+            const seconds = demoSimulationTime % 60;
+            document.getElementById('exposure').textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+            
+            // Calculate HAL (simplified formula)
+            let halScore = 0;
+            
+            // Frequency factor
+            if (frequency < 20) {
+                halScore += (frequency / 20) * 3;
+            } else if (frequency < 50) {
+                halScore += 3 + ((frequency - 20) / 30) * 4;
+            } else {
+                halScore += 7 + ((frequency - 50) / 100) * 6;
+            }
+            
+            // Force factor
+            if (force < 8) {
+                halScore += (force / 8) * 2;
+            } else if (force < 15) {
+                halScore += 2 + ((force - 8) / 7) * 3;
+            } else {
+                halScore += 5 + ((force - 15) / 10) * 4;
+            }
+            
+            // Posture penalty
+            const absFlexion = Math.abs(flexion);
+            if (absFlexion > 20) {
+                halScore += ((absFlexion - 20) / 20) * 3;
+            }
+            if (deviation > 10) {
+                halScore += ((deviation - 10) / 20) * 2;
+            }
+            
+            // Time factor
+            halScore += Math.min((demoSimulationTime / 1800) * 2, 2);
+            
+            halScore = Math.min(halScore, 25).toFixed(1);
+            document.getElementById('hal-score').textContent = halScore;
+            
+            // Update status
+            updateDemoStatus(flexion, deviation, force, frequency, halScore, demoSimulationTime);
+        }
+
+        function updateDemoStatus(flexion, deviation, force, frequency, halScore, time) {
+            const flexionStatus = document.getElementById('flexion-status');
+            const deviationStatus = document.getElementById('deviation-status');
+            const gripStatus = document.getElementById('grip-status');
+            const frequencyStatus = document.getElementById('frequency-status');
+            const halStatus = document.getElementById('hal-status');
+            const exposureStatus = document.getElementById('exposure-status');
+            const alertDisplay = document.getElementById('demo-alert-display');
+            const recommendations = document.getElementById('demo-recommendations');
+            
+            // Update statuses with colors
+            const absFlexion = Math.abs(flexion);
+            if (absFlexion < 15) {
+                flexionStatus.textContent = 'Neutre';
+                flexionStatus.style.color = '#4ade80';
+            } else if (absFlexion < 25) {
+                flexionStatus.textContent = 'Limite';
+                flexionStatus.style.color = '#fbbf24';
+            } else {
+                flexionStatus.textContent = 'Excessif';
+                flexionStatus.style.color = '#ef4444';
+            }
+            
+            if (deviation < 10) {
+                deviationStatus.textContent = 'Normal';
+                deviationStatus.style.color = '#4ade80';
+            } else if (deviation < 18) {
+                deviationStatus.textContent = 'Modéré';
+                deviationStatus.style.color = '#fbbf24';
+            } else {
+                deviationStatus.textContent = 'Élevé';
+                deviationStatus.style.color = '#ef4444';
+            }
+            
+            if (force < 8) {
+                gripStatus.textContent = 'Faible';
+                gripStatus.style.color = '#4ade80';
+            } else if (force < 15) {
+                gripStatus.textContent = 'Modérée';
+                gripStatus.style.color = '#fbbf24';
+            } else {
+                gripStatus.textContent = 'Excessive';
+                gripStatus.style.color = '#ef4444';
+            }
+            
+            if (frequency < 30) {
+                frequencyStatus.textContent = 'Faible';
+                frequencyStatus.style.color = '#4ade80';
+            } else if (frequency < 80) {
+                frequencyStatus.textContent = 'Modérée';
+                frequencyStatus.style.color = '#fbbf24';
+            } else {
+                frequencyStatus.textContent = 'Élevée';
+                frequencyStatus.style.color = '#ef4444';
+            }
+            
+            if (halScore < 10) {
+                halStatus.textContent = 'Faible (< AL)';
+                halStatus.style.color = '#4ade80';
+            } else if (halScore < 18) {
+                halStatus.textContent = 'Modéré (> AL)';
+                halStatus.style.color = '#fbbf24';
+            } else {
+                halStatus.textContent = 'Élevé (> TLV)';
+                halStatus.style.color = '#ef4444';
+            }
+            
+            if (time < 600) {
+                exposureStatus.textContent = 'Début';
+                exposureStatus.style.color = '#4ade80';
+            } else if (time < 1800) {
+                exposureStatus.textContent = 'Modérée';
+                exposureStatus.style.color = '#fbbf24';
+            } else {
+                exposureStatus.textContent = 'Prolongée';
+                exposureStatus.style.color = '#ef4444';
+            }
+            
+            // Generate alerts based on HAL
+            if (halScore >= 18) {
+                alertDisplay.innerHTML = `
+                    <div style="background: rgba(239, 68, 68, 0.15); border: 2px solid rgba(239, 68, 68, 0.3); border-radius: 12px; padding: 20px;">
+                        <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 15px;">
+                            <span style="font-size: 32px;">🚨</span>
+                            <div>
+                                <h4 style="color: #ef4444; margin: 0 0 5px 0;">ALERTE CRITIQUE - HAL > TLV</h4>
+                                <p style="color: #94a3b8; margin: 0; font-size: 14px;">Intervention immédiate requise selon ACGIH</p>
+                            </div>
+                        </div>
+                        <p style="color: #e0e6ed; margin: 0;">
+                            Niveau d'activité main critique détecté (${halScore} > 18). Risque élevé syndrome canal carpien.
+                        </p>
+                    </div>
+                `;
+                
+                recommendations.style.display = 'block';
+                document.getElementById('demo-recommendation-list').innerHTML = `
+                    <li class="feature-item">
+                        <span class="feature-icon" style="color: #ef4444;">🚨</span>
+                        <span><strong>ARRÊT IMMÉDIAT</strong> de la tâche en cours</span>
+                    </li>
+                    <li class="feature-item">
+                        <span class="feature-icon" style="color: #ef4444;">🔄</span>
+                        <span>Rotation tâche obligatoire - Pas de préhension fine</span>
+                    </li>
+                    <li class="feature-item">
+                        <span class="feature-icon" style="color: #ef4444;">⏸️</span>
+                        <span>Pause 15 minutes + exercices étirement</span>
+                    </li>
+                    <li class="feature-item">
+                        <span class="feature-icon" style="color: #ef4444;">🏥</span>
+                        <span>Consultation superviseur / équipe SST</span>
+                    </li>
+                    <li class="feature-item">
+                        <span class="feature-icon" style="color: #ef4444;">📋</span>
+                        <span>Évaluation ergonomique CSA Z1004 requise</span>
+                    </li>
+                `;
+            } else if (halScore >= 10) {
+                alertDisplay.innerHTML = `
+                    <div style="background: rgba(251, 191, 36, 0.15); border: 2px solid rgba(251, 191, 36, 0.3); border-radius: 12px; padding: 20px;">
+                        <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 15px;">
+                            <span style="font-size: 32px;">⚠️</span>
+                            <div>
+                                <h4 style="color: #fbbf24; margin: 0 0 5px 0;">ALERTE MODÉRÉE - HAL > AL</h4>
+                                <p style="color: #94a3b8; margin: 0; font-size: 14px;">Micro-pauses recommandées</p>
+                            </div>
+                        </div>
+                        <p style="color: #e0e6ed; margin: 0;">
+                            HAL au-dessus du seuil d'action ACGIH (${halScore} > 10). Intervention préventive conseillée.
+                        </p>
+                    </div>
+                `;
+                
+                recommendations.style.display = 'block';
+                document.getElementById('demo-recommendation-list').innerHTML = `
+                    <li class="feature-item">
+                        <span class="feature-icon" style="color: #fbbf24;">⚠️</span>
+                        <span>Micro-pause de 2 minutes recommandée</span>
+                    </li>
+                    <li class="feature-item">
+                        <span class="feature-icon" style="color: #fbbf24;">🧘</span>
+                        <span>Exercices étirement poignet/main (cercles + fléchisseurs)</span>
+                    </li>
+                    <li class="feature-item">
+                        <span class="feature-icon" style="color: #fbbf24;">📐</span>
+                        <span>Vérifier position neutre poignet (< 20° flex/ext)</span>
+                    </li>
+                    <li class="feature-item">
+                        <span class="feature-icon" style="color: #fbbf24;">⏱️</span>
+                        <span>Planifier pauses automatiques toutes les 50 min</span>
+                    </li>
+                `;
+            } else {
+                alertDisplay.innerHTML = `
+                    <div style="background: rgba(74, 222, 128, 0.1); border: 1px solid rgba(74, 222, 128, 0.3); border-radius: 12px; padding: 20px;">
+                        <div style="display: flex; align-items: center; gap: 15px;">
+                            <span style="font-size: 32px;">✅</span>
+                            <div>
+                                <h4 style="color: #4ade80; margin: 0 0 5px 0;">Statut Normal</h4>
+                                <p style="color: #94a3b8; margin: 0; font-size: 14px;">HAL en zone sécuritaire (< AL)</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                recommendations.style.display = 'none';
+            }
+        }
+
+        // Slider updates
+        document.getElementById('flex-slider').addEventListener('input', function() {
+            const value = this.value;
+            document.getElementById('flex-value').textContent = (value >= 0 ? '+' : '') + value + '°';
+        });
+
+        document.getElementById('dev-slider').addEventListener('input', function() {
+            const value = this.value;
+            document.getElementById('dev-value').textContent = value + '°';
+        });
+
+        document.getElementById('force-slider').addEventListener('input', function() {
+            const value = this.value;
+            document.getElementById('force-value').textContent = value;
+        });
+
+        document.getElementById('freq-slider2').addEventListener('input', function() {
+            const value = this.value;
+            document.getElementById('freq-value2').textContent = value;
+        });
+    </script>
+</body>
+</html>

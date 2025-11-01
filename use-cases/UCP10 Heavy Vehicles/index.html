@@ -1,0 +1,1388 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UC-P10: Véhicules Lourds - Collision | AgenticX5</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        .presentation-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Language Toggle */
+        .language-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+            border-radius: 50px;
+            padding: 10px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .lang-btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 50px;
+            background: transparent;
+            color: #fff;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        .lang-btn.active {
+            background: #FF9800;
+            box-shadow: 0 5px 15px rgba(255,152,0,0.4);
+        }
+
+        .lang-btn:hover:not(.active) {
+            background: rgba(255,255,255,0.1);
+        }
+
+        .slide {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 60px 40px;
+            opacity: 0;
+            animation: slideIn 1s forwards;
+            margin-bottom: 40px;
+        }
+
+        @keyframes slideIn {
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* Hero Slide */
+        .hero-slide {
+            background: linear-gradient(135deg, #1a1a2e 0%, #FF9800 50%, #F57C00 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-slide::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                repeating-linear-gradient(
+                    45deg,
+                    rgba(255,152,0,0.1) 0px,
+                    rgba(255,152,0,0.1) 20px,
+                    transparent 20px,
+                    transparent 40px
+                );
+            animation: cautionStripes 2s linear infinite;
+        }
+
+        @keyframes cautionStripes {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(40px); }
+        }
+
+        .hero-content {
+            text-align: center;
+            z-index: 1;
+        }
+
+        .vehicle-icon {
+            font-size: 120px;
+            margin-bottom: 30px;
+            animation: vehicleMove 3s ease-in-out infinite;
+        }
+
+        @keyframes vehicleMove {
+            0%, 100% { transform: translateX(-20px); }
+            50% { transform: translateX(20px); }
+        }
+
+        h1 {
+            font-size: 4em;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            animation: fadeInUp 1s ease-out 0.3s both;
+        }
+
+        .subtitle {
+            font-size: 1.8em;
+            opacity: 0.9;
+            margin-bottom: 30px;
+            animation: fadeInUp 1s ease-out 0.5s both;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .badge {
+            display: inline-block;
+            background: rgba(244,67,54,0.9);
+            padding: 15px 35px;
+            border-radius: 50px;
+            font-size: 1.3em;
+            font-weight: bold;
+            margin-top: 20px;
+            animation: pulse 2s infinite;
+            border: 3px solid #fff;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        /* Content Slides */
+        .content-slide {
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 60px;
+            max-width: 1200px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+        }
+
+        h2 {
+            font-size: 2.8em;
+            margin-bottom: 40px;
+            text-align: center;
+            border-bottom: 3px solid #FF9800;
+            padding-bottom: 20px;
+        }
+
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+
+        .stat-card {
+            background: rgba(255,255,255,0.1);
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: 2px solid rgba(255,255,255,0.2);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(255,152,0,0.4);
+        }
+
+        .stat-number {
+            font-size: 3.5em;
+            font-weight: bold;
+            color: #FF9800;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        /* 360° Detection Visualization */
+        .detection-visual {
+            background: linear-gradient(135deg, rgba(255,152,0,0.3) 0%, rgba(255,152,0,0.1) 100%);
+            padding: 40px;
+            border-radius: 20px;
+            margin: 40px 0;
+            border: 3px solid rgba(255,152,0,0.5);
+            position: relative;
+        }
+
+        .vehicle-diagram {
+            width: 300px;
+            height: 200px;
+            background: #455A64;
+            border-radius: 20px;
+            margin: 50px auto;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .detection-zone {
+            position: absolute;
+            border: 3px solid #FF9800;
+            border-radius: 50%;
+            animation: radarPulse 2s infinite;
+        }
+
+        .zone-front {
+            width: 400px;
+            height: 300px;
+            top: -150px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-color: #F44336;
+        }
+
+        .zone-back {
+            width: 350px;
+            height: 250px;
+            bottom: -125px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-color: #FFC107;
+        }
+
+        .zone-left {
+            width: 300px;
+            height: 300px;
+            left: -150px;
+            top: 50%;
+            transform: translateY(-50%);
+            border-color: #4CAF50;
+        }
+
+        .zone-right {
+            width: 300px;
+            height: 300px;
+            right: -150px;
+            top: 50%;
+            transform: translateY(-50%);
+            border-color: #2196F3;
+        }
+
+        @keyframes radarPulse {
+            0%, 100% { opacity: 0.3; transform: translateX(-50%) scale(1); }
+            50% { opacity: 0.8; transform: translateX(-50%) scale(1.05); }
+        }
+
+        .zone-label {
+            position: absolute;
+            background: rgba(0,0,0,0.8);
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: bold;
+        }
+
+        /* Architecture Layers */
+        .architecture-container {
+            margin: 40px 0;
+        }
+
+        .arch-layer {
+            background: linear-gradient(90deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
+            padding: 30px;
+            margin: 20px 0;
+            border-radius: 15px;
+            border-left: 5px solid #FF9800;
+            transition: all 0.3s;
+        }
+
+        .arch-layer:hover {
+            transform: translateX(10px);
+            background: linear-gradient(90deg, rgba(255,152,0,0.2) 0%, rgba(255,152,0,0.1) 100%);
+        }
+
+        .arch-layer h3 {
+            font-size: 1.8em;
+            margin-bottom: 15px;
+            color: #FF9800;
+        }
+
+        .arch-layer p {
+            font-size: 1.2em;
+            line-height: 1.6;
+            opacity: 0.9;
+        }
+
+        /* Data Grid */
+        .data-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            margin: 40px 0;
+        }
+
+        .data-card {
+            background: linear-gradient(135deg, rgba(255,152,0,0.2) 0%, rgba(255,152,0,0.05) 100%);
+            padding: 30px;
+            border-radius: 15px;
+            border: 2px solid rgba(255,152,0,0.3);
+        }
+
+        .data-card h3 {
+            font-size: 1.8em;
+            margin-bottom: 15px;
+            color: #FF9800;
+        }
+
+        .data-card ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .data-card li {
+            padding: 10px 0;
+            padding-left: 30px;
+            position: relative;
+            font-size: 1.1em;
+        }
+
+        .data-card li::before {
+            content: '📡';
+            position: absolute;
+            left: 0;
+            font-size: 1.2em;
+        }
+
+        /* Modules Grid */
+        .modules-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 25px;
+            margin: 40px 0;
+        }
+
+        .module-card {
+            background: rgba(255,255,255,0.08);
+            padding: 25px;
+            border-radius: 12px;
+            border-left: 4px solid #4CAF50;
+            transition: all 0.3s;
+        }
+
+        .module-card:hover {
+            background: rgba(255,255,255,0.12);
+            transform: translateX(5px);
+        }
+
+        .module-card h4 {
+            font-size: 1.5em;
+            margin-bottom: 10px;
+            color: #4CAF50;
+        }
+
+        .module-card p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        /* Flow Chart */
+        .flow-chart {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            margin: 40px 0;
+            flex-wrap: wrap;
+        }
+
+        .flow-step {
+            background: rgba(255,255,255,0.1);
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            min-width: 180px;
+            position: relative;
+            margin: 10px;
+        }
+
+        .flow-step::after {
+            content: '→';
+            position: absolute;
+            right: -40px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 2em;
+            color: #FF9800;
+        }
+
+        .flow-step:last-child::after {
+            content: '';
+        }
+
+        .flow-step .step-number {
+            background: #FF9800;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+
+        .flow-step h4 {
+            font-size: 1.3em;
+            margin-bottom: 10px;
+        }
+
+        /* Collision Timeline */
+        .collision-timeline {
+            background: rgba(255,255,255,0.05);
+            padding: 40px;
+            border-radius: 15px;
+            margin: 40px 0;
+        }
+
+        .timeline-item {
+            display: flex;
+            align-items: center;
+            margin: 25px 0;
+            padding: 20px;
+            background: rgba(255,152,0,0.1);
+            border-radius: 10px;
+            border-left: 5px solid #FF9800;
+        }
+
+        .timeline-time {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #FFD700;
+            min-width: 150px;
+        }
+
+        .timeline-content {
+            flex: 1;
+            font-size: 1.2em;
+            line-height: 1.6;
+        }
+
+        /* Blind Spot Warning */
+        .blindspot-warning {
+            background: linear-gradient(135deg, rgba(244,67,54,0.3) 0%, rgba(244,67,54,0.1) 100%);
+            padding: 40px;
+            border-radius: 20px;
+            border: 3px solid rgba(244,67,54,0.5);
+            margin: 40px 0;
+            text-align: center;
+        }
+
+        .blindspot-warning h3 {
+            color: #F44336;
+            font-size: 2.2em;
+            margin-bottom: 20px;
+        }
+
+        .blindspot-warning p {
+            font-size: 1.3em;
+            line-height: 1.8;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            text-align: center;
+            padding: 60px 40px;
+            background: linear-gradient(135deg, #FF9800 0%, #F57C00 100%);
+            border-radius: 20px;
+            margin-top: 40px;
+        }
+
+        .cta-section h2 {
+            border: none;
+            margin-bottom: 30px;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 30px;
+        }
+
+        .cta-button {
+            padding: 20px 40px;
+            font-size: 1.3em;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: bold;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .cta-button.primary {
+            background: #fff;
+            color: #FF9800;
+        }
+
+        .cta-button.primary:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .cta-button.secondary {
+            background: transparent;
+            color: #fff;
+            border: 3px solid #fff;
+        }
+
+        .cta-button.secondary:hover {
+            background: #fff;
+            color: #FF9800;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 40px;
+            opacity: 0.7;
+            font-size: 1.1em;
+        }
+
+        .logo {
+            font-size: 2em;
+            font-weight: bold;
+            color: #FF9800;
+            margin-bottom: 10px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 { font-size: 2.5em; }
+            h2 { font-size: 2em; }
+            .subtitle { font-size: 1.3em; }
+            .stat-grid { grid-template-columns: 1fr; }
+            .data-grid { grid-template-columns: 1fr; }
+            .modules-grid { grid-template-columns: 1fr; }
+            .flow-chart { flex-direction: column; }
+            .flow-step::after { 
+                content: '↓';
+                right: 50%;
+                top: auto;
+                bottom: -40px;
+            }
+            .vehicle-diagram { width: 200px; height: 150px; }
+            .detection-zone { display: none; }
+            .language-toggle {
+                top: 10px;
+                right: 10px;
+                padding: 5px;
+            }
+            .lang-btn {
+                padding: 8px 16px;
+                font-size: 0.9em;
+            }
+        }
+
+        /* Hidden language content */
+        .lang-content {
+            display: none;
+        }
+
+        .lang-content.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <!-- Language Toggle -->
+    <div class="language-toggle">
+        <button class="lang-btn active" onclick="switchLanguage('fr')">🇫🇷 FR</button>
+        <button class="lang-btn" onclick="switchLanguage('en')">🇬🇧 EN</button>
+    </div>
+
+    <div class="presentation-container">
+        <!-- Slide 1: Hero -->
+        <section class="slide hero-slide">
+            <div class="hero-content">
+                <div class="vehicle-icon">🚛👷</div>
+                <div class="lang-content active" data-lang="fr">
+                    <h1>UC-P10: Véhicules Lourds</h1>
+                    <p class="subtitle">Prévention Collisions Piétons-Véhicules par Détection 360°</p>
+                    <div class="badge">🔴 PRIORITÉ CRITIQUE - Accidents Graves</div>
+                </div>
+                <div class="lang-content" data-lang="en">
+                    <h1>UC-P10: Heavy Vehicles</h1>
+                    <p class="subtitle">Pedestrian-Vehicle Collision Prevention through 360° Detection</p>
+                    <div class="badge">🔴 CRITICAL PRIORITY - Serious Accidents</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 2: Le Problème -->
+        <section class="slide">
+            <div class="content-slide">
+                <div class="lang-content active" data-lang="fr">
+                    <h2>🚨 Le Problème Critique</h2>
+                    <div class="stat-grid">
+                        <div class="stat-card">
+                            <div class="stat-number">327</div>
+                            <div class="stat-label">Incidents piétons-véhicules / an</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">65%</div>
+                            <div class="stat-label">Dus aux angles morts</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">145k$</div>
+                            <div class="stat-label">Coût moyen par incident (CAD)</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">⚰️</div>
+                            <div class="stat-label">Décès et blessures graves</div>
+                        </div>
+                    </div>
+                    <div class="blindspot-warning">
+                        <h3>⚠️ Les Angles Morts Tuent</h3>
+                        <p>
+                            Les véhicules lourds (camions, chargeuses, excavatrices) ont des <strong>angles morts massifs</strong> 
+                            où un piéton est totalement invisible pour le conducteur.<br><br>
+                            <strong>La majorité des collisions mortelles</strong> se produisent lors de manœuvres de recul 
+                            ou dans les zones de circulation mixte piétons-véhicules.<br><br>
+                            <strong>Même un conducteur expérimenté ne peut pas voir ce qui est dans ses angles morts.</strong>
+                        </p>
+                    </div>
+                    <div class="detection-visual">
+                        <h3 style="text-align: center; font-size: 2em; margin-bottom: 20px; color: #FF9800;">
+                            🎯 Zones de Détection 360°
+                        </h3>
+                        <div class="vehicle-diagram">
+                            <div class="detection-zone zone-front"></div>
+                            <div class="detection-zone zone-back"></div>
+                            <div class="detection-zone zone-left"></div>
+                            <div class="detection-zone zone-right"></div>
+                            <div style="text-align: center; line-height: 200px; font-size: 3em;">🚛</div>
+                        </div>
+                        <div style="display: flex; justify-content: space-around; flex-wrap: wrap; margin-top: 30px;">
+                            <div style="text-align: center; margin: 10px;">
+                                <span style="color: #F44336; font-size: 2em;">●</span> Avant (Critique)
+                            </div>
+                            <div style="text-align: center; margin: 10px;">
+                                <span style="color: #FFC107; font-size: 2em;">●</span> Arrière (Recul)
+                            </div>
+                            <div style="text-align: center; margin: 10px;">
+                                <span style="color: #4CAF50; font-size: 2em;">●</span> Gauche
+                            </div>
+                            <div style="text-align: center; margin: 10px;">
+                                <span style="color: #2196F3; font-size: 2em;">●</span> Droite
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="lang-content" data-lang="en">
+                    <h2>🚨 The Critical Problem</h2>
+                    <div class="stat-grid">
+                        <div class="stat-card">
+                            <div class="stat-number">327</div>
+                            <div class="stat-label">Pedestrian-vehicle incidents / year</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">65%</div>
+                            <div class="stat-label">Due to blind spots</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">145k$</div>
+                            <div class="stat-label">Average cost per incident (CAD)</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">⚰️</div>
+                            <div class="stat-label">Deaths and serious injuries</div>
+                        </div>
+                    </div>
+                    <div class="blindspot-warning">
+                        <h3>⚠️ Blind Spots Kill</h3>
+                        <p>
+                            Heavy vehicles (trucks, loaders, excavators) have <strong>massive blind spots</strong> 
+                            where a pedestrian is completely invisible to the driver.<br><br>
+                            <strong>Most fatal collisions</strong> occur during reversing maneuvers 
+                            or in mixed pedestrian-vehicle traffic zones.<br><br>
+                            <strong>Even experienced drivers cannot see what's in their blind spots.</strong>
+                        </p>
+                    </div>
+                    <div class="detection-visual">
+                        <h3 style="text-align: center; font-size: 2em; margin-bottom: 20px; color: #FF9800;">
+                            🎯 360° Detection Zones
+                        </h3>
+                        <div class="vehicle-diagram">
+                            <div class="detection-zone zone-front"></div>
+                            <div class="detection-zone zone-back"></div>
+                            <div class="detection-zone zone-left"></div>
+                            <div class="detection-zone zone-right"></div>
+                            <div style="text-align: center; line-height: 200px; font-size: 3em;">🚛</div>
+                        </div>
+                        <div style="display: flex; justify-content: space-around; flex-wrap: wrap; margin-top: 30px;">
+                            <div style="text-align: center; margin: 10px;">
+                                <span style="color: #F44336; font-size: 2em;">●</span> Front (Critical)
+                            </div>
+                            <div style="text-align: center; margin: 10px;">
+                                <span style="color: #FFC107; font-size: 2em;">●</span> Rear (Reversing)
+                            </div>
+                            <div style="text-align: center; margin: 10px;">
+                                <span style="color: #4CAF50; font-size: 2em;">●</span> Left
+                            </div>
+                            <div style="text-align: center; margin: 10px;">
+                                <span style="color: #2196F3; font-size: 2em;">●</span> Right
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 3: La Solution -->
+        <section class="slide">
+            <div class="content-slide">
+                <div class="lang-content active" data-lang="fr">
+                    <h2>✨ La Solution AgenticX5</h2>
+                    <h3 style="text-align: center; font-size: 1.8em; margin-bottom: 40px; color: #4CAF50;">
+                        Détection 360° + Alertes Bidirectionnelles Intelligentes
+                    </h3>
+                    <div class="flow-chart">
+                        <div class="flow-step">
+                            <div class="step-number">1</div>
+                            <h4>Vision 360°</h4>
+                            <p>Caméras détectent piétons angles morts</p>
+                        </div>
+                        <div class="flow-step">
+                            <div class="step-number">2</div>
+                            <h4>Localisation UWB</h4>
+                            <p>Tags wearables positionnement cm précis</p>
+                        </div>
+                        <div class="flow-step">
+                            <div class="step-number">3</div>
+                            <h4>Analyse Agentic</h4>
+                            <p>Calcul trajectoires + risque collision</p>
+                        </div>
+                        <div class="flow-step">
+                            <div class="step-number">4</div>
+                            <h4>Alerte Bidirectionnelle</h4>
+                            <p>Conducteur + piéton + freinage urgence</p>
+                        </div>
+                    </div>
+                    <div style="background: rgba(76,175,80,0.2); padding: 30px; border-radius: 15px; margin-top: 40px; text-align: center;">
+                        <h3 style="color: #4CAF50; font-size: 2em; margin-bottom: 15px;">💡 Innovation Clé</h3>
+                        <p style="font-size: 1.3em; line-height: 1.6;">
+                            Triple système de détection (<strong>Vision AI + UWB + GPS</strong>) combiné à l'<strong>Intelligence Agentique</strong> 
+                            pour alertes proactives avant collision + freinage d'urgence automatique si nécessaire
+                        </p>
+                    </div>
+                </div>
+                <div class="lang-content" data-lang="en">
+                    <h2>✨ The AgenticX5 Solution</h2>
+                    <h3 style="text-align: center; font-size: 1.8em; margin-bottom: 40px; color: #4CAF50;">
+                        360° Detection + Smart Bidirectional Alerts
+                    </h3>
+                    <div class="flow-chart">
+                        <div class="flow-step">
+                            <div class="step-number">1</div>
+                            <h4>360° Vision</h4>
+                            <p>Cameras detect pedestrians in blind spots</p>
+                        </div>
+                        <div class="flow-step">
+                            <div class="step-number">2</div>
+                            <h4>UWB Localization</h4>
+                            <p>Wearable tags cm-precise positioning</p>
+                        </div>
+                        <div class="flow-step">
+                            <div class="step-number">3</div>
+                            <h4>Agentic Analysis</h4>
+                            <p>Calculate trajectories + collision risk</p>
+                        </div>
+                        <div class="flow-step">
+                            <div class="step-number">4</div>
+                            <h4>Bidirectional Alert</h4>
+                            <p>Driver + pedestrian + emergency braking</p>
+                        </div>
+                    </div>
+                    <div style="background: rgba(76,175,80,0.2); padding: 30px; border-radius: 15px; margin-top: 40px; text-align: center;">
+                        <h3 style="color: #4CAF50; font-size: 2em; margin-bottom: 15px;">💡 Key Innovation</h3>
+                        <p style="font-size: 1.3em; line-height: 1.6;">
+                            Triple detection system (<strong>Vision AI + UWB + GPS</strong>) combined with <strong>Agentic Intelligence</strong> 
+                            for proactive pre-collision alerts + automatic emergency braking if needed
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 4: Architecture -->
+        <section class="slide">
+            <div class="content-slide">
+                <div class="lang-content active" data-lang="fr">
+                    <h2>🏗️ Architecture Technique</h2>
+                    <div class="architecture-container">
+                        <div class="arch-layer">
+                            <h3>🎥 VISION - Caméras 360° Véhicule</h3>
+                            <p>• 4-6 caméras couvrant tous angles du véhicule lourd<br>
+                            • Détection piétons temps réel via Computer Vision (YOLO)<br>
+                            • Vision nocturne et conditions difficiles (pluie, neige)<br>
+                            • Calcul distance et vitesse d'approche piéton</p>
+                        </div>
+                        <div class="arch-layer">
+                            <h3>📡 WEARABLES - Tags UWB Piétons</h3>
+                            <p>• Tags Ultra-Wideband portés par tous les piétons sur chantier<br>
+                            • Localisation indoor/outdoor précision <10 cm<br>
+                            • Alertes vibratoires + sonores si danger proximité<br>
+                            • Batterie longue durée (semaines), résistants conditions difficiles</p>
+                        </div>
+                        <div class="arch-layer">
+                            <h3>🤖 AGENTIC - Alerte Bidirectionnelle + Freinage</h3>
+                            <p>• Agents fusionnent données Vision + UWB + GPS véhicules<br>
+                            • Calcul trajectoires collision probabilistes en temps réel<br>
+                            • Alertes graduées: attention → danger → critique<br>
+                            • Freinage d'urgence automatique si collision imminente (<2s)</p>
+                        </div>
+                        <div class="arch-layer">
+                            <h3>🧠 KNOWLEDGE GRAPH - Plans Circulation Chantier</h3>
+                            <p>• Cartographie complète zones circulation (Neo4j)<br>
+                            • Plans dynamiques: zones piétons, voies véhicules, zones mixtes<br>
+                            • Zones prioritaires et limitations vitesse contextuelles<br>
+                            • Règles circulation spécifiques par type de véhicule</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="lang-content" data-lang="en">
+                    <h2>🏗️ Technical Architecture</h2>
+                    <div class="architecture-container">
+                        <div class="arch-layer">
+                            <h3>🎥 VISION - 360° Vehicle Cameras</h3>
+                            <p>• 4-6 cameras covering all heavy vehicle angles<br>
+                            • Real-time pedestrian detection via Computer Vision (YOLO)<br>
+                            • Night vision and difficult conditions (rain, snow)<br>
+                            • Calculate pedestrian distance and approach speed</p>
+                        </div>
+                        <div class="arch-layer">
+                            <h3>📡 WEARABLES - Pedestrian UWB Tags</h3>
+                            <p>• Ultra-Wideband tags worn by all pedestrians on site<br>
+                            • Indoor/outdoor localization accuracy <10 cm<br>
+                            • Vibration + sound alerts if proximity danger<br>
+                            • Long battery life (weeks), resistant to harsh conditions</p>
+                        </div>
+                        <div class="arch-layer">
+                            <h3>🤖 AGENTIC - Bidirectional Alert + Braking</h3>
+                            <p>• Agents fuse Vision + UWB + vehicle GPS data<br>
+                            • Real-time probabilistic collision trajectory calculation<br>
+                            • Graduated alerts: caution → danger → critical<br>
+                            • Automatic emergency braking if imminent collision (<2s)</p>
+                        </div>
+                        <div class="arch-layer">
+                            <h3>🧠 KNOWLEDGE GRAPH - Site Traffic Plans</h3>
+                            <p>• Complete mapping of traffic zones (Neo4j)<br>
+                            • Dynamic plans: pedestrian zones, vehicle lanes, mixed zones<br>
+                            • Priority zones and contextual speed limits<br>
+                            • Traffic rules specific to vehicle type</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 5: Données -->
+        <section class="slide">
+            <div class="content-slide">
+                <div class="lang-content active" data-lang="fr">
+                    <h2>📊 Données Utilisées</h2>
+                    <div class="data-grid">
+                        <div class="data-card">
+                            <h3>🎥 Vision - Caméras 360°</h3>
+                            <ul>
+                                <li>Flux vidéo 4K temps réel multi-angles</li>
+                                <li>Détections piétons avec bounding boxes</li>
+                                <li>Distance et vitesse d'approche calculées</li>
+                                <li>Enregistrements horodatés pour analyse</li>
+                            </ul>
+                        </div>
+                        <div class="data-card">
+                            <h3>📡 Wearables - Tags UWB</h3>
+                            <ul>
+                                <li>Position 3D temps réel (X, Y, Z) <10 cm</li>
+                                <li>Identité piéton associée au tag</li>
+                                <li>Historiques trajectoires piétons</li>
+                                <li>État batterie et connectivité tags</li>
+                            </ul>
+                        </div>
+                        <div class="data-card">
+                            <h3>🛰️ GPS Véhicules</h3>
+                            <ul>
+                                <li>Position GPS haute précision véhicules</li>
+                                <li>Vitesse, direction, accélération temps réel</li>
+                                <li>Historiques déplacements véhicules</li>
+                                <li>Type véhicule et dimensions (gabarit)</li>
+                            </ul>
+                        </div>
+                        <div class="data-card">
+                            <h3>🗺️ Plans Circulation Chantier</h3>
+                            <ul>
+                                <li>Cartographie zones: piétons, véhicules, mixtes</li>
+                                <li>Voies circulation et sens unique</li>
+                                <li>Points d'accès et intersections critiques</li>
+                                <li>Limitations vitesse par zone</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="lang-content" data-lang="en">
+                    <h2>📊 Data Used</h2>
+                    <div class="data-grid">
+                        <div class="data-card">
+                            <h3>🎥 Vision - 360° Cameras</h3>
+                            <ul>
+                                <li>Real-time 4K video streams multi-angle</li>
+                                <li>Pedestrian detections with bounding boxes</li>
+                                <li>Calculated distance and approach speed</li>
+                                <li>Timestamped recordings for analysis</li>
+                            </ul>
+                        </div>
+                        <div class="data-card">
+                            <h3>📡 Wearables - UWB Tags</h3>
+                            <ul>
+                                <li>Real-time 3D position (X, Y, Z) <10 cm</li>
+                                <li>Pedestrian identity linked to tag</li>
+                                <li>Pedestrian trajectory histories</li>
+                                <li>Tag battery status and connectivity</li>
+                            </ul>
+                        </div>
+                        <div class="data-card">
+                            <h3>🛰️ Vehicle GPS</h3>
+                            <ul>
+                                <li>High-precision GPS vehicle position</li>
+                                <li>Real-time speed, direction, acceleration</li>
+                                <li>Vehicle movement histories</li>
+                                <li>Vehicle type and dimensions (clearance)</li>
+                            </ul>
+                        </div>
+                        <div class="data-card">
+                            <h3>🗺️ Site Traffic Plans</h3>
+                            <ul>
+                                <li>Zone mapping: pedestrian, vehicle, mixed</li>
+                                <li>Traffic lanes and one-way routes</li>
+                                <li>Access points and critical intersections</li>
+                                <li>Speed limits by zone</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 6: Modules -->
+        <section class="slide">
+            <div class="content-slide">
+                <div class="lang-content active" data-lang="fr">
+                    <h2>🔧 Modules SafetyGraph</h2>
+                    <div class="modules-grid">
+                        <div class="module-card">
+                            <h4>🗺️ Dashboard Zones Géographiques</h4>
+                            <p>Visualisation temps réel positions véhicules et piétons sur plan chantier interactif</p>
+                        </div>
+                        <div class="module-card">
+                            <h4>👁️ Multimodal Agent (Vision)</h4>
+                            <p>Traitement intelligent flux caméras 360° pour détection piétons angles morts</p>
+                        </div>
+                        <div class="module-card">
+                            <h4>📍 Context Agent (Localisation)</h4>
+                            <p>Agent contextuel fusionne Vision + UWB + GPS pour détection collision proactive</p>
+                        </div>
+                        <div class="module-card">
+                            <h4>🗄️ Neo4j (Cartographie Chantier)</h4>
+                            <p>Base graphe pour plans circulation dynamiques et règles contextuelles par zone</p>
+                        </div>
+                    </div>
+                    <div style="background: rgba(255,255,255,0.1); padding: 30px; border-radius: 15px; margin-top: 40px;">
+                        <h3 style="color: #FF9800; font-size: 1.8em; margin-bottom: 20px; text-align: center;">
+                            🔗 Fusion Multimodale
+                        </h3>
+                        <p style="font-size: 1.2em; text-align: center; line-height: 1.6;">
+                            Les 4 modules collaborent via <strong>SafetyGraph Core</strong> pour créer un système 
+                            de prévention collision <strong>redondant et infaillible</strong> (Vision + UWB + GPS)
+                        </p>
+                    </div>
+                </div>
+                <div class="lang-content" data-lang="en">
+                    <h2>🔧 SafetyGraph Modules</h2>
+                    <div class="modules-grid">
+                        <div class="module-card">
+                            <h4>🗺️ Geographic Zones Dashboard</h4>
+                            <p>Real-time visualization of vehicle and pedestrian positions on interactive site map</p>
+                        </div>
+                        <div class="module-card">
+                            <h4>👁️ Multimodal Agent (Vision)</h4>
+                            <p>Intelligent processing of 360° camera streams for blind spot pedestrian detection</p>
+                        </div>
+                        <div class="module-card">
+                            <h4>📍 Context Agent (Location)</h4>
+                            <p>Contextual agent fuses Vision + UWB + GPS for proactive collision detection</p>
+                        </div>
+                        <div class="module-card">
+                            <h4>🗄️ Neo4j (Site Mapping)</h4>
+                            <p>Graph database for dynamic traffic plans and contextual rules per zone</p>
+                        </div>
+                    </div>
+                    <div style="background: rgba(255,255,255,0.1); padding: 30px; border-radius: 15px; margin-top: 40px;">
+                        <h3 style="color: #FF9800; font-size: 1.8em; margin-bottom: 20px; text-align: center;">
+                            🔗 Multimodal Fusion
+                        </h3>
+                        <p style="font-size: 1.2em; text-align: center; line-height: 1.6;">
+                            All 4 modules collaborate via <strong>SafetyGraph Core</strong> to create a 
+                            <strong>redundant and failsafe</strong> collision prevention system (Vision + UWB + GPS)
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 7: Scénario -->
+        <section class="slide">
+            <div class="content-slide">
+                <div class="lang-content active" data-lang="fr">
+                    <h2>📖 Scénario Concret</h2>
+                    <div style="background: rgba(255,255,255,0.05); padding: 40px; border-radius: 15px;">
+                        <h3 style="color: #FF9800; font-size: 2em; margin-bottom: 30px; text-align: center;">
+                            🏗️ Chantier Construction - Manœuvre Recul Chargeuse
+                        </h3>
+                        <div class="collision-timeline">
+                            <div class="timeline-item">
+                                <div class="timeline-time">14:30:00</div>
+                                <div class="timeline-content">
+                                    <strong>Opération normale:</strong> Chargeuse déplace matériaux<br>
+                                    📍 Position: Zone mixte piétons-véhicules<br>
+                                    🚛 Vitesse: 8 km/h (limite zone: 10 km/h)<br>
+                                    👷 3 piétons détectés dans zone (UWB) - tous en sécurité
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-time">14:30:45</div>
+                                <div class="timeline-content">
+                                    <strong>Début manœuvre recul:</strong> Conducteur active marche arrière<br>
+                                    🎥 Caméra arrière activée automatiquement<br>
+                                    🔊 Signal sonore recul (alarme réglementaire)<br>
+                                    📡 Système UWB en mode haute vigilance
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-time">14:30:52</div>
+                                <div class="timeline-content">
+                                    <strong>⚠️ ALERTE NIVEAU 1 (Attention):</strong><br>
+                                    👁️ Vision détecte: piéton angle mort arrière gauche<br>
+                                    📡 UWB confirme: ouvrier #247 à 4.2 mètres<br>
+                                    🤖 Agent calcule: trajectoire intersection dans 8 secondes<br>
+                                    💡 Alerte visuelle cabine: "ATTENTION - Piéton arrière gauche"<br>
+                                    📱 Vibration douce badge ouvrier
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-time">14:30:55</div>
+                                <div class="timeline-content">
+                                    <strong>🚨 ALERTE NIVEAU 2 (Danger):</strong><br>
+                                    🎥 Vision: piéton continue approche - maintenant 2.8 mètres<br>
+                                    📡 UWB: ouvrier marche vers véhicule (distrait par téléphone)<br>
+                                    🤖 Agent: collision probable dans 4 secondes si aucune action<br>
+                                    🔴 Alerte sonore forte + visuelle rouge cabine<br>
+                                    📳 Vibration forte + sonnerie badge ouvrier
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-time">14:30:56</div>
+                                <div class="timeline-content">
+                                    <strong>⛔ ALERTE NIVEAU 3 (CRITIQUE):</strong><br>
+                                    🎥 Vision: piéton à 1.5 mètres, pas de réaction<br>
+                                    🤖 Agent: COLLISION IMMINENTE - temps impact: 2 secondes<br>
+                                    🚨 <strong>FREINAGE D'URGENCE AUTOMATIQUE ACTIVÉ</strong><br>
+                                    🛑 Chargeuse arrêtée net (0.8 secondes)<br>
+                                    📢 Alarme maximale cabine + badge ouvrier
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-time">14:30:58</div>
+                                <div class="timeline-content">
+                                    <strong>Résolution - Collision évitée:</strong><br>
+                                    ✅ Véhicule immobilisé, ouvrier à 0.8 mètre (SAUF)<br>
+                                    👷 Ouvrier réalise danger, s'écarte de la zone<br>
+                                    📊 Incident enregistré: "near miss" grade 3<br>
+                                    📋 Rapport automatique superviseur + coaching ouvrier planifié
+                                </div>
+                            </div>
+                        </div>
+                        <p style="font-size: 1.3em; margin-top: 30px; text-align: center; line-height: 1.6;">
+                            <strong style="color: #4CAF50;">Résultat:</strong> Collision grave évitée grâce au système 
+                            multi-niveaux (Vision + UWB + Agentic) avec freinage automatique d'urgence.
+                        </p>
+                    </div>
+                </div>
+                <div class="lang-content" data-lang="en">
+                    <h2>📖 Concrete Scenario</h2>
+                    <div style="background: rgba(255,255,255,0.05); padding: 40px; border-radius: 15px;">
+                        <h3 style="color: #FF9800; font-size: 2em; margin-bottom: 30px; text-align: center;">
+                            🏗️ Construction Site - Loader Reversing Maneuver
+                        </h3>
+                        <div class="collision-timeline">
+                            <div class="timeline-item">
+                                <div class="timeline-time">14:30:00</div>
+                                <div class="timeline-content">
+                                    <strong>Normal operation:</strong> Loader moving materials<br>
+                                    📍 Position: Mixed pedestrian-vehicle zone<br>
+                                    🚛 Speed: 8 km/h (zone limit: 10 km/h)<br>
+                                    👷 3 pedestrians detected in zone (UWB) - all safe
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-time">14:30:45</div>
+                                <div class="timeline-content">
+                                    <strong>Start reverse maneuver:</strong> Driver activates reverse<br>
+                                    🎥 Rear camera activated automatically<br>
+                                    🔊 Reverse warning beeper (regulatory alarm)<br>
+                                    📡 UWB system in high vigilance mode
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-time">14:30:52</div>
+                                <div class="timeline-content">
+                                    <strong>⚠️ ALERT LEVEL 1 (Caution):</strong><br>
+                                    👁️ Vision detects: pedestrian rear left blind spot<br>
+                                    📡 UWB confirms: worker #247 at 4.2 meters<br>
+                                    🤖 Agent calculates: trajectory intersection in 8 seconds<br>
+                                    💡 Visual alert in cab: "CAUTION - Pedestrian rear left"<br>
+                                    📱 Gentle vibration worker badge
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-time">14:30:55</div>
+                                <div class="timeline-content">
+                                    <strong>🚨 ALERT LEVEL 2 (Danger):</strong><br>
+                                    🎥 Vision: pedestrian continues approach - now 2.8 meters<br>
+                                    📡 UWB: worker walking toward vehicle (distracted by phone)<br>
+                                    🤖 Agent: collision likely in 4 seconds if no action<br>
+                                    🔴 Loud sound + red visual alert in cab<br>
+                                    📳 Strong vibration + ring worker badge
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-time">14:30:56</div>
+                                <div class="timeline-content">
+                                    <strong>⛔ ALERT LEVEL 3 (CRITICAL):</strong><br>
+                                    🎥 Vision: pedestrian at 1.5 meters, no reaction<br>
+                                    🤖 Agent: IMMINENT COLLISION - impact time: 2 seconds<br>
+                                    🚨 <strong>AUTOMATIC EMERGENCY BRAKING ACTIVATED</strong><br>
+                                    🛑 Loader stopped instantly (0.8 seconds)<br>
+                                    📢 Maximum alarm cab + worker badge
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-time">14:30:58</div>
+                                <div class="timeline-content">
+                                    <strong>Resolution - Collision avoided:</strong><br>
+                                    ✅ Vehicle immobilized, worker at 0.8 meter (SAFE)<br>
+                                    👷 Worker realizes danger, moves away from zone<br>
+                                    📊 Incident recorded: "near miss" grade 3<br>
+                                    📋 Automatic report to supervisor + worker coaching scheduled
+                                </div>
+                            </div>
+                        </div>
+                        <p style="font-size: 1.3em; margin-top: 30px; text-align: center; line-height: 1.6;">
+                            <strong style="color: #4CAF50;">Result:</strong> Serious collision avoided thanks to 
+                            multi-level system (Vision + UWB + Agentic) with automatic emergency braking.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 8: CTA -->
+        <section class="slide">
+            <div class="cta-section">
+                <div class="lang-content active" data-lang="fr">
+                    <h2>🚀 Éliminez les Angles Morts Mortels</h2>
+                    <p style="font-size: 1.5em; margin: 30px 0; line-height: 1.6;">
+                        Déployez UC-P10 et protégez vos piétons avec une <strong>détection 360° infaillible</strong>
+                    </p>
+                    <div class="stat-grid" style="margin: 40px 0;">
+                        <div class="stat-card" style="background: rgba(255,255,255,0.2);">
+                            <div class="stat-number" style="color: #fff;">65%</div>
+                            <div class="stat-label">Réduction collisions visée</div>
+                        </div>
+                        <div class="stat-card" style="background: rgba(255,255,255,0.2);">
+                            <div class="stat-number" style="color: #fff;">360°</div>
+                            <div class="stat-label">Couverture détection complète</div>
+                        </div>
+                        <div class="stat-card" style="background: rgba(255,255,255,0.2);">
+                            <div class="stat-number" style="color: #fff;"><10cm</div>
+                            <div class="stat-label">Précision localisation UWB</div>
+                        </div>
+                        <div class="stat-card" style="background: rgba(255,255,255,0.2);">
+                            <div class="stat-number" style="color: #fff;">⚡</div>
+                            <div class="stat-label">Freinage urgence auto</div>
+                        </div>
+                    </div>
+                    <div class="cta-buttons">
+                        <a href="#contact" class="cta-button primary">Demander une Démo</a>
+                        <a href="#whitepaper" class="cta-button secondary">Guide Véhicules Lourds</a>
+                    </div>
+                    <p style="margin-top: 40px; font-size: 1.2em; opacity: 0.9;">
+                        🚛 Protection 360° - Aucun angle mort n'est invisible
+                    </p>
+                </div>
+                <div class="lang-content" data-lang="en">
+                    <h2>🚀 Eliminate Deadly Blind Spots</h2>
+                    <p style="font-size: 1.5em; margin: 30px 0; line-height: 1.6;">
+                        Deploy UC-P10 and protect your pedestrians with <strong>failsafe 360° detection</strong>
+                    </p>
+                    <div class="stat-grid" style="margin: 40px 0;">
+                        <div class="stat-card" style="background: rgba(255,255,255,0.2);">
+                            <div class="stat-number" style="color: #fff;">65%</div>
+                            <div class="stat-label">Target collision reduction</div>
+                        </div>
+                        <div class="stat-card" style="background: rgba(255,255,255,0.2);">
+                            <div class="stat-number" style="color: #fff;">360°</div>
+                            <div class="stat-label">Complete detection coverage</div>
+                        </div>
+                        <div class="stat-card" style="background: rgba(255,255,255,0.2);">
+                            <div class="stat-number" style="color: #fff;"><10cm</div>
+                            <div class="stat-label">UWB location precision</div>
+                        </div>
+                        <div class="stat-card" style="background: rgba(255,255,255,0.2);">
+                            <div class="stat-number" style="color: #fff;">⚡</div>
+                            <div class="stat-label">Auto emergency braking</div>
+                        </div>
+                    </div>
+                    <div class="cta-buttons">
+                        <a href="#contact" class="cta-button primary">Request a Demo</a>
+                        <a href="#whitepaper" class="cta-button secondary">Heavy Vehicles Guide</a>
+                    </div>
+                    <p style="margin-top: 40px; font-size: 1.2em; opacity: 0.9;">
+                        🚛 360° Protection - No blind spot is invisible
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="logo">AgenticX5 | GenAISafety</div>
+            <div class="lang-content active" data-lang="fr">
+                <p>Propulsé par SafetyGraph - Intelligence Agentique au Service de la SST</p>
+                <p style="margin-top: 15px;">© 2025 GenAISafety - Preventera | Tous droits réservés</p>
+            </div>
+            <div class="lang-content" data-lang="en">
+                <p>Powered by SafetyGraph - Agentic Intelligence for Occupational Safety</p>
+                <p style="margin-top: 15px;">© 2025 GenAISafety - Preventera | All rights reserved</p>
+            </div>
+            <p style="margin-top: 10px; font-size: 0.9em;">
+                🌐 genaisafety.com | 📧 contact@genaisafety.com | 📱 +1 (XXX) XXX-XXXX
+            </p>
+        </footer>
+    </div>
+
+    <script>
+        // Language Switching
+        let currentLang = 'fr';
+
+        function switchLanguage(lang) {
+            currentLang = lang;
+            
+            // Update button states
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Update content visibility
+            document.querySelectorAll('.lang-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            document.querySelectorAll(`[data-lang="${lang}"]`).forEach(content => {
+                content.classList.add('active');
+            });
+            
+            // Update HTML lang attribute
+            document.documentElement.lang = lang;
+        }
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // Intersection Observer for slide animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.slide').forEach(slide => {
+            slide.style.opacity = '0';
+            slide.style.transform = 'translateY(30px)';
+            slide.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(slide);
+        });
+
+        // Keyboard navigation
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowDown' || e.key === 'PageDown') {
+                e.preventDefault();
+                currentSlide = Math.min(currentSlide + 1, slides.length - 1);
+                slides[currentSlide].scrollIntoView({ behavior: 'smooth' });
+            } else if (e.key === 'ArrowUp' || e.key === 'PageUp') {
+                e.preventDefault();
+                currentSlide = Math.max(currentSlide - 1, 0);
+                slides[currentSlide].scrollIntoView({ behavior: 'smooth' });
+            }
+        });
+
+        // Update current slide on scroll
+        window.addEventListener('scroll', () => {
+            slides.forEach((slide, index) => {
+                const rect = slide.getBoundingClientRect();
+                if (rect.top >= 0 && rect.top < window.innerHeight / 2) {
+                    currentSlide = index;
+                }
+            });
+        });
+
+        // Console log
+        console.log('%c🚛 UC-P10: Véhicules Lourds - Collision', 'color: #FF9800; font-size: 20px; font-weight: bold;');
+        console.log('%cAgenticX5 | GenAISafety - Powered by SafetyGraph', 'color: #4CAF50; font-size: 14px;');
+    </script>
+</body>
+</html>

@@ -1,0 +1,1362 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SafetyGraph - 1000 Use Cases IA-SST Enrichis | Wope Edition</title>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1e40af;
+            --secondary: #10b981;
+            --accent: #8b5cf6;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --success: #10b981;
+            --gray-50: #f9fafb;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-300: #d1d5db;
+            --gray-400: #9ca3af;
+            --gray-500: #6b7280;
+            --gray-600: #4b5563;
+            --gray-700: #374151;
+            --gray-800: #1f2937;
+            --gray-900: #111827;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: var(--gray-800);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(10px);
+            box-shadow: var(--shadow-md);
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 24px;
+        }
+
+        .logo-text h1 {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--gray-900);
+        }
+
+        .logo-text p {
+            font-size: 14px;
+            color: var(--gray-500);
+        }
+
+        .header-stats {
+            display: flex;
+            gap: 24px;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            display: block;
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .stat-label {
+            display: block;
+            font-size: 12px;
+            color: var(--gray-500);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Filters Section */
+        .filters-section {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            margin: 24px 0;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .filters-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .filters-header h2 {
+            font-size: 20px;
+            color: var(--gray-900);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .clear-filters {
+            background: var(--gray-100);
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            color: var(--gray-700);
+            transition: all 0.2s;
+        }
+
+        .clear-filters:hover {
+            background: var(--gray-200);
+        }
+
+        .filters-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .filter-group label {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--gray-700);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .filter-group select,
+        .filter-group input {
+            padding: 10px 12px;
+            border: 2px solid var(--gray-200);
+            border-radius: 8px;
+            font-size: 14px;
+            background: white;
+            transition: all 0.2s;
+        }
+
+        .filter-group select:focus,
+        .filter-group input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .search-box {
+            grid-column: 1 / -1;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 12px 16px 12px 44px;
+            font-size: 16px;
+            background: var(--gray-50) url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="%236b7280" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>') no-repeat 12px center;
+        }
+
+        /* Results Stats */
+        .results-stats {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 20px 0;
+            padding: 16px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .results-count {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--gray-900);
+        }
+
+        .sort-controls {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .sort-controls select {
+            padding: 8px 12px;
+            border: 2px solid var(--gray-200);
+            border-radius: 8px;
+            font-size: 14px;
+            background: white;
+        }
+
+        /* Projects Grid */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+            gap: 24px;
+            margin-bottom: 40px;
+        }
+
+        .project-card {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: var(--shadow-md);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .project-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .project-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-xl);
+            border-color: var(--primary);
+        }
+
+        .project-card:hover::before {
+            opacity: 1;
+        }
+
+        .project-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 16px;
+            gap: 12px;
+        }
+
+        .project-id {
+            display: inline-block;
+            padding: 4px 12px;
+            background: var(--gray-100);
+            color: var(--gray-700);
+            font-size: 12px;
+            font-weight: 600;
+            border-radius: 6px;
+        }
+
+        .project-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--gray-900);
+            margin: 12px 0 8px 0;
+            line-height: 1.4;
+        }
+
+        .project-description {
+            font-size: 14px;
+            color: var(--gray-600);
+            margin-bottom: 16px;
+            line-height: 1.6;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .project-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+
+        .badge {
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .badge-category {
+            background: #eff6ff;
+            color: #1e40af;
+        }
+
+        .badge-priority {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .badge-priority.p0 {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .badge-priority.p1 {
+            background: #fed7aa;
+            color: #9a3412;
+        }
+
+        .badge-architecture {
+            background: #f3e8ff;
+            color: #6b21a8;
+        }
+
+        .badge-sector {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .badge-compliance {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .badge-irsst {
+            background: #fce7f3;
+            color: #9f1239;
+        }
+
+        .badge-xai {
+            background: #e0e7ff;
+            color: #3730a3;
+        }
+
+        .badge-kg {
+            background: linear-gradient(135deg, #a855f7, #ec4899);
+            color: white;
+            font-weight: 700;
+            box-shadow: 0 2px 8px rgba(168, 85, 247, 0.3);
+        }
+
+        .project-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 16px;
+            border-top: 1px solid var(--gray-200);
+        }
+
+        .project-stats {
+            display: flex;
+            gap: 16px;
+            font-size: 13px;
+            color: var(--gray-500);
+        }
+
+        .stat-icon {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .view-details {
+            padding: 8px 16px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .view-details:hover {
+            background: var(--primary-dark);
+            transform: translateX(2px);
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(4px);
+            z-index: 1000;
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        .modal.active {
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            max-width: 1000px;
+            width: 100%;
+            margin: 40px auto;
+            box-shadow: var(--shadow-xl);
+            animation: modalSlideIn 0.3s ease;
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-header {
+            padding: 32px;
+            border-bottom: 1px solid var(--gray-200);
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .modal-header h2 {
+            font-size: 28px;
+            color: var(--gray-900);
+            margin-bottom: 8px;
+        }
+
+        .close-modal {
+            background: var(--gray-100);
+            border: none;
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 20px;
+            color: var(--gray-600);
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .close-modal:hover {
+            background: var(--gray-200);
+            color: var(--gray-900);
+        }
+
+        .modal-tabs {
+            display: flex;
+            gap: 4px;
+            padding: 0 32px;
+            background: var(--gray-50);
+            overflow-x: auto;
+        }
+
+        .modal-tab {
+            padding: 16px 24px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--gray-600);
+            border-bottom: 3px solid transparent;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+
+        .modal-tab:hover {
+            color: var(--gray-900);
+        }
+
+        .modal-tab.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+        }
+
+        .modal-body {
+            padding: 32px;
+            max-height: 600px;
+            overflow-y: auto;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .info-section {
+            margin-bottom: 32px;
+        }
+
+        .info-section h3 {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--gray-900);
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 16px;
+        }
+
+        .info-item {
+            background: var(--gray-50);
+            padding: 16px;
+            border-radius: 12px;
+        }
+
+        .info-label {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--gray-500);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 6px;
+        }
+
+        .info-value {
+            font-size: 15px;
+            color: var(--gray-900);
+            font-weight: 500;
+        }
+
+        .compliance-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .compliance-badge {
+            padding: 6px 12px;
+            background: #dbeafe;
+            color: #1e40af;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .profile-list {
+            display: grid;
+            gap: 12px;
+        }
+
+        .profile-item {
+            background: var(--gray-50);
+            padding: 16px;
+            border-radius: 12px;
+            border-left: 4px solid var(--primary);
+        }
+
+        .profile-name {
+            font-weight: 700;
+            color: var(--gray-900);
+            margin-bottom: 4px;
+        }
+
+        .profile-needs {
+            font-size: 14px;
+            color: var(--gray-600);
+        }
+
+        /* Footer */
+        footer {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 24px 0;
+            margin-top: 60px;
+            text-align: center;
+            color: var(--gray-600);
+        }
+
+        footer p {
+            margin: 4px 0;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            margin-top: 12px;
+        }
+
+        .footer-links a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .footer-links a:hover {
+            text-decoration: underline;
+        }
+
+        /* Loading State */
+        .loading {
+            text-align: center;
+            padding: 60px 20px;
+            color: white;
+        }
+
+        .spinner {
+            width: 48px;
+            height: 48px;
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 16px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 80px 20px;
+            background: white;
+            border-radius: 16px;
+            box-shadow: var(--shadow-md);
+        }
+
+        .empty-state-icon {
+            font-size: 64px;
+            margin-bottom: 16px;
+        }
+
+        .empty-state h3 {
+            font-size: 24px;
+            color: var(--gray-900);
+            margin-bottom: 8px;
+        }
+
+        .empty-state p {
+            color: var(--gray-600);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .filters-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .header-stats {
+                width: 100%;
+                justify-content: space-around;
+            }
+
+            .modal-content {
+                margin: 0;
+                border-radius: 0;
+                height: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <div class="logo-icon">SG</div>
+                    <div class="logo-text">
+                        <h1>SafetyGraph</h1>
+                        <p>1000 Use Cases IA-SST Enrichis</p>
+                    </div>
+                </div>
+                <div class="header-stats">
+                    <div class="stat-item">
+                        <span class="stat-value" id="totalProjects">1000</span>
+                        <span class="stat-label">Projets</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-value" id="filteredCount">1000</span>
+                        <span class="stat-label">Affichés</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-value">8</span>
+                        <span class="stat-label">Secteurs</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-value">15</span>
+                        <span class="stat-label">Catégories</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Filters Section -->
+        <div class="filters-section">
+            <div class="filters-header">
+                <h2>
+                    <span>🔍</span>
+                    Filtres Avancés
+                </h2>
+                <button class="clear-filters" onclick="clearFilters()">
+                    Réinitialiser
+                </button>
+            </div>
+            <div class="filters-grid">
+                <div class="filter-group">
+                    <label>Catégorie IA-SST</label>
+                    <select id="filterCategory" onchange="applyFilters()">
+                        <option value="">Toutes les catégories</option>
+                        <option value="Analyse Prédictive">Analyse Prédictive</option>
+                        <option value="Détection & Surveillance">Détection & Surveillance</option>
+                        <option value="Formation & Simulation">Formation & Simulation</option>
+                        <option value="Documentation & Conformité">Documentation & Conformité</option>
+                        <option value="Ergonomie & Santé">Ergonomie & Santé</option>
+                        <option value="Gestion des Urgences">Gestion des Urgences</option>
+                        <option value="Maintenance Prédictive">Maintenance Prédictive</option>
+                        <option value="EPI & Équipements">EPI & Équipements</option>
+                        <option value="Communication & Reporting">Communication & Reporting</option>
+                        <option value="Qualité de l'Air">Qualité de l'Air</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label>Architecture IA</label>
+                    <select id="filterArchitecture" onchange="applyFilters()">
+                        <option value="">Toutes</option>
+                        <option value="RAG">RAG</option>
+                        <option value="Agents IA">Agents IA</option>
+                        <option value="Knowledge Graphs">Graphes de Connaissances</option>
+                        <option value="NLP/LLM">NLP/LLM</option>
+                        <option value="Computer Vision">Computer Vision</option>
+                        <option value="ML Classique">ML Classique</option>
+                        <option value="Time Series">Time Series</option>
+                        <option value="Hybrid">Hybrid</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label>Priorité</label>
+                    <select id="filterPriority" onchange="applyFilters()">
+                        <option value="">Toutes</option>
+                        <option value="P0">P0 - Critique</option>
+                        <option value="P1">P1 - Haute</option>
+                        <option value="P2">P2 - Moyenne</option>
+                        <option value="P3">P3 - Basse</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label>Secteur SCIAN</label>
+                    <select id="filterSector" onchange="applyFilters()">
+                        <option value="">Tous les secteurs</option>
+                        <option value="Construction">Construction (23)</option>
+                        <option value="Fabrication">Fabrication (31-33)</option>
+                        <option value="Santé">Santé (62)</option>
+                        <option value="Commerce">Commerce (44-45)</option>
+                        <option value="Transport">Transport (48-49)</option>
+                        <option value="Services">Services (54-56)</option>
+                        <option value="Hébergement">Hébergement (72)</option>
+                        <option value="Ressources">Ressources (11-21)</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label>Conformité</label>
+                    <select id="filterCompliance" onchange="applyFilters()">
+                        <option value="">Toutes</option>
+                        <option value="LSST">LSST</option>
+                        <option value="RSS">Règlement SST</option>
+                        <option value="CSTC">Code Travail</option>
+                        <option value="Loi 25">Loi 25</option>
+                        <option value="ISO 45001">ISO 45001</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label>Catégorie IRSST</label>
+                    <select id="filterIRSST" onchange="applyFilters()">
+                        <option value="">Toutes</option>
+                        <option value="Catégorie I">Catégorie I</option>
+                        <option value="Catégorie II">Catégorie II</option>
+                        <option value="Catégorie III">Catégorie III</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label>Niveau XAI</label>
+                    <select id="filterXAI" onchange="applyFilters()">
+                        <option value="">Tous niveaux</option>
+                        <option value="Élevé">Élevé</option>
+                        <option value="Moyen">Moyen</option>
+                        <option value="Faible">Faible</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label>Profil UX</label>
+                    <select id="filterProfile" onchange="applyFilters()">
+                        <option value="">Tous profils</option>
+                        <option value="Direction SST">Direction SST</option>
+                        <option value="Préventionniste">Préventionniste</option>
+                        <option value="Gestionnaire Opérations">Gestionnaire Opérations</option>
+                        <option value="Travailleur">Travailleur</option>
+                        <option value="IT/Data">IT/Data</option>
+                    </select>
+                </div>
+                <div class="filter-group search-box">
+                    <input type="text" id="searchInput" placeholder="Rechercher par titre, description, tags..." oninput="applyFilters()">
+                </div>
+            </div>
+        </div>
+
+        <!-- Results Stats -->
+        <div class="results-stats">
+            <div class="results-count">
+                <span id="resultsCount">1000</span> projets trouvés
+            </div>
+            <div class="sort-controls">
+                <label style="font-size: 14px; color: var(--gray-600);">Trier par:</label>
+                <select id="sortBy" onchange="applyFilters()">
+                    <option value="id">ID</option>
+                    <option value="priority">Priorité</option>
+                    <option value="title">Titre</option>
+                    <option value="category">Catégorie</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Loading State -->
+        <div class="loading" id="loadingState">
+            <div class="spinner"></div>
+            <p>Chargement des projets enrichis...</p>
+        </div>
+
+        <!-- Projects Grid -->
+        <div class="projects-grid" id="projectsGrid"></div>
+
+        <!-- Empty State -->
+        <div class="empty-state" id="emptyState" style="display: none;">
+            <div class="empty-state-icon">🔍</div>
+            <h3>Aucun projet trouvé</h3>
+            <p>Essayez de modifier vos filtres de recherche</p>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal" id="projectModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div>
+                    <h2 id="modalTitle"></h2>
+                    <div style="display: flex; gap: 8px; margin-top: 12px;" id="modalBadges"></div>
+                </div>
+                <button class="close-modal" onclick="closeModal()">✕</button>
+            </div>
+            <div class="modal-tabs">
+                <button class="modal-tab active" onclick="switchTab('overview')">Vue d'ensemble</button>
+                <button class="modal-tab" onclick="switchTab('compliance')">Conformité</button>
+                <button class="modal-tab" onclick="switchTab('technical')">Technique</button>
+                <button class="modal-tab" onclick="switchTab('kg')" id="kgTab" style="display: none;">🕸️ Graphe de Connaissances</button>
+                <button class="modal-tab" onclick="switchTab('xai')">Explicabilité</button>
+                <button class="modal-tab" onclick="switchTab('ux')">UX Profiles</button>
+            </div>
+            <div class="modal-body">
+                <div class="tab-content active" id="tab-overview"></div>
+                <div class="tab-content" id="tab-compliance"></div>
+                <div class="tab-content" id="tab-technical"></div>
+                <div class="tab-content" id="tab-kg"></div>
+                <div class="tab-content" id="tab-xai"></div>
+                <div class="tab-content" id="tab-ux"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p><strong>SafetyGraph by GenAISafety</strong></p>
+            <p>Plateforme d'Intelligence Artificielle pour la Santé et Sécurité au Travail</p>
+            <div class="footer-links">
+                <a href="https://genaisafety.com" target="_blank">GenAISafety.com</a>
+                <a href="https://preventera.com" target="_blank">Preventera.com</a>
+                <a href="#">Documentation</a>
+                <a href="#">Contact</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Sample enriched data structure (will be populated from actual data)
+        let allProjects = [];
+        let filteredProjects = [];
+        let currentProject = null;
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            generateSampleProjects();
+            applyFilters();
+        });
+
+        // Generate sample enriched projects
+        function generateSampleProjects() {
+            const categories = [
+                'Analyse Prédictive', 'Détection & Surveillance', 'Formation & Simulation',
+                'Documentation & Conformité', 'Ergonomie & Santé', 'Gestion des Urgences',
+                'Maintenance Prédictive', 'EPI & Équipements', 'Communication & Reporting',
+                'Qualité de l\'Air', 'Risques Chimiques', 'Santé Mentale', 'Enquêtes Accidents',
+                'Gestion des Compétences', 'Audits SST'
+            ];
+
+            const architectures = ['RAG', 'Agents IA', 'Knowledge Graphs', 'NLP/LLM', 'Computer Vision', 'ML Classique', 'Time Series', 'Hybrid'];
+            const priorities = ['P0', 'P1', 'P2', 'P3'];
+            const sectors = ['Construction', 'Fabrication', 'Santé', 'Commerce', 'Transport', 'Services', 'Hébergement', 'Ressources'];
+            const irsst = ['Catégorie I', 'Catégorie II', 'Catégorie III'];
+            const xaiLevels = ['Élevé', 'Moyen', 'Faible'];
+
+            for (let i = 1; i <= 1000; i++) {
+                const category = categories[Math.floor(Math.random() * categories.length)];
+                const priority = priorities[Math.floor(Math.random() * priorities.length)];
+                const architecture = architectures[Math.floor(Math.random() * architectures.length)];
+                const sector = sectors[Math.floor(Math.random() * sectors.length)];
+
+                allProjects.push({
+                    id: `SST-${String(i).padStart(4, '0')}`,
+                    title: `Projet IA-SST ${i}: ${category}`,
+                    description: `Système d'intelligence artificielle pour ${category.toLowerCase()} dans le secteur ${sector}. Solution innovante utilisant ${architecture} pour améliorer la sécurité et la conformité réglementaire.`,
+                    category: category,
+                    architecture: architecture,
+                    priority: priority,
+                    sector: sector,
+                    irsst: irsst[Math.floor(Math.random() * irsst.length)],
+                    xai_level: xaiLevels[Math.floor(Math.random() * xaiLevels.length)],
+                    compliance: ['LSST', 'RSS', 'CSTC'].slice(0, Math.floor(Math.random() * 3) + 1),
+                    profiles: ['Direction SST', 'Préventionniste'].slice(0, Math.floor(Math.random() * 2) + 1),
+                    roi: Math.floor(Math.random() * 500) + 100,
+                    complexity: Math.floor(Math.random() * 10) + 1,
+                    timeline: `${Math.floor(Math.random() * 12) + 3} mois`,
+                    tags: [`${architecture}`, `${sector}`, `${category}`]
+                });
+            }
+        }
+
+        // Apply filters
+        function applyFilters() {
+            const categoryFilter = document.getElementById('filterCategory').value;
+            const architectureFilter = document.getElementById('filterArchitecture').value;
+            const priorityFilter = document.getElementById('filterPriority').value;
+            const sectorFilter = document.getElementById('filterSector').value;
+            const complianceFilter = document.getElementById('filterCompliance').value;
+            const irsstFilter = document.getElementById('filterIRSST').value;
+            const xaiFilter = document.getElementById('filterXAI').value;
+            const profileFilter = document.getElementById('filterProfile').value;
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const sortBy = document.getElementById('sortBy').value;
+
+            filteredProjects = allProjects.filter(project => {
+                if (categoryFilter && project.category !== categoryFilter) return false;
+                if (architectureFilter && project.architecture !== architectureFilter) return false;
+                if (priorityFilter && project.priority !== priorityFilter) return false;
+                if (sectorFilter && project.sector !== sectorFilter) return false;
+                if (complianceFilter && !project.compliance.includes(complianceFilter)) return false;
+                if (irsstFilter && project.irsst !== irsstFilter) return false;
+                if (xaiFilter && project.xai_level !== xaiFilter) return false;
+                if (profileFilter && !project.profiles.includes(profileFilter)) return false;
+                if (searchTerm) {
+                    const searchableText = `${project.title} ${project.description} ${project.tags.join(' ')}`.toLowerCase();
+                    if (!searchableText.includes(searchTerm)) return false;
+                }
+                return true;
+            });
+
+            // Sort
+            filteredProjects.sort((a, b) => {
+                switch(sortBy) {
+                    case 'priority':
+                        return a.priority.localeCompare(b.priority);
+                    case 'title':
+                        return a.title.localeCompare(b.title);
+                    case 'category':
+                        return a.category.localeCompare(b.category);
+                    default:
+                        return a.id.localeCompare(b.id);
+                }
+            });
+
+            renderProjects();
+        }
+
+        // Clear filters
+        function clearFilters() {
+            document.getElementById('filterCategory').value = '';
+            document.getElementById('filterArchitecture').value = '';
+            document.getElementById('filterPriority').value = '';
+            document.getElementById('filterSector').value = '';
+            document.getElementById('filterCompliance').value = '';
+            document.getElementById('filterIRSST').value = '';
+            document.getElementById('filterXAI').value = '';
+            document.getElementById('filterProfile').value = '';
+            document.getElementById('searchInput').value = '';
+            applyFilters();
+        }
+
+        // Render projects
+        function renderProjects() {
+            const grid = document.getElementById('projectsGrid');
+            const loadingState = document.getElementById('loadingState');
+            const emptyState = document.getElementById('emptyState');
+            const resultsCount = document.getElementById('resultsCount');
+            const filteredCount = document.getElementById('filteredCount');
+
+            loadingState.style.display = 'none';
+
+            if (filteredProjects.length === 0) {
+                grid.style.display = 'none';
+                emptyState.style.display = 'block';
+            } else {
+                grid.style.display = 'grid';
+                emptyState.style.display = 'none';
+
+                grid.innerHTML = filteredProjects.map(project => `
+                    <div class="project-card" onclick='openModal(${JSON.stringify(project).replace(/'/g, "&apos;")})'>
+                        <div class="project-header">
+                            <span class="project-id">${project.id}</span>
+                        </div>
+                        <h3 class="project-title">${project.title}</h3>
+                        <p class="project-description">${project.description}</p>
+                        <div class="project-meta">
+                            <span class="badge badge-category">${project.category}</span>
+                            <span class="badge badge-priority ${project.priority.toLowerCase()}">${project.priority}</span>
+                            <span class="badge badge-architecture ${project.architecture === 'Knowledge Graphs' ? 'badge-kg' : ''}">${project.architecture === 'Knowledge Graphs' ? '🕸️ ' : ''}${project.architecture}</span>
+                            <span class="badge badge-sector">${project.sector}</span>
+                        </div>
+                        <div class="project-footer">
+                            <div class="project-stats">
+                                <span class="stat-icon">
+                                    📊 ROI: ${project.roi}K$
+                                </span>
+                                <span class="stat-icon">
+                                    ⏱️ ${project.timeline}
+                                </span>
+                            </div>
+                            <button class="view-details" onclick="event.stopPropagation(); openModal(${JSON.stringify(project).replace(/'/g, "&apos;")})">
+                                Détails →
+                            </button>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            resultsCount.textContent = filteredProjects.length;
+            filteredCount.textContent = filteredProjects.length;
+        }
+
+        // Open modal
+        function openModal(project) {
+            currentProject = project;
+            const modal = document.getElementById('projectModal');
+            document.getElementById('modalTitle').textContent = project.title;
+
+            // Show/hide KG tab based on architecture
+            const kgTab = document.getElementById('kgTab');
+            if (project.architecture === 'Knowledge Graphs' || project.architecture === 'Hybrid') {
+                kgTab.style.display = 'block';
+            } else {
+                kgTab.style.display = 'none';
+            }
+
+            // Badges
+            document.getElementById('modalBadges').innerHTML = `
+                <span class="badge badge-priority ${project.priority.toLowerCase()}">${project.priority}</span>
+                <span class="badge badge-architecture ${project.architecture === 'Knowledge Graphs' ? 'badge-kg' : ''}">${project.architecture === 'Knowledge Graphs' ? '🕸️ ' : ''}${project.architecture}</span>
+                <span class="badge badge-sector">${project.sector}</span>
+                <span class="badge badge-irsst">${project.irsst}</span>
+            `;
+
+            // Overview Tab
+            document.getElementById('tab-overview').innerHTML = `
+                <div class="info-section">
+                    <h3>📋 Informations Générales</h3>
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <div class="info-label">ID Projet</div>
+                            <div class="info-value">${project.id}</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Catégorie</div>
+                            <div class="info-value">${project.category}</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Secteur SCIAN</div>
+                            <div class="info-value">${project.sector}</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Priorité</div>
+                            <div class="info-value">${project.priority}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="info-section">
+                    <h3>📝 Description</h3>
+                    <p style="color: var(--gray-700); line-height: 1.8;">${project.description}</p>
+                </div>
+                <div class="info-section">
+                    <h3>💰 Métriques</h3>
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <div class="info-label">ROI Estimé</div>
+                            <div class="info-value">${project.roi}K$ / an</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Complexité</div>
+                            <div class="info-value">${project.complexity}/10</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Timeline</div>
+                            <div class="info-value">${project.timeline}</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            // Compliance Tab
+            document.getElementById('tab-compliance').innerHTML = `
+                <div class="info-section">
+                    <h3>⚖️ Conformité Réglementaire Québec</h3>
+                    <div class="compliance-list">
+                        ${project.compliance.map(c => `<span class="compliance-badge">✓ ${c}</span>`).join('')}
+                    </div>
+                </div>
+                <div class="info-section">
+                    <h3>🏷️ Classification IRSST</h3>
+                    <div class="info-item" style="display: inline-block;">
+                        <div class="info-value">${project.irsst}</div>
+                    </div>
+                </div>
+            `;
+
+            // Technical Tab
+            document.getElementById('tab-technical').innerHTML = `
+                <div class="info-section">
+                    <h3>🤖 Architecture IA</h3>
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <div class="info-label">Type</div>
+                            <div class="info-value">${project.architecture}</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Classification OCDE</div>
+                            <div class="info-value">ISO 22989</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="info-section">
+                    <h3>🏷️ Tags</h3>
+                    <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+                        ${project.tags.map(tag => `<span class="badge badge-architecture">${tag}</span>`).join('')}
+                    </div>
+                </div>
+            `;
+
+            // Knowledge Graph Tab (only for KG projects)
+            if (project.architecture === 'Knowledge Graphs' || project.architecture === 'Hybrid') {
+                document.getElementById('tab-kg').innerHTML = `
+                    <div class="info-section">
+                        <h3>🕸️ Graphe de Connaissances SST</h3>
+                        <p style="color: var(--gray-700); line-height: 1.8; margin-bottom: 20px;">
+                            Ce projet utilise des <strong>graphes de connaissances</strong> pour modéliser les relations complexes 
+                            entre les dangers, les procédures, les équipements et les réglementations SST.
+                        </p>
+                        <div class="info-grid">
+                            <div class="info-item">
+                                <div class="info-label">Base de données</div>
+                                <div class="info-value">Neo4j</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Ontologie</div>
+                                <div class="info-value">SafetyOntology v2.0</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Nœuds</div>
+                                <div class="info-value">${Math.floor(Math.random() * 5000) + 1000} entités</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Relations</div>
+                                <div class="info-value">${Math.floor(Math.random() * 15000) + 3000} liens</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="info-section">
+                        <h3>🔗 Types de Relations Modélisées</h3>
+                        <div style="display: grid; gap: 12px;">
+                            <div class="info-item">
+                                <div class="info-label">Causalité</div>
+                                <div class="info-value">Dangers → Incidents → Lésions</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Conformité</div>
+                                <div class="info-value">Procédures → Articles LSST/RSS</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Équipements</div>
+                                <div class="info-value">EPI → Risques protégés</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Sectorielles</div>
+                                <div class="info-value">SCIAN → Risques spécifiques</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="info-section">
+                        <h3>💡 Capacités du Graphe</h3>
+                        <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+                            <span class="badge badge-kg">Requêtes sémantiques</span>
+                            <span class="badge badge-kg">Inférence causale</span>
+                            <span class="badge badge-kg">Recommandations contextuelles</span>
+                            <span class="badge badge-kg">Analyse de patterns</span>
+                            <span class="badge badge-kg">Traçabilité réglementaire</span>
+                        </div>
+                    </div>
+                `;
+            }
+
+            // XAI Tab
+            document.getElementById('tab-xai').innerHTML = `
+                <div class="info-section">
+                    <h3>🔍 Explicabilité (XAI)</h3>
+                    <div class="info-item">
+                        <div class="info-label">Niveau d'explicabilité</div>
+                        <div class="info-value">${project.xai_level}</div>
+                    </div>
+                    <p style="margin-top: 16px; color: var(--gray-700);">
+                        ${project.xai_level === 'Élevé' ? 'Décisions IA entièrement traçables et explicables.' : 
+                          project.xai_level === 'Moyen' ? 'Décisions partiellement explicables avec justifications.' :
+                          'Système boîte noire avec explicabilité limitée.'}
+                    </p>
+                </div>
+            `;
+
+            // UX Tab
+            document.getElementById('tab-ux').innerHTML = `
+                <div class="info-section">
+                    <h3>👥 Profils Utilisateurs</h3>
+                    <div class="profile-list">
+                        ${project.profiles.map(profile => `
+                            <div class="profile-item">
+                                <div class="profile-name">${profile}</div>
+                                <div class="profile-needs">Interface adaptée aux besoins spécifiques</div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        // Close modal
+        function closeModal() {
+            const modal = document.getElementById('projectModal');
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Switch tab
+        function switchTab(tabName) {
+            // Update tab buttons
+            document.querySelectorAll('.modal-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            // Update tab content
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            document.getElementById(`tab-${tabName}`).classList.add('active');
+        }
+
+        // Close modal on background click
+        document.getElementById('projectModal').addEventListener('click', (e) => {
+            if (e.target.id === 'projectModal') {
+                closeModal();
+            }
+        });
+
+        // Close modal on Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>

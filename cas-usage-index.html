@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgenticX5 - Cas d'Usage Industriels HSE | GenAISafety</title>
+    <meta name="description" content="Découvrez 11 cas d'usage AgenticX5 : Intelligence agentique pour santé, sécurité et environnement au travail. Réduction jusqu'à 67% des incidents.">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0a0a0f;
+            color: #e0e0e0;
+            overflow-x: hidden;
+        }
+
+        /* Background Effects */
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 3s infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+
+        /* Container */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Header */
+        header {
+            text-align: center;
+            padding: 80px 20px 60px;
+            background: linear-gradient(135deg, rgba(168, 85, 247, 0.1) 0%, rgba(236, 72, 153, 0.1) 100%);
+            border-radius: 30px;
+            margin-bottom: 60px;
+            border: 1px solid rgba(168, 85, 247, 0.2);
+        }
+
+        .logo {
+            font-size: 18px;
+            color: #a78bfa;
+            font-weight: 600;
+            margin-bottom: 20px;
+            letter-spacing: 2px;
+        }
+
+        .badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #a78bfa 0%, #ec4899 100%);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            font-size: 48px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #a78bfa 0%, #ec4899 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 20px;
+        }
+
+        .subtitle {
+            font-size: 20px;
+            color: #94a3b8;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Stats Section */
+        .stats-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-bottom: 80px;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(168, 85, 247, 0.2);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            border-color: #a78bfa;
+            box-shadow: 0 10px 40px rgba(168, 85, 247, 0.3);
+        }
+
+        .stat-number {
+            font-size: 42px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #a78bfa 0%, #ec4899 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            font-size: 16px;
+            color: #94a3b8;
+        }
+
+        /* Use Cases Grid */
+        .use-cases-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 80px;
+        }
+
+        .use-case-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(168, 85, 247, 0.2);
+            border-radius: 20px;
+            padding: 30px;
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.3s ease;
+            display: block;
+        }
+
+        .use-case-card:hover {
+            transform: translateY(-10px);
+            border-color: #a78bfa;
+            box-shadow: 0 20px 60px rgba(168, 85, 247, 0.4);
+        }
+
+        .use-case-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+
+        .use-case-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 15px;
+        }
+
+        .use-case-description {
+            font-size: 16px;
+            color: #94a3b8;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .use-case-stats {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .stat-badge {
+            background: rgba(168, 85, 247, 0.2);
+            color: #a78bfa;
+            padding: 6px 12px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .use-case-tag {
+            display: inline-block;
+            background: rgba(236, 72, 153, 0.2);
+            color: #ec4899;
+            padding: 4px 10px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-right: 8px;
+            margin-top: 8px;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            text-align: center;
+            padding: 80px 20px;
+            background: linear-gradient(135deg, rgba(168, 85, 247, 0.1) 0%, rgba(236, 72, 153, 0.1) 100%);
+            border-radius: 30px;
+            border: 1px solid rgba(168, 85, 247, 0.2);
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #a78bfa 0%, #ec4899 100%);
+            color: white;
+            padding: 18px 40px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 18px;
+            margin: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 20px 40px rgba(168, 85, 247, 0.4);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: #64748b;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: 60px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 { font-size: 32px; }
+            .subtitle { font-size: 16px; }
+            .use-cases-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Stars Background -->
+    <div class="stars" id="stars"></div>
+
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <div class="logo">GenAISafety × Preventera × SquadrAI</div>
+            <div class="badge">🤖 INTELLIGENCE AGENTIQUE</div>
+            <h1>AgenticX5<br>Cas d'Usage Industriels</h1>
+            <p class="subtitle">
+                Intelligence agentique révolutionnaire pour la santé, sécurité et environnement au travail. 
+                Découvrez comment l'IA transforme la prévention des risques professionnels.
+            </p>
+        </header>
+
+        <!-- Stats Section -->
+        <div class="stats-section">
+            <div class="stat-card">
+                <div class="stat-number">11</div>
+                <div class="stat-label">Cas d'Usage Industriels</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">-67%</div>
+                <div class="stat-label">Réduction Incidents</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">793K+</div>
+                <div class="stat-label">Données CNESST Analysées</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">24/7</div>
+                <div class="stat-label">Surveillance Temps Réel</div>
+            </div>
+        </div>
+
+        <!-- Use Cases Grid -->
+        <div class="use-cases-grid">
+            
+            <!-- 1. Chutes de hauteur -->
+            <a href="use-cases/UC P01  Chutes de Hauteur/index.html" class="use-case-card">
+                <div class="use-case-icon">🏗️</div>
+                <h3 class="use-case-title">Chutes de Hauteur</h3>
+                <p class="use-case-description">
+                    Détection proactive des situations à risque pour travaux en hauteur (>3m). 
+                    IA vision + wearables + historique CNESST.
+                </p>
+                <div class="use-case-stats">
+                    <span class="stat-badge">47,000+ cas/an</span>
+                    <span class="stat-badge">-78% chutes</span>
+                </div>
+                <span class="use-case-tag">UC-P01</span>
+                <span class="use-case-tag">PRIORITÉ CRITIQUE</span>
+            </a>
+
+            <!-- 2. BIM 4D/5D -->
+            <a href="use-cases/bim-4d-5d/index.html" class="use-case-card">
+                <div class="use-case-icon">🏢</div>
+                <h3 class="use-case-title">BIM 4D/5D & Jumeaux Numériques</h3>
+                <p class="use-case-description">
+                    Prévention by design intégrant modélisation BIM et jumeaux numériques 
+                    pour anticiper les risques avant les travaux.
+                </p>
+                <div class="use-case-stats">
+                    <span class="stat-badge">-67% incidents</span>
+                    <span class="stat-badge">ISO 19650</span>
+                </div>
+                <span class="use-case-tag">UC-P05</span>
+                <span class="use-case-tag">INNOVATION</span>
+            </a>
+
+            <!-- 3. Contacts électriques -->
+            <a href="use-cases/UC P02  Électrocution/index.html" class="use-case-card">
+                <div class="use-case-icon">⚡</div>
+                <h3 class="use-case-title">Contacts Électriques</h3>
+                <p class="use-case-description">
+                    Prévention des électrocutions par détection de proximité avec lignes électriques. 
+                    Vision + capteurs EM + alertes vibratoires.
+                </p>
+                <div class="use-case-stats">
+                    <span class="stat-badge">1,247 incidents</span>
+                    <span class="stat-badge">-70% contacts</span>
+                </div>
+                <span class="use-case-tag">UC-P02</span>
+                <span class="use-case-tag">PRIORITÉ CRITIQUE</span>
+            </a>
+
+            <!-- 4. TMS Canal carpien -->
+            <a href="use-cases/UCE03 TMS Canal Carpien/index.html" class="use-case-card">
+                <div class="use-case-icon">🖐️</div>
+                <h3 class="use-case-title">TMS - Canal Carpien</h3>
+                <p class="use-case-description">
+                    Prévention syndrome canal carpien avec gants capteurs intelligents. 
+                    Détection flexion/déviation poignet + coaching temps réel.
+                </p>
+                <div class="use-case-stats">
+                    <span class="stat-badge">8,923 cas/an</span>
+                    <span class="stat-badge">ACGIH TLV HAL</span>
+                </div>
+                <span class="use-case-tag">UC-E03</span>
+                <span class="use-case-tag">ERGONOMIE</span>
+            </a>
+
+            <!-- 5. Espaces clos -->
+            <a href="use-cases/UC P09 Espaces Clos/index.html" class="use-case-card">
+                <div class="use-case-icon">🚪</div>
+                <h3 class="use-case-title">Espaces Clos</h3>
+                <p class="use-case-description">
+                    Gestion permis travail + monitoring atmosphère (O₂, gaz toxiques, explosifs). 
+                    Alertes sentinelle externe automatique.
+                </p>
+                <div class="use-case-stats">
+                    <span class="stat-badge">Zéro décès</span>
+                    <span class="stat-badge">RSST 297-310</span>
+                </div>
+                <span class="use-case-tag">UC-P08</span>
+                <span class="use-case-tag">PRIORITÉ CRITIQUE</span>
+            </a>
+
+            <!-- 6. Protection oculaire -->
+            <a href="use-cases/UC P13 Projection de Particules  Éclats/index.html" class="use-case-card">
+                <div class="use-case-icon">👁️</div>
+                <h3 class="use-case-title">Protection Oculaire</h3>
+                <p class="use-case-description">
+                    Détection port EPI oculaires (lunettes, écrans faciaux) pour travaux meulage, 
+                    soudage, projection particules.
+                </p>
+                <div class="use-case-stats">
+                    <span class="stat-badge">CSA Z94.3</span>
+                    <span class="stat-badge">-85% lésions</span>
+                </div>
+                <span class="use-case-tag">UC-E06</span>
+                <span class="use-case-tag">CONFORMITÉ</span>
+            </a>
+
+            <!-- 7. Glissades plain-pied -->
+            <a href="use-cases/UC P12  Chutes de plein pied  glissades/index.html" class="use-case-card">
+                <div class="use-case-icon">💧</div>
+                <h3 class="use-case-title">Glissades Plain-Pied</h3>
+                <p class="use-case-description">
+                    Détection surfaces glissantes (humidité, huile, glace) avec capteurs COF/DCOF. 
+                    Wearables détection chute + alerte zones risque.
+                </p>
+                <div class="use-case-stats">
+                    <span class="stat-badge">34,200+ cas/an</span>
+                    <span class="stat-badge">ANSI B101.3</span>
+                </div>
+                <span class="use-case-tag">UC-P09</span>
+                <span class="use-case-tag">PRÉVENTION</span>
+            </a>
+
+            <!-- 8. Incendie & évacuation -->
+            <a href="use-cases/UC P11 Incendie Explosion/index.html" class="use-case-card">
+                <div class="use-case-icon">🚨</div>
+                <h3 class="use-case-title">Incendie & Évacuation</h3>
+                <p class="use-case-description">
+                    Orchestration évacuation intelligente avec détection incendie/gaz + guidage 
+                    temps réel + validation accès urgence.
+                </p>
+                <div class="use-case-stats">
+                    <span class="stat-badge">NFPA 72/101</span>
+                    <span class="stat-badge">-90% délai</span>
+                </div>
+                <span class="use-case-tag">UC-P11</span>
+                <span class="use-case-tag">CRITIQUE</span>
+            </a>
+
+            <!-- 9. Port d'EPI / Formation -->
+            <a href="use-cases/UCP04 Port d'EPI/index.html" class="use-case-card">
+                <div class="use-case-icon">🔧</div>
+                <h3 class="use-case-title">Port d'EPI & Formation</h3>
+                <p class="use-case-description">
+                    Détection conformité port équipements protection individuelle. 
+                    Validation formation outils + rappels intelligents.
+                </p>
+                <div class="use-case-stats">
+                    <span class="stat-badge">Vision IA</span>
+                    <span class="stat-badge">100% conformité</span>
+                </div>
+                <span class="use-case-tag">UC-P04</span>
+                <span class="use-case-tag">CONFORMITÉ</span>
+            </a>
+
+            <!-- 10. Accès d'urgence -->
+            <a href="use-cases/acces-urgence/index.html" class="use-case-card">
+                <div class="use-case-icon">🚑</div>
+                <h3 class="use-case-title">Accès d'Urgence</h3>
+                <p class="use-case-description">
+                    Validation continue accessibilité voies évacuation + dégagement secours. 
+                    Détection obstructions automatique.
+                </p>
+                <div class="use-case-stats">
+                    <span class="stat-badge">NFPA 101</span>
+                    <span class="stat-badge">Temps réel</span>
+                </div>
+                <span class="use-case-tag">UC-P12</span>
+                <span class="use-case-tag">CRITIQUE</span>
+            </a>
+
+            <!-- 11. Ordonnancement sécuritaire -->
+            <a href="use-cases/optimisation-planning/index.html" class="use-case-card">
+                <div class="use-case-icon">📅</div>
+                <h3 class="use-case-title">Ordonnancement Sécuritaire</h3>
+                <p class="use-case-description">
+                    Optimisation planning avec détection conflits coactivité. 
+                    Séquençage intelligent tâches minimisant interférences dangereuses.
+                </p>
+                <div class="use-case-stats">
+                    <span class="stat-badge">BIM 4D</span>
+                    <span class="stat-badge">-73% conflits</span>
+                </div>
+                <span class="use-case-tag">UC-P06</span>
+                <span class="use-case-tag">COORDINATION</span>
+            </a>
+
+        </div>
+
+        <!-- CTA Section -->
+        <div class="cta-section">
+            <h2 style="font-size: 42px; margin-bottom: 20px; color: #fff;">Prêt à Révolutionner Votre Approche SST ?</h2>
+            <p style="font-size: 20px; color: #94a3b8; max-width: 700px; margin: 0 auto 40px;">
+                Transformez vos opérations avec AgenticX5 et découvrez la puissance 
+                de l'intelligence agentique pour la prévention des risques professionnels.
+            </p>
+            <a href="https://preventera.ca/contact" class="cta-button">Demander une Démo</a>
+            <a href="#" class="cta-button" style="background: transparent; border: 2px solid #a78bfa;">Télécharger le Livre Blanc</a>
+        </div>
+
+        <!-- Footer -->
+        <footer>
+            <div style="margin-bottom: 20px;">
+                <span style="color: #a78bfa; font-weight: 700;">GenAISafety</span> × 
+                <span style="color: #ec4899; font-weight: 700;">Preventera</span> × 
+                <span style="color: #06b6d4; font-weight: 700;">SquadrAI</span>
+            </div>
+            <div style="font-size: 14px; margin-bottom: 10px;">
+                AgenticX5: Intelligence Agentique pour HSE | 11 Cas d'Usage Industriels
+            </div>
+            <div style="font-size: 12px; color: #475569;">
+                © 2025 GenAISafety. Validé par recherches MDPI, NIOSH, Construction Innovation et Safety Science.
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // Generate stars
+        function createStars() {
+            const starsContainer = document.getElementById('stars');
+            const starCount = 100;
+            
+            for (let i = 0; i < starCount; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.animationDelay = Math.random() * 3 + 's';
+                starsContainer.appendChild(star);
+            }
+        }
+
+        createStars();
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

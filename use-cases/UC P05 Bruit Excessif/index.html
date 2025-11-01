@@ -1,0 +1,1306 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UC-P05: Bruit Excessif - Surdité Professionnelle | AgenticX5</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        .presentation-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Language Toggle */
+        .language-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+            border-radius: 50px;
+            padding: 10px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .lang-btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 50px;
+            background: transparent;
+            color: #fff;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        .lang-btn.active {
+            background: #FF6B35;
+            box-shadow: 0 5px 15px rgba(255,107,53,0.4);
+        }
+
+        .lang-btn:hover:not(.active) {
+            background: rgba(255,255,255,0.1);
+        }
+
+        .slide {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 60px 40px;
+            opacity: 0;
+            animation: slideIn 1s forwards;
+            margin-bottom: 40px;
+        }
+
+        @keyframes slideIn {
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* Hero Slide */
+        .hero-slide {
+            background: linear-gradient(135deg, #1e3c72 0%, #FF6B35 50%, #F7931E 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-slide::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                90deg,
+                rgba(255,255,255,0.03) 0px,
+                rgba(255,255,255,0.03) 2px,
+                transparent 2px,
+                transparent 40px
+            );
+            animation: soundWave 3s linear infinite;
+        }
+
+        @keyframes soundWave {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(40px); }
+        }
+
+        .hero-content {
+            text-align: center;
+            z-index: 1;
+        }
+
+        .sound-icon {
+            font-size: 120px;
+            margin-bottom: 30px;
+            animation: soundPulse 2s infinite;
+        }
+
+        @keyframes soundPulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+        }
+
+        h1 {
+            font-size: 4em;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            animation: fadeInUp 1s ease-out 0.3s both;
+        }
+
+        .subtitle {
+            font-size: 1.8em;
+            opacity: 0.9;
+            margin-bottom: 30px;
+            animation: fadeInUp 1s ease-out 0.5s both;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .badge {
+            display: inline-block;
+            background: rgba(255,107,53,0.9);
+            padding: 15px 35px;
+            border-radius: 50px;
+            font-size: 1.3em;
+            font-weight: bold;
+            margin-top: 20px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        /* Content Slides */
+        .content-slide {
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 60px;
+            max-width: 1200px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        h2 {
+            font-size: 2.8em;
+            margin-bottom: 40px;
+            text-align: center;
+            border-bottom: 3px solid #FF6B35;
+            padding-bottom: 20px;
+        }
+
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+
+        .stat-card {
+            background: rgba(255,255,255,0.1);
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: 2px solid rgba(255,255,255,0.2);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(255,107,53,0.4);
+        }
+
+        .stat-number {
+            font-size: 3.5em;
+            font-weight: bold;
+            color: #FF6B35;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        /* Sound Level Meter */
+        .sound-meter {
+            background: linear-gradient(135deg, rgba(255,107,53,0.3) 0%, rgba(255,107,53,0.1) 100%);
+            padding: 40px;
+            border-radius: 20px;
+            margin: 40px 0;
+            border: 3px solid rgba(255,107,53,0.5);
+        }
+
+        .meter-scale {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            height: 200px;
+            margin: 30px 0;
+            padding: 0 20px;
+        }
+
+        .meter-bar {
+            flex: 1;
+            margin: 0 5px;
+            border-radius: 5px 5px 0 0;
+            position: relative;
+            transition: all 0.3s;
+        }
+
+        .meter-bar:hover {
+            transform: scaleY(1.05);
+        }
+
+        .meter-bar.safe {
+            background: linear-gradient(to top, #4CAF50, #8BC34A);
+            height: 40%;
+        }
+
+        .meter-bar.caution {
+            background: linear-gradient(to top, #FFC107, #FFD54F);
+            height: 70%;
+        }
+
+        .meter-bar.danger {
+            background: linear-gradient(to top, #FF6B35, #F44336);
+            height: 100%;
+            animation: dangerPulse 1.5s infinite;
+        }
+
+        @keyframes dangerPulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        .meter-label {
+            text-align: center;
+            margin-top: 10px;
+            font-size: 1.1em;
+            font-weight: bold;
+        }
+
+        /* Architecture Layers */
+        .architecture-container {
+            margin: 40px 0;
+        }
+
+        .arch-layer {
+            background: linear-gradient(90deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
+            padding: 30px;
+            margin: 20px 0;
+            border-radius: 15px;
+            border-left: 5px solid #FF6B35;
+            transition: all 0.3s;
+        }
+
+        .arch-layer:hover {
+            transform: translateX(10px);
+            background: linear-gradient(90deg, rgba(255,107,53,0.2) 0%, rgba(255,107,53,0.1) 100%);
+        }
+
+        .arch-layer h3 {
+            font-size: 1.8em;
+            margin-bottom: 15px;
+            color: #FF6B35;
+        }
+
+        .arch-layer p {
+            font-size: 1.2em;
+            line-height: 1.6;
+            opacity: 0.9;
+        }
+
+        /* Data Sources */
+        .data-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            margin: 40px 0;
+        }
+
+        .data-card {
+            background: linear-gradient(135deg, rgba(255,107,53,0.2) 0%, rgba(255,107,53,0.05) 100%);
+            padding: 30px;
+            border-radius: 15px;
+            border: 2px solid rgba(255,107,53,0.3);
+        }
+
+        .data-card h3 {
+            font-size: 1.8em;
+            margin-bottom: 15px;
+            color: #FF6B35;
+        }
+
+        .data-card ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .data-card li {
+            padding: 10px 0;
+            padding-left: 30px;
+            position: relative;
+            font-size: 1.1em;
+        }
+
+        .data-card li::before {
+            content: '🔊';
+            position: absolute;
+            left: 0;
+            font-size: 1.2em;
+        }
+
+        /* Modules Grid */
+        .modules-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 25px;
+            margin: 40px 0;
+        }
+
+        .module-card {
+            background: rgba(255,255,255,0.08);
+            padding: 25px;
+            border-radius: 12px;
+            border-left: 4px solid #4CAF50;
+            transition: all 0.3s;
+        }
+
+        .module-card:hover {
+            background: rgba(255,255,255,0.12);
+            transform: translateX(5px);
+        }
+
+        .module-card h4 {
+            font-size: 1.5em;
+            margin-bottom: 10px;
+            color: #4CAF50;
+        }
+
+        .module-card p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        /* Flow Chart */
+        .flow-chart {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            margin: 40px 0;
+            flex-wrap: wrap;
+        }
+
+        .flow-step {
+            background: rgba(255,255,255,0.1);
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            min-width: 200px;
+            position: relative;
+            margin: 10px;
+        }
+
+        .flow-step::after {
+            content: '→';
+            position: absolute;
+            right: -40px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 2em;
+            color: #FF6B35;
+        }
+
+        .flow-step:last-child::after {
+            content: '';
+        }
+
+        .flow-step .step-number {
+            background: #FF6B35;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+
+        .flow-step h4 {
+            font-size: 1.3em;
+            margin-bottom: 10px;
+        }
+
+        /* Exposure Timeline */
+        .exposure-timeline {
+            background: rgba(255,255,255,0.05);
+            padding: 40px;
+            border-radius: 15px;
+            margin: 40px 0;
+        }
+
+        .timeline-item {
+            display: flex;
+            align-items: center;
+            margin: 25px 0;
+            padding: 20px;
+            background: rgba(255,107,53,0.1);
+            border-radius: 10px;
+            border-left: 5px solid #FF6B35;
+        }
+
+        .timeline-time {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #FFD700;
+            min-width: 150px;
+        }
+
+        .timeline-content {
+            flex: 1;
+            font-size: 1.2em;
+            line-height: 1.6;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            text-align: center;
+            padding: 60px 40px;
+            background: linear-gradient(135deg, #FF6B35 0%, #F7931E 100%);
+            border-radius: 20px;
+            margin-top: 40px;
+        }
+
+        .cta-section h2 {
+            border: none;
+            margin-bottom: 30px;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 30px;
+        }
+
+        .cta-button {
+            padding: 20px 40px;
+            font-size: 1.3em;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: bold;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .cta-button.primary {
+            background: #fff;
+            color: #FF6B35;
+        }
+
+        .cta-button.primary:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .cta-button.secondary {
+            background: transparent;
+            color: #fff;
+            border: 3px solid #fff;
+        }
+
+        .cta-button.secondary:hover {
+            background: #fff;
+            color: #FF6B35;
+        }
+
+        /* Warning Box */
+        .warning-box {
+            background: linear-gradient(135deg, rgba(255,0,0,0.3) 0%, rgba(255,107,53,0.1) 100%);
+            padding: 30px;
+            border-radius: 15px;
+            border: 3px solid rgba(255,0,0,0.6);
+            margin: 30px 0;
+            text-align: center;
+        }
+
+        .warning-box h3 {
+            color: #FF6B35;
+            font-size: 2em;
+            margin-bottom: 15px;
+        }
+
+        .warning-box p {
+            font-size: 1.3em;
+            line-height: 1.8;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 40px;
+            opacity: 0.7;
+            font-size: 1.1em;
+        }
+
+        .logo {
+            font-size: 2em;
+            font-weight: bold;
+            color: #FF6B35;
+            margin-bottom: 10px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 { font-size: 2.5em; }
+            h2 { font-size: 2em; }
+            .subtitle { font-size: 1.3em; }
+            .stat-grid { grid-template-columns: 1fr; }
+            .data-grid { grid-template-columns: 1fr; }
+            .modules-grid { grid-template-columns: 1fr; }
+            .flow-chart { flex-direction: column; }
+            .flow-step::after { 
+                content: '↓';
+                right: 50%;
+                top: auto;
+                bottom: -40px;
+            }
+            .meter-scale { height: 150px; }
+            .language-toggle {
+                top: 10px;
+                right: 10px;
+                padding: 5px;
+            }
+            .lang-btn {
+                padding: 8px 16px;
+                font-size: 0.9em;
+            }
+        }
+
+        /* Hidden language content */
+        .lang-content {
+            display: none;
+        }
+
+        .lang-content.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <!-- Language Toggle -->
+    <div class="language-toggle">
+        <button class="lang-btn active" onclick="switchLanguage('fr')">🇫🇷 FR</button>
+        <button class="lang-btn" onclick="switchLanguage('en')">🇬🇧 EN</button>
+    </div>
+
+    <div class="presentation-container">
+        <!-- Slide 1: Hero -->
+        <section class="slide hero-slide">
+            <div class="hero-content">
+                <div class="sound-icon">🔊👂</div>
+                <div class="lang-content active" data-lang="fr">
+                    <h1>UC-P05: Bruit Excessif</h1>
+                    <p class="subtitle">Prévention de la Surdité Professionnelle par Monitoring Sonore Intelligent</p>
+                    <div class="badge">🟡 PRIORITÉ HAUTE - Risque Irréversible</div>
+                </div>
+                <div class="lang-content" data-lang="en">
+                    <h1>UC-P05: Excessive Noise</h1>
+                    <p class="subtitle">Occupational Hearing Loss Prevention through Smart Sound Monitoring</p>
+                    <div class="badge">🟡 HIGH PRIORITY - Irreversible Risk</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 2: Le Problème -->
+        <section class="slide">
+            <div class="content-slide">
+                <div class="lang-content active" data-lang="fr">
+                    <h2>🚨 Le Problème Critique</h2>
+                    <div class="stat-grid">
+                        <div class="stat-card">
+                            <div class="stat-number">2,347</div>
+                            <div class="stat-label">Cas de surdité CNESST</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">85 dB</div>
+                            <div class="stat-label">Seuil d'exposition dangereux</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">52k$</div>
+                            <div class="stat-label">Coût moyen par cas (CAD)</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">∞</div>
+                            <div class="stat-label">Dommages IRRÉVERSIBLES</div>
+                        </div>
+                    </div>
+                    <div class="sound-meter">
+                        <h3 style="text-align: center; font-size: 2em; margin-bottom: 20px; color: #FF6B35;">
+                            📊 Échelle de Dangerosité Sonore
+                        </h3>
+                        <div class="meter-scale">
+                            <div class="meter-bar safe">
+                                <div class="meter-label">60-70 dB<br>✅ SÛR</div>
+                            </div>
+                            <div class="meter-bar safe">
+                                <div class="meter-label">70-80 dB<br>✅ SÛR</div>
+                            </div>
+                            <div class="meter-bar caution">
+                                <div class="meter-label">80-85 dB<br>⚠️ ATTENTION</div>
+                            </div>
+                            <div class="meter-bar danger">
+                                <div class="meter-label">85-90 dB<br>🚨 DANGER</div>
+                            </div>
+                            <div class="meter-bar danger">
+                                <div class="meter-label">90-100 dB<br>☠️ CRITIQUE</div>
+                            </div>
+                            <div class="meter-bar danger">
+                                <div class="meter-label">>100 dB<br>💀 EXTRÊME</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="warning-box">
+                        <h3>⚠️ Danger Invisible & Irréversible</h3>
+                        <p>
+                            La surdité professionnelle se développe progressivement et silencieusement.<br>
+                            Une fois les dommages causés, ils sont <strong>PERMANENTS</strong> et <strong>INCURABLES</strong>.<br>
+                            <strong>La prévention est la SEULE solution.</strong>
+                        </p>
+                    </div>
+                </div>
+                <div class="lang-content" data-lang="en">
+                    <h2>🚨 The Critical Problem</h2>
+                    <div class="stat-grid">
+                        <div class="stat-card">
+                            <div class="stat-number">2,347</div>
+                            <div class="stat-label">CNESST Hearing Loss Cases</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">85 dB</div>
+                            <div class="stat-label">Dangerous Exposure Threshold</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">52k$</div>
+                            <div class="stat-label">Average Cost per Case (CAD)</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">∞</div>
+                            <div class="stat-label">IRREVERSIBLE Damage</div>
+                        </div>
+                    </div>
+                    <div class="sound-meter">
+                        <h3 style="text-align: center; font-size: 2em; margin-bottom: 20px; color: #FF6B35;">
+                            📊 Sound Danger Scale
+                        </h3>
+                        <div class="meter-scale">
+                            <div class="meter-bar safe">
+                                <div class="meter-label">60-70 dB<br>✅ SAFE</div>
+                            </div>
+                            <div class="meter-bar safe">
+                                <div class="meter-label">70-80 dB<br>✅ SAFE</div>
+                            </div>
+                            <div class="meter-bar caution">
+                                <div class="meter-label">80-85 dB<br>⚠️ CAUTION</div>
+                            </div>
+                            <div class="meter-bar danger">
+                                <div class="meter-label">85-90 dB<br>🚨 DANGER</div>
+                            </div>
+                            <div class="meter-bar danger">
+                                <div class="meter-label">90-100 dB<br>☠️ CRITICAL</div>
+                            </div>
+                            <div class="meter-bar danger">
+                                <div class="meter-label">>100 dB<br>💀 EXTREME</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="warning-box">
+                        <h3>⚠️ Invisible & Irreversible Danger</h3>
+                        <p>
+                            Occupational hearing loss develops gradually and silently.<br>
+                            Once damage occurs, it is <strong>PERMANENT</strong> and <strong>INCURABLE</strong>.<br>
+                            <strong>Prevention is the ONLY solution.</strong>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 3: La Solution -->
+        <section class="slide">
+            <div class="content-slide">
+                <div class="lang-content active" data-lang="fr">
+                    <h2>✨ La Solution AgenticX5</h2>
+                    <h3 style="text-align: center; font-size: 1.8em; margin-bottom: 40px; color: #4CAF50;">
+                        Monitoring Sonore Continu & Intelligent 24/7
+                    </h3>
+                    <div class="flow-chart">
+                        <div class="flow-step">
+                            <div class="step-number">1</div>
+                            <h4>Capteurs Fixes</h4>
+                            <p>IoT dB-mètres cartographient les zones bruyantes</p>
+                        </div>
+                        <div class="flow-step">
+                            <div class="step-number">2</div>
+                            <h4>Dosimètres Personnels</h4>
+                            <p>Wearables suivent exposition individuelle cumulative</p>
+                        </div>
+                        <div class="flow-step">
+                            <div class="step-number">3</div>
+                            <h4>Analyse Agentique</h4>
+                            <p>Calcul exposition quotidienne + recommandations rotation</p>
+                        </div>
+                        <div class="flow-step">
+                            <div class="step-number">4</div>
+                            <h4>Alertes & Actions</h4>
+                            <p>Protection auditive + rotation préventive des équipes</p>
+                        </div>
+                    </div>
+                    <div style="background: rgba(76,175,80,0.2); padding: 30px; border-radius: 15px; margin-top: 40px; text-align: center;">
+                        <h3 style="color: #4CAF50; font-size: 2em; margin-bottom: 15px;">💡 Innovation Clé</h3>
+                        <p style="font-size: 1.3em; line-height: 1.6;">
+                            Double monitoring (zones fixes + dosimètres personnels) combiné à l'<strong>Intelligence Agentique</strong> 
+                            pour protection proactive basée sur l'exposition cumulative réelle
+                        </p>
+                    </div>
+                </div>
+                <div class="lang-content" data-lang="en">
+                    <h2>✨ The AgenticX5 Solution</h2>
+                    <h3 style="text-align: center; font-size: 1.8em; margin-bottom: 40px; color: #4CAF50;">
+                        24/7 Continuous & Intelligent Sound Monitoring
+                    </h3>
+                    <div class="flow-chart">
+                        <div class="flow-step">
+                            <div class="step-number">1</div>
+                            <h4>Fixed Sensors</h4>
+                            <p>IoT dB-meters map noisy zones</p>
+                        </div>
+                        <div class="flow-step">
+                            <div class="step-number">2</div>
+                            <h4>Personal Dosimeters</h4>
+                            <p>Wearables track individual cumulative exposure</p>
+                        </div>
+                        <div class="flow-step">
+                            <div class="step-number">3</div>
+                            <h4>Agentic Analysis</h4>
+                            <p>Calculate daily exposure + rotation recommendations</p>
+                        </div>
+                        <div class="flow-step">
+                            <div class="step-number">4</div>
+                            <h4>Alerts & Actions</h4>
+                            <p>Hearing protection + preventive team rotation</p>
+                        </div>
+                    </div>
+                    <div style="background: rgba(76,175,80,0.2); padding: 30px; border-radius: 15px; margin-top: 40px; text-align: center;">
+                        <h3 style="color: #4CAF50; font-size: 2em; margin-bottom: 15px;">💡 Key Innovation</h3>
+                        <p style="font-size: 1.3em; line-height: 1.6;">
+                            Dual monitoring (fixed zones + personal dosimeters) combined with <strong>Agentic Intelligence</strong> 
+                            for proactive protection based on real cumulative exposure
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 4: Architecture -->
+        <section class="slide">
+            <div class="content-slide">
+                <div class="lang-content active" data-lang="fr">
+                    <h2>🏗️ Architecture Technique</h2>
+                    <div class="architecture-container">
+                        <div class="arch-layer">
+                            <h3>📡 WEARABLES - Dosimètres Personnels</h3>
+                            <p>• Dosimètres individuels intégrés aux wearables (badges, casques)<br>
+                            • Mesure exposition cumulative en temps réel (dB·heure)<br>
+                            • Alertes personnelles si seuil quotidien atteint<br>
+                            • Historique complet d'exposition par travailleur</p>
+                        </div>
+                        <div class="arch-layer">
+                            <h3>🌐 IoT - Capteurs Sonores Fixes</h3>
+                            <p>• Réseau de dB-mètres IoT positionnés stratégiquement<br>
+                            • Cartographie dynamique des niveaux sonores par zone<br>
+                            • Identification sources de bruit excessive<br>
+                            • Données temps réel pour optimisation environnementale</p>
+                        </div>
+                        <div class="arch-layer">
+                            <h3>🤖 AGENTIC - Calculs & Recommandations</h3>
+                            <p>• Agents autonomes calculent exposition quotidienne totale<br>
+                            • Recommandations intelligentes de rotation d'équipes<br>
+                            • Optimisation plannings pour respecter limites RSST<br>
+                            • Alertes préventives avant dépassement seuils réglementaires</p>
+                        </div>
+                        <div class="arch-layer">
+                            <h3>🧠 KNOWLEDGE GRAPH - Normes & Cartographie</h3>
+                            <p>• SafetyOntology: normes RSST/OSHA sur exposition bruit<br>
+                            • Cartographie complète zones bruyantes par site<br>
+                            • Règles d'exposition maximale selon tâches et durées<br>
+                            • Base de données équipements protection auditive requis</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="lang-content" data-lang="en">
+                    <h2>🏗️ Technical Architecture</h2>
+                    <div class="architecture-container">
+                        <div class="arch-layer">
+                            <h3>📡 WEARABLES - Personal Dosimeters</h3>
+                            <p>• Individual dosimeters integrated into wearables (badges, helmets)<br>
+                            • Real-time cumulative exposure measurement (dB·hour)<br>
+                            • Personal alerts when daily threshold reached<br>
+                            • Complete exposure history per worker</p>
+                        </div>
+                        <div class="arch-layer">
+                            <h3>🌐 IoT - Fixed Sound Sensors</h3>
+                            <p>• Network of strategically positioned IoT dB-meters<br>
+                            • Dynamic mapping of sound levels by zone<br>
+                            • Identification of excessive noise sources<br>
+                            • Real-time data for environmental optimization</p>
+                        </div>
+                        <div class="arch-layer">
+                            <h3>🤖 AGENTIC - Calculations & Recommendations</h3>
+                            <p>• Autonomous agents calculate total daily exposure<br>
+                            • Intelligent team rotation recommendations<br>
+                            • Schedule optimization to comply with RSST limits<br>
+                            • Preventive alerts before regulatory threshold breaches</p>
+                        </div>
+                        <div class="arch-layer">
+                            <h3>🧠 KNOWLEDGE GRAPH - Standards & Mapping</h3>
+                            <p>• SafetyOntology: RSST/OSHA noise exposure standards<br>
+                            • Complete mapping of noisy zones per site<br>
+                            • Maximum exposure rules by tasks and durations<br>
+                            • Database of required hearing protection equipment</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 5: Données -->
+        <section class="slide">
+            <div class="content-slide">
+                <div class="lang-content active" data-lang="fr">
+                    <h2>📊 Données Utilisées</h2>
+                    <div class="data-grid">
+                        <div class="data-card">
+                            <h3>📡 Capteurs Sonores</h3>
+                            <ul>
+                                <li>Niveaux dB en temps réel par zone</li>
+                                <li>Pics sonores et variations temporelles</li>
+                                <li>Fréquences sonores (Hz) analysées</li>
+                                <li>Métadonnées: timestamp, localisation GPS</li>
+                            </ul>
+                        </div>
+                        <div class="data-card">
+                            <h3>⌚ Wearables Dosimètres</h3>
+                            <ul>
+                                <li>Exposition cumulative individuelle (dB·h)</li>
+                                <li>Historiques quotidiens/hebdomadaires/annuels</li>
+                                <li>Patterns d'exposition par travailleur</li>
+                                <li>Géolocalisation temps réel des travailleurs</li>
+                            </ul>
+                        </div>
+                        <div class="data-card">
+                            <h3>🗺️ Cartographie Bruit</h3>
+                            <ul>
+                                <li>Cartes thermiques sonores par zone/étage</li>
+                                <li>Identification sources bruit excessive</li>
+                                <li>Zones à risque élevé cartographiées</li>
+                                <li>Évolution temporelle des niveaux sonores</li>
+                            </ul>
+                        </div>
+                        <div class="data-card">
+                            <h3>⏱️ Durées Exposition</h3>
+                            <ul>
+                                <li>Temps passé par zone bruyante</li>
+                                <li>Durées exposition cumulées quotidiennes</li>
+                                <li>Historiques d'exposition long terme</li>
+                                <li>Comparaison vs. limites réglementaires RSST</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="lang-content" data-lang="en">
+                    <h2>📊 Data Used</h2>
+                    <div class="data-grid">
+                        <div class="data-card">
+                            <h3>📡 Sound Sensors</h3>
+                            <ul>
+                                <li>Real-time dB levels per zone</li>
+                                <li>Sound peaks and temporal variations</li>
+                                <li>Analyzed sound frequencies (Hz)</li>
+                                <li>Metadata: timestamp, GPS location</li>
+                            </ul>
+                        </div>
+                        <div class="data-card">
+                            <h3>⌚ Wearable Dosimeters</h3>
+                            <ul>
+                                <li>Individual cumulative exposure (dB·h)</li>
+                                <li>Daily/weekly/annual histories</li>
+                                <li>Exposure patterns per worker</li>
+                                <li>Real-time worker geolocation</li>
+                            </ul>
+                        </div>
+                        <div class="data-card">
+                            <h3>🗺️ Noise Mapping</h3>
+                            <ul>
+                                <li>Sound heat maps by zone/floor</li>
+                                <li>Identification of excessive noise sources</li>
+                                <li>Mapped high-risk zones</li>
+                                <li>Temporal evolution of sound levels</li>
+                            </ul>
+                        </div>
+                        <div class="data-card">
+                            <h3>⏱️ Exposure Durations</h3>
+                            <ul>
+                                <li>Time spent in noisy zones</li>
+                                <li>Daily cumulative exposure durations</li>
+                                <li>Long-term exposure histories</li>
+                                <li>Comparison vs. RSST regulatory limits</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 6: Modules -->
+        <section class="slide">
+            <div class="content-slide">
+                <div class="lang-content active" data-lang="fr">
+                    <h2>🔧 Modules SafetyGraph</h2>
+                    <div class="modules-grid">
+                        <div class="module-card">
+                            <h4>🌡️ Dashboard Environnementaux</h4>
+                            <p>Visualisation temps réel des niveaux sonores par zone avec alertes et cartes thermiques</p>
+                        </div>
+                        <div class="module-card">
+                            <h4>📊 Analytics Dashboard</h4>
+                            <p>Analyse exposition cumulative par travailleur, équipe, et département avec tendances</p>
+                        </div>
+                        <div class="module-card">
+                            <h4>🧠 SafetyOntology (Normes Bruit)</h4>
+                            <p>Base de connaissances RSST/OSHA sur limites d'exposition et équipements protection</p>
+                        </div>
+                        <div class="module-card">
+                            <h4>📍 Context Agent (Localisation)</h4>
+                            <p>Agent contextuel combinant géolocalisation et niveaux sonores pour alertes intelligentes</p>
+                        </div>
+                    </div>
+                    <div style="background: rgba(255,255,255,0.1); padding: 30px; border-radius: 15px; margin-top: 40px;">
+                        <h3 style="color: #FF6B35; font-size: 1.8em; margin-bottom: 20px; text-align: center;">
+                            🔗 Intégration Intelligente
+                        </h3>
+                        <p style="font-size: 1.2em; text-align: center; line-height: 1.6;">
+                            Les 4 modules communiquent via <strong>SafetyGraph Core</strong> pour créer un système 
+                            de prévention auditive complet, proactif et conforme aux normes RSST
+                        </p>
+                    </div>
+                </div>
+                <div class="lang-content" data-lang="en">
+                    <h2>🔧 SafetyGraph Modules</h2>
+                    <div class="modules-grid">
+                        <div class="module-card">
+                            <h4>🌡️ Environmental Dashboard</h4>
+                            <p>Real-time visualization of sound levels per zone with alerts and heat maps</p>
+                        </div>
+                        <div class="module-card">
+                            <h4>📊 Analytics Dashboard</h4>
+                            <p>Analysis of cumulative exposure per worker, team, and department with trends</p>
+                        </div>
+                        <div class="module-card">
+                            <h4>🧠 SafetyOntology (Noise Standards)</h4>
+                            <p>RSST/OSHA knowledge base on exposure limits and protective equipment</p>
+                        </div>
+                        <div class="module-card">
+                            <h4>📍 Context Agent (Location)</h4>
+                            <p>Contextual agent combining geolocation and sound levels for smart alerts</p>
+                        </div>
+                    </div>
+                    <div style="background: rgba(255,255,255,0.1); padding: 30px; border-radius: 15px; margin-top: 40px;">
+                        <h3 style="color: #FF6B35; font-size: 1.8em; margin-bottom: 20px; text-align: center;">
+                            🔗 Intelligent Integration
+                        </h3>
+                        <p style="font-size: 1.2em; text-align: center; line-height: 1.6;">
+                            All 4 modules communicate via <strong>SafetyGraph Core</strong> to create a 
+                            complete, proactive hearing prevention system compliant with RSST standards
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 7: Scénario -->
+        <section class="slide">
+            <div class="content-slide">
+                <div class="lang-content active" data-lang="fr">
+                    <h2>📖 Scénario Concret</h2>
+                    <div style="background: rgba(255,255,255,0.05); padding: 40px; border-radius: 15px;">
+                        <h3 style="color: #FF6B35; font-size: 2em; margin-bottom: 30px; text-align: center;">
+                            🏭 Usine de Fabrication - Zone Presses Hydrauliques
+                        </h3>
+                        <div class="exposure-timeline">
+                            <div class="timeline-item">
+                                <div class="timeline-time">08:00 - Début</div>
+                                <div class="timeline-content">
+                                    <strong>Entrée en zone:</strong> Dosimètre activé automatiquement<br>
+                                    📊 Niveau sonore zone: 92 dB (capteurs IoT)<br>
+                                    ⏱️ Limite exposition: 2h30 max selon RSST
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-time">09:30 - Alerte</div>
+                                <div class="timeline-content">
+                                    <strong>Seuil 60% atteint:</strong> 1h30 d'exposition<br>
+                                    📱 Notification superviseur: "Planifier rotation dans 1h"<br>
+                                    🎯 Agent calcule rotation optimale équipe
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-time">10:20 - Critique</div>
+                                <div class="timeline-content">
+                                    <strong>Seuil 90% atteint:</strong> 2h15 d'exposition<br>
+                                    🚨 Alerte critique travailleur + superviseur<br>
+                                    📋 Ordre de rotation automatique généré<br>
+                                    👤 Remplacement par travailleur exposition faible
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-time">10:30 - Rotation</div>
+                                <div class="timeline-content">
+                                    <strong>Changement effectué:</strong> Total 2h30 = limite RSST<br>
+                                    ✅ Conformité respectée<br>
+                                    📊 Exposition enregistrée: 230 dB·h<br>
+                                    🟢 Audition protégée, pas de surexposition
+                                </div>
+                            </div>
+                        </div>
+                        <p style="font-size: 1.2em; margin-top: 30px; text-align: center; line-height: 1.6;">
+                            <strong style="color: #4CAF50;">Résultat:</strong> Cas de surdité évité grâce au monitoring 
+                            continu et rotation préventive intelligente. Conformité RSST garantie.
+                        </p>
+                    </div>
+                </div>
+                <div class="lang-content" data-lang="en">
+                    <h2>📖 Concrete Scenario</h2>
+                    <div style="background: rgba(255,255,255,0.05); padding: 40px; border-radius: 15px;">
+                        <h3 style="color: #FF6B35; font-size: 2em; margin-bottom: 30px; text-align: center;">
+                            🏭 Manufacturing Plant - Hydraulic Press Area
+                        </h3>
+                        <div class="exposure-timeline">
+                            <div class="timeline-item">
+                                <div class="timeline-time">08:00 - Start</div>
+                                <div class="timeline-content">
+                                    <strong>Zone entry:</strong> Dosimeter automatically activated<br>
+                                    📊 Zone sound level: 92 dB (IoT sensors)<br>
+                                    ⏱️ Exposure limit: 2h30 max per RSST
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-time">09:30 - Alert</div>
+                                <div class="timeline-content">
+                                    <strong>60% threshold reached:</strong> 1h30 exposure<br>
+                                    📱 Supervisor notification: "Plan rotation in 1h"<br>
+                                    🎯 Agent calculates optimal team rotation
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-time">10:20 - Critical</div>
+                                <div class="timeline-content">
+                                    <strong>90% threshold reached:</strong> 2h15 exposure<br>
+                                    🚨 Critical alert to worker + supervisor<br>
+                                    📋 Automatic rotation order generated<br>
+                                    👤 Replacement by low-exposure worker
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-time">10:30 - Rotation</div>
+                                <div class="timeline-content">
+                                    <strong>Change completed:</strong> Total 2h30 = RSST limit<br>
+                                    ✅ Compliance respected<br>
+                                    📊 Recorded exposure: 230 dB·h<br>
+                                    🟢 Hearing protected, no overexposure
+                                </div>
+                            </div>
+                        </div>
+                        <p style="font-size: 1.2em; margin-top: 30px; text-align: center; line-height: 1.6;">
+                            <strong style="color: #4CAF50;">Result:</strong> Hearing loss case prevented through 
+                            continuous monitoring and intelligent preventive rotation. RSST compliance guaranteed.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 8: CTA -->
+        <section class="slide">
+            <div class="cta-section">
+                <div class="lang-content active" data-lang="fr">
+                    <h2>🚀 Protégez l'Audition de Vos Équipes</h2>
+                    <p style="font-size: 1.5em; margin: 30px 0; line-height: 1.6;">
+                        Déployez UC-P05 et prévenez la surdité professionnelle de manière <strong>proactive</strong>
+                    </p>
+                    <div class="stat-grid" style="margin: 40px 0;">
+                        <div class="stat-card" style="background: rgba(255,255,255,0.2);">
+                            <div class="stat-number" style="color: #fff;">6-8</div>
+                            <div class="stat-label">Semaines déploiement</div>
+                        </div>
+                        <div class="stat-card" style="background: rgba(255,255,255,0.2);">
+                            <div class="stat-number" style="color: #fff;">40%</div>
+                            <div class="stat-label">Réduction cas surdité</div>
+                        </div>
+                        <div class="stat-card" style="background: rgba(255,255,255,0.2);">
+                            <div class="stat-number" style="color: #fff;">24/7</div>
+                            <div class="stat-label">Monitoring continu</div>
+                        </div>
+                        <div class="stat-card" style="background: rgba(255,255,255,0.2);">
+                            <div class="stat-number" style="color: #fff;">∞</div>
+                            <div class="stat-label">Protection permanente</div>
+                        </div>
+                    </div>
+                    <div class="cta-buttons">
+                        <a href="#contact" class="cta-button primary">Demander une Démo</a>
+                        <a href="#whitepaper" class="cta-button secondary">Télécharger le Guide</a>
+                    </div>
+                    <p style="margin-top: 40px; font-size: 1.2em; opacity: 0.9;">
+                        🛡️ Protection irréversible - Chaque dB compte
+                    </p>
+                </div>
+                <div class="lang-content" data-lang="en">
+                    <h2>🚀 Protect Your Teams' Hearing</h2>
+                    <p style="font-size: 1.5em; margin: 30px 0; line-height: 1.6;">
+                        Deploy UC-P05 and prevent occupational hearing loss <strong>proactively</strong>
+                    </p>
+                    <div class="stat-grid" style="margin: 40px 0;">
+                        <div class="stat-card" style="background: rgba(255,255,255,0.2);">
+                            <div class="stat-number" style="color: #fff;">6-8</div>
+                            <div class="stat-label">Weeks deployment</div>
+                        </div>
+                        <div class="stat-card" style="background: rgba(255,255,255,0.2);">
+                            <div class="stat-number" style="color: #fff;">40%</div>
+                            <div class="stat-label">Hearing loss reduction</div>
+                        </div>
+                        <div class="stat-card" style="background: rgba(255,255,255,0.2);">
+                            <div class="stat-number" style="color: #fff;">24/7</div>
+                            <div class="stat-label">Continuous monitoring</div>
+                        </div>
+                        <div class="stat-card" style="background: rgba(255,255,255,0.2);">
+                            <div class="stat-number" style="color: #fff;">∞</div>
+                            <div class="stat-label">Permanent protection</div>
+                        </div>
+                    </div>
+                    <div class="cta-buttons">
+                        <a href="#contact" class="cta-button primary">Request a Demo</a>
+                        <a href="#whitepaper" class="cta-button secondary">Download Guide</a>
+                    </div>
+                    <p style="margin-top: 40px; font-size: 1.2em; opacity: 0.9;">
+                        🛡️ Irreversible protection - Every dB counts
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="logo">AgenticX5 | GenAISafety</div>
+            <div class="lang-content active" data-lang="fr">
+                <p>Propulsé par SafetyGraph - Intelligence Agentique au Service de la SST</p>
+                <p style="margin-top: 15px;">© 2025 GenAISafety - Preventera | Tous droits réservés</p>
+            </div>
+            <div class="lang-content" data-lang="en">
+                <p>Powered by SafetyGraph - Agentic Intelligence for Occupational Safety</p>
+                <p style="margin-top: 15px;">© 2025 GenAISafety - Preventera | All rights reserved</p>
+            </div>
+            <p style="margin-top: 10px; font-size: 0.9em;">
+                🌐 genaisafety.com | 📧 contact@genaisafety.com | 📱 +1 (XXX) XXX-XXXX
+            </p>
+        </footer>
+    </div>
+
+    <script>
+        // Language Switching
+        let currentLang = 'fr';
+
+        function switchLanguage(lang) {
+            currentLang = lang;
+            
+            // Update button states
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Update content visibility
+            document.querySelectorAll('.lang-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            document.querySelectorAll(`[data-lang="${lang}"]`).forEach(content => {
+                content.classList.add('active');
+            });
+            
+            // Update HTML lang attribute
+            document.documentElement.lang = lang;
+        }
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // Intersection Observer for slide animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.slide').forEach(slide => {
+            slide.style.opacity = '0';
+            slide.style.transform = 'translateY(30px)';
+            slide.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(slide);
+        });
+
+        // Keyboard navigation
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowDown' || e.key === 'PageDown') {
+                e.preventDefault();
+                currentSlide = Math.min(currentSlide + 1, slides.length - 1);
+                slides[currentSlide].scrollIntoView({ behavior: 'smooth' });
+            } else if (e.key === 'ArrowUp' || e.key === 'PageUp') {
+                e.preventDefault();
+                currentSlide = Math.max(currentSlide - 1, 0);
+                slides[currentSlide].scrollIntoView({ behavior: 'smooth' });
+            }
+        });
+
+        // Update current slide on scroll
+        window.addEventListener('scroll', () => {
+            slides.forEach((slide, index) => {
+                const rect = slide.getBoundingClientRect();
+                if (rect.top >= 0 && rect.top < window.innerHeight / 2) {
+                    currentSlide = index;
+                }
+            });
+        });
+
+        // Console log
+        console.log('%c🔊 UC-P05: Bruit Excessif - Surdité Professionnelle', 'color: #FF6B35; font-size: 20px; font-weight: bold;');
+        console.log('%cAgenticX5 | GenAISafety - Powered by SafetyGraph', 'color: #4CAF50; font-size: 14px;');
+    </script>
+</body>
+</html>

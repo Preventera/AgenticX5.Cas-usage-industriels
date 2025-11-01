@@ -1,0 +1,1390 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UC-P16: Coupures / Lacérations - Outils Tranchants | AgenticX5 SafetyGraph</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans-serif;
+            background: #0a0a14;
+            color: #ffffff;
+            overflow-x: hidden;
+            line-height: 1.6;
+            position: relative;
+        }
+        
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(147, 51, 234, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(236, 72, 153, 0.12) 0%, transparent 50%),
+                radial-gradient(circle at 50% 50%, rgba(59, 130, 246, 0.08) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 0;
+            animation: backgroundShift 20s ease-in-out infinite;
+        }
+        
+        @keyframes backgroundShift {
+            0%, 100% {
+                background: 
+                    radial-gradient(circle at 20% 30%, rgba(147, 51, 234, 0.15) 0%, transparent 50%),
+                    radial-gradient(circle at 80% 70%, rgba(236, 72, 153, 0.12) 0%, transparent 50%),
+                    radial-gradient(circle at 50% 50%, rgba(59, 130, 246, 0.08) 0%, transparent 70%);
+            }
+            50% {
+                background: 
+                    radial-gradient(circle at 80% 30%, rgba(147, 51, 234, 0.15) 0%, transparent 50%),
+                    radial-gradient(circle at 20% 70%, rgba(236, 72, 153, 0.12) 0%, transparent 50%),
+                    radial-gradient(circle at 50% 50%, rgba(59, 130, 246, 0.08) 0%, transparent 70%);
+            }
+        }
+        
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 40px 20px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(147, 51, 234, 0.2) 0%, transparent 50%),
+                radial-gradient(circle at 80% 50%, rgba(236, 72, 153, 0.15) 0%, transparent 50%);
+            animation: pulse 6s ease-in-out infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .hero-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #10b981, #34d399);
+            color: white;
+            padding: 12px 30px;
+            border-radius: 30px;
+            font-size: 0.9em;
+            font-weight: 600;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 32px rgba(16, 185, 129, 0.4);
+            animation: fadeInDown 0.8s ease-out;
+            border: 1px solid rgba(52, 211, 153, 0.3);
+        }
+        
+        .hero h1 {
+            font-size: 4.5em;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #a78bfa, #ec4899, #f472b6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: fadeInUp 1s ease-out;
+            line-height: 1.2;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+        
+        .hero-subtitle {
+            font-size: 1.4em;
+            color: #94a3b8;
+            margin-bottom: 40px;
+            animation: fadeInUp 1.2s ease-out;
+            font-weight: 400;
+        }
+        
+        .hero-icon {
+            font-size: 6em;
+            margin-bottom: 30px;
+            animation: float 3s ease-in-out infinite;
+            filter: drop-shadow(0 8px 24px rgba(147, 51, 234, 0.4));
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Section */
+        section {
+            padding: 100px 20px;
+            position: relative;
+        }
+        
+        section h2 {
+            font-size: 3em;
+            margin-bottom: 50px;
+            text-align: center;
+            background: linear-gradient(135deg, #a78bfa, #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+        
+        /* Problem Section */
+        .problem-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+        
+        .stat-card {
+            background: rgba(147, 51, 234, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(147, 51, 234, 0.2);
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(147, 51, 234, 0.1), rgba(236, 72, 153, 0.05));
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(147, 51, 234, 0.6);
+            box-shadow: 0 20px 60px rgba(147, 51, 234, 0.3);
+        }
+        
+        .stat-card:hover::before {
+            opacity: 1;
+        }
+        
+        .stat-number {
+            font-size: 3.5em;
+            font-weight: 800;
+            background: linear-gradient(135deg, #a78bfa, #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 15px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .stat-label {
+            font-size: 1.1em;
+            color: #94a3b8;
+            position: relative;
+            z-index: 1;
+        }
+        
+        /* Risk List */
+        .risk-list {
+            background: rgba(147, 51, 234, 0.08);
+            border-left: 4px solid #a78bfa;
+            padding: 30px;
+            border-radius: 12px;
+            margin-top: 40px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .risk-list h3 {
+            color: #a78bfa;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+            font-weight: 600;
+        }
+        
+        .risk-list ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .risk-list li {
+            padding: 15px;
+            margin-bottom: 10px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 8px;
+            font-size: 1.1em;
+            color: #94a3b8;
+        }
+        
+        .risk-list li::before {
+            content: '⚠️';
+            margin-right: 15px;
+            font-size: 1.3em;
+        }
+        
+        /* Solution Flow */
+        .solution-flow {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+        
+        .flow-step {
+            background: rgba(147, 51, 234, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(147, 51, 234, 0.2);
+            border-radius: 16px;
+            padding: 35px;
+            text-align: center;
+            position: relative;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow: hidden;
+        }
+        
+        .flow-step::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(147, 51, 234, 0.1), rgba(236, 72, 153, 0.05));
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+        
+        .flow-step:hover {
+            transform: scale(1.05);
+            border-color: rgba(147, 51, 234, 0.6);
+            box-shadow: 0 20px 60px rgba(147, 51, 234, 0.4);
+        }
+        
+        .flow-step:hover::before {
+            opacity: 1;
+        }
+        
+        .step-number {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #9333ea, #ec4899);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8em;
+            font-weight: 700;
+            margin: 0 auto 20px;
+            box-shadow: 0 8px 32px rgba(147, 51, 234, 0.5);
+            position: relative;
+            z-index: 1;
+        }
+        
+        .flow-step h4 {
+            font-size: 1.4em;
+            margin-bottom: 15px;
+            color: #a78bfa;
+            position: relative;
+            z-index: 1;
+            font-weight: 600;
+        }
+        
+        .flow-step p {
+            color: #94a3b8;
+            line-height: 1.6;
+            position: relative;
+            z-index: 1;
+        }
+        
+        /* Architecture Layers */
+        .arch-layers {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+            margin-top: 50px;
+        }
+        
+        .arch-layer {
+            background: rgba(147, 51, 234, 0.05);
+            backdrop-filter: blur(20px);
+            border-left: 5px solid #9333ea;
+            border-radius: 16px;
+            padding: 35px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(147, 51, 234, 0.2);
+        }
+        
+        .arch-layer:hover {
+            background: rgba(147, 51, 234, 0.1);
+            transform: translateX(10px);
+            box-shadow: 0 20px 60px rgba(147, 51, 234, 0.3);
+            border-color: rgba(147, 51, 234, 0.4);
+        }
+        
+        .arch-layer h3 {
+            font-size: 1.6em;
+            margin-bottom: 15px;
+            color: #a78bfa;
+            font-weight: 600;
+        }
+        
+        .arch-layer p {
+            color: #94a3b8;
+            line-height: 1.8;
+        }
+        
+        /* Data Grid */
+        .data-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+        
+        .data-card {
+            background: rgba(147, 51, 234, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(147, 51, 234, 0.2);
+            border-radius: 16px;
+            padding: 35px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .data-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(147, 51, 234, 0.5);
+            box-shadow: 0 20px 60px rgba(147, 51, 234, 0.3);
+        }
+        
+        .data-card h3 {
+            font-size: 1.5em;
+            margin-bottom: 20px;
+            color: #a78bfa;
+            font-weight: 600;
+        }
+        
+        .data-card ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .data-card li {
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(147, 51, 234, 0.15);
+            color: #94a3b8;
+        }
+        
+        .data-card li:last-child {
+            border-bottom: none;
+        }
+        
+        .data-card li::before {
+            content: '✓';
+            color: #a78bfa;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        
+        /* Modules Grid */
+        .modules-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-top: 50px;
+        }
+        
+        .module-card {
+            background: linear-gradient(135deg, rgba(147, 51, 234, 0.08), rgba(236, 72, 153, 0.05));
+            border: 1px solid rgba(147, 51, 234, 0.25);
+            border-radius: 16px;
+            padding: 30px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(20px);
+        }
+        
+        .module-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 60px rgba(147, 51, 234, 0.4);
+            border-color: rgba(147, 51, 234, 0.6);
+        }
+        
+        .module-icon {
+            font-size: 3em;
+            margin-bottom: 15px;
+            filter: drop-shadow(0 4px 12px rgba(147, 51, 234, 0.3));
+        }
+        
+        .module-card h3 {
+            font-size: 1.4em;
+            margin-bottom: 15px;
+            color: #a78bfa;
+            font-weight: 600;
+        }
+        
+        .module-card p {
+            color: #94a3b8;
+            line-height: 1.6;
+        }
+        
+        /* Standards Section */
+        .standards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+        
+        .standard-card {
+            background: rgba(147, 51, 234, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(147, 51, 234, 0.2);
+            border-radius: 16px;
+            padding: 35px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .standard-card:hover {
+            border-color: rgba(147, 51, 234, 0.5);
+            transform: translateY(-8px);
+            box-shadow: 0 20px 60px rgba(147, 51, 234, 0.3);
+        }
+        
+        .standard-card h3 {
+            font-size: 1.6em;
+            margin-bottom: 20px;
+            color: #a78bfa;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+        }
+        
+        .standard-card ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .standard-card li {
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(147, 51, 234, 0.15);
+            color: #94a3b8;
+            font-size: 1em;
+        }
+        
+        .standard-card li:last-child {
+            border-bottom: none;
+        }
+        
+        .standard-card li strong {
+            color: #a78bfa;
+        }
+        
+        /* ROI Section */
+        .roi-container {
+            background: linear-gradient(135deg, rgba(147, 51, 234, 0.1), rgba(236, 72, 153, 0.08));
+            border: 2px solid rgba(147, 51, 234, 0.3);
+            border-radius: 24px;
+            padding: 50px;
+            margin-top: 50px;
+            backdrop-filter: blur(20px);
+        }
+        
+        .roi-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .roi-header h3 {
+            font-size: 2.5em;
+            background: linear-gradient(135deg, #a78bfa, #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+        
+        .roi-header p {
+            font-size: 1.3em;
+            color: #94a3b8;
+        }
+        
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-top: 40px;
+        }
+        
+        .benefit-item {
+            background: rgba(147, 51, 234, 0.05);
+            border-left: 4px solid #9333ea;
+            padding: 25px;
+            border-radius: 12px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(147, 51, 234, 0.2);
+        }
+        
+        .benefit-item:hover {
+            background: rgba(147, 51, 234, 0.1);
+            transform: translateX(10px);
+            box-shadow: 0 12px 40px rgba(147, 51, 234, 0.2);
+        }
+        
+        .benefit-item h4 {
+            color: #a78bfa;
+            margin-bottom: 10px;
+            font-size: 1.3em;
+            font-weight: 600;
+        }
+        
+        .benefit-item p {
+            color: #94a3b8;
+        }
+        
+        /* Scenario Section */
+        .scenario-container {
+            background: rgba(147, 51, 234, 0.05);
+            border-radius: 24px;
+            padding: 50px;
+            margin-top: 50px;
+            border: 1px solid rgba(147, 51, 234, 0.2);
+            backdrop-filter: blur(20px);
+        }
+        
+        .scenario-title {
+            text-align: center;
+            font-size: 2.2em;
+            background: linear-gradient(135deg, #a78bfa, #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 40px;
+            font-weight: 700;
+        }
+        
+        .timeline {
+            position: relative;
+            padding-left: 40px;
+            border-left: 3px solid #9333ea;
+        }
+        
+        .timeline-item {
+            margin-bottom: 40px;
+            position: relative;
+        }
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -48px;
+            top: 0;
+            width: 16px;
+            height: 16px;
+            background: linear-gradient(135deg, #9333ea, #ec4899);
+            border-radius: 50%;
+            border: 4px solid #0a0a14;
+            box-shadow: 0 0 20px rgba(147, 51, 234, 0.6);
+        }
+        
+        .timeline-time {
+            font-size: 1.3em;
+            color: #a78bfa;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        
+        .timeline-content {
+            background: rgba(147, 51, 234, 0.05);
+            padding: 25px;
+            border-radius: 12px;
+            border-left: 3px solid #9333ea;
+            border: 1px solid rgba(147, 51, 234, 0.2);
+        }
+        
+        .timeline-content p {
+            color: #94a3b8;
+            line-height: 1.8;
+            margin-bottom: 10px;
+        }
+        
+        /* CTA Section */
+        .cta-section {
+            text-align: center;
+            padding: 100px 20px;
+            background: linear-gradient(135deg, rgba(147, 51, 234, 0.1), rgba(236, 72, 153, 0.08));
+            position: relative;
+        }
+        
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 30% 50%, rgba(147, 51, 234, 0.2) 0%, transparent 50%),
+                radial-gradient(circle at 70% 50%, rgba(236, 72, 153, 0.15) 0%, transparent 50%);
+            pointer-events: none;
+        }
+        
+        .cta-content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .cta-content h2 {
+            font-size: 3em;
+            margin-bottom: 30px;
+        }
+        
+        .cta-content p {
+            font-size: 1.4em;
+            color: #94a3b8;
+            margin-bottom: 40px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .cta-buttons {
+            display: flex;
+            gap: 25px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 18px 45px;
+            border-radius: 50px;
+            font-size: 1.1em;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            display: inline-block;
+            cursor: pointer;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #9333ea, #ec4899);
+            color: white;
+            box-shadow: 0 8px 32px rgba(147, 51, 234, 0.4);
+            border: 1px solid rgba(236, 72, 153, 0.3);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 16px 48px rgba(147, 51, 234, 0.6);
+        }
+        
+        .btn-secondary {
+            background: rgba(147, 51, 234, 0.1);
+            border: 2px solid #9333ea;
+            color: #a78bfa;
+            backdrop-filter: blur(10px);
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(147, 51, 234, 0.2);
+            transform: translateY(-3px);
+            box-shadow: 0 12px 40px rgba(147, 51, 234, 0.3);
+        }
+        
+        /* Stats Bar */
+        .stats-bar {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+            text-align: center;
+        }
+        
+        .stat-item {
+            padding: 20px;
+        }
+        
+        .stat-item .number {
+            font-size: 3em;
+            font-weight: 800;
+            background: linear-gradient(135deg, #a78bfa, #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+        
+        .stat-item .label {
+            color: #94a3b8;
+            font-size: 1.1em;
+        }
+        
+        /* Footer */
+        footer {
+            background: rgba(10, 10, 20, 0.6);
+            padding: 40px 20px;
+            text-align: center;
+            border-top: 1px solid rgba(147, 51, 234, 0.2);
+            backdrop-filter: blur(20px);
+        }
+        
+        footer p {
+            color: #94a3b8;
+            margin-bottom: 10px;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5em;
+            }
+            
+            .hero-subtitle {
+                font-size: 1.2em;
+            }
+            
+            section h2 {
+                font-size: 2em;
+            }
+            
+            .solution-flow,
+            .problem-grid,
+            .data-grid,
+            .modules-grid,
+            .standards-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .timeline {
+                padding-left: 30px;
+            }
+        }
+        
+        /* Scroll Animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+        
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+    <div class="hero">
+        <div class="hero-content">
+            <div class="hero-icon">🔪🧤</div>
+            <div class="hero-badge">🟢 PRIORITÉ MOYENNE - Volume Élevé, Gravité Faible</div>
+            <h1>UC-P16: Coupures / Lacérations<br>Outils Tranchants</h1>
+            <p class="hero-subtitle">Coaching Intelligent & Prévention Proactive | AgenticX5 SafetyGraph</p>
+        </div>
+    </div>
+
+    <!-- Problem Section -->
+    <section id="problem">
+        <div class="container">
+            <h2>🚨 Le Problème Récurrent</h2>
+            <div class="problem-grid">
+                <div class="stat-card fade-in">
+                    <div class="stat-number">4,523</div>
+                    <div class="stat-label">Incidents/an outils manuels tranchants</div>
+                </div>
+                <div class="stat-card fade-in">
+                    <div class="stat-number">5K$</div>
+                    <div class="stat-label">Coût moyen par coupure/lacération</div>
+                </div>
+                <div class="stat-card fade-in">
+                    <div class="stat-number">📈</div>
+                    <div class="stat-label">Volume élevé, impacts cumulés</div>
+                </div>
+                <div class="stat-card fade-in">
+                    <div class="stat-number">⚡</div>
+                    <div class="stat-label">Gestes dangereux répétitifs</div>
+                </div>
+            </div>
+            
+            <div class="risk-list fade-in">
+                <h3>⚠️ Risques Majeurs & Facteurs Contributifs</h3>
+                <ul>
+                    <li><strong>Couteaux Utilitaires (Stanley):</strong> Lames rétractables non verrouillées → coupures main opposée (45% incidents)</li>
+                    <li><strong>Cisailles / Cutters:</strong> Posture incorrecte (couper vers soi) → lacérations cuisses, abdomen (28% incidents)</li>
+                    <li><strong>Scalpels Industriels:</strong> Lames émoussées (force excessive) → glissades incontrôlées (18% incidents)</li>
+                    <li><strong>Outils Défectueux:</strong> Lames desserrées, poignées cassées → perte contrôle (12% incidents)</li>
+                    <li><strong>Absence EPI:</strong> Gants anti-coupure inadaptés ou absents → 75% incidents évitables</li>
+                    <li><strong>Fatigue / Répétitivité:</strong> Perte concentration après 3h travail répétitif → erreurs gestuelles</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Solution Section -->
+    <section id="solution">
+        <div class="container">
+            <h2>✨ La Solution AgenticX5</h2>
+            <h3 style="text-align: center; font-size: 1.8em; margin-bottom: 40px; color: #a78bfa;">
+                Coaching Proactif & Micro-Formation Contextuelle 24/7
+            </h3>
+            <div class="solution-flow">
+                <div class="flow-step fade-in">
+                    <div class="step-number">1</div>
+                    <h4>Détection Vision</h4>
+                    <p>Computer Vision analyse gestes/postures en temps réel (couper vers soi, main dans trajectoire lame)</p>
+                </div>
+                <div class="flow-step fade-in">
+                    <div class="step-number">2</div>
+                    <h4>Validation Wearables</h4>
+                    <p>Gants anti-coupure intelligents (capteurs pression, niveau ANSI 105) vérifient conformité EPI</p>
+                </div>
+                <div class="flow-step fade-in">
+                    <div class="step-number">3</div>
+                    <h4>Coaching Agentic</h4>
+                    <p>Agents déclenchent alertes douces + micro-formations 2-3 min contextuelles (posture, angle coupe)</p>
+                </div>
+                <div class="flow-step fade-in">
+                    <div class="step-number">4</div>
+                    <h4>Apprentissage KG</h4>
+                    <p>Knowledge Graph enrichit bonnes pratiques par outil + historiques patterns dangereux</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Architecture Section -->
+    <section id="architecture">
+        <div class="container">
+            <h2>🏗️ Architecture Technique</h2>
+            <div class="arch-layers">
+                <div class="arch-layer fade-in">
+                    <h3>🎥 VISION - Analyse Gestes & Postures</h3>
+                    <p>• Computer Vision (OpenPose + Custom CNN): détection mains, lames, trajectoires<br>
+                    • Reconnaissance gestes dangereux: couper vers corps, main opposée dans plan coupe, flexion poignet excessive<br>
+                    • Détection EPI: présence gants anti-coupure (marquages ANSI 105, EN 388 via OCR)<br>
+                    • Alertes temps réel (<1.5s latence): notification superviseur + travailleur si geste critique<br>
+                    • Historique vidéo 7 jours: analyse post-incident, formations ciblées</p>
+                </div>
+                <div class="arch-layer fade-in">
+                    <h3>🧤 WEARABLES - Gants Anti-Coupure Intelligents</h3>
+                    <p>• Capteurs pression paume: détection force excessive (lame émoussée)<br>
+                    • Tags RFID: tracking niveaux ANSI 105 (A1-A9), EN 388 (A-F) par tâche<br>
+                    • Accéléromètres: analyse angles poignet (neutre vs flexion/extension dangereuse)<br>
+                    • Alertes haptiques: vibration si usage outil sans gant approprié<br>
+                    • Cycle de vie gants: alerte remplacement après X incidents/heures usage</p>
+                </div>
+                <div class="arch-layer fade-in">
+                    <h3>🤖 AGENTIC - Coaching Intelligent Temps Réel</h3>
+                    <p>• Agent CoachingSafety: notifications douces (audio/visuel) si geste dangereux détecté<br>
+                    • Agent FormationContextuelle: micro-capsules 2-3 min déclenchées si répétitions écarts<br>
+                    • Agent MaintenanceOutil: workflow "hors service" si outil défectueux détecté (OSHA 1910.242)<br>
+                    • Agent AnalyseComportementale: patterns fatigue (après 3h → rappels pause)<br>
+                    • Apprentissage continu: adaptation messages coaching selon profil travailleur</p>
+                </div>
+                <div class="arch-layer fade-in">
+                    <h3>🧠 KNOWLEDGE GRAPH - Bonnes Pratiques Contextuelles</h3>
+                    <p>• Ontologie Outils: couteau utilitaire, grattoir, cisaille, sécateur, scalpel industriel<br>
+                    • Matrice Outil → Geste Sûr: "couteau: couper à l'écart corps, lame verrouillée, main guide en arrière"<br>
+                    • Matrice Outil → EPI Minimal: "découpe carton → ANSI 105 Cut A3 (EN 388 C)"<br>
+                    • Historique 4,523 incidents: facteurs contributifs, heures/zones à risque élevé<br>
+                    • Capsules formation: changement lame sécurisé, affûtage, rangement, premiers soins</p>
+                </div>
+                <div class="arch-layer fade-in">
+                    <h3>💬 CONVERSATIONNEL - SafetyAgent Assistant</h3>
+                    <p>• Chatbot IA (GPT-4 + RAG SafetyGraph): réponses questions SST outils tranchants<br>
+                    • Micro-formations adaptatives: capsules 2-3 min déclenchées par contexte (CSA Z1001)<br>
+                    • Quiz interactifs: validation acquis post-formation (gamification)<br>
+                    • Feedback bidirectionnel: travailleurs signalent dangers outils via voix/texte<br>
+                    • Multilingue: français, anglais, espagnol (main-d'œuvre diverse)</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Data Section -->
+    <section id="data">
+        <div class="container">
+            <h2>📊 Données Utilisées</h2>
+            <div class="data-grid">
+                <div class="data-card fade-in">
+                    <h3>🎥 Données Vision</h3>
+                    <ul>
+                        <li>Flux vidéo 30 fps postes découpe/assemblage</li>
+                        <li>Dataset 85K images gestes annotés (sûr/dangereux)</li>
+                        <li>Modèles OpenPose (squelette mains) + CNN custom (outils)</li>
+                        <li>Métadonnées: timestamp, travailleur ID, outil type</li>
+                        <li>Historique 7 jours (analyse patterns, formations)</li>
+                    </ul>
+                </div>
+                <div class="data-card fade-in">
+                    <h3>🧤 Données Wearables</h3>
+                    <ul>
+                        <li>IDs RFID gants: niveaux ANSI 105 (A1-A9), EN 388 (A-F)</li>
+                        <li>Capteurs pression: Newton appliqués (force excessive)</li>
+                        <li>Accéléromètres: angles poignet flexion/extension</li>
+                        <li>Cycle vie: heures usage, lavages, incidents exposés</li>
+                        <li>Alertes remplacement: usure critique détectée</li>
+                    </ul>
+                </div>
+                <div class="data-card fade-in">
+                    <h3>📋 Historiques Incidents</h3>
+                    <ul>
+                        <li>4,523 incidents CNESST (couteaux, cisailles, scalpels)</li>
+                        <li>Types lésions: coupures superficielles → lacérations profondes</li>
+                        <li>Facteurs: absence EPI, geste dangereux, lame émoussée</li>
+                        <li>Patterns temporels: fin de quart (fatigue), lundis (reprise)</li>
+                        <li>Coûts: 5K$ CAD moyen (soins + arrêt travail)</li>
+                    </ul>
+                </div>
+                <div class="data-card fade-in">
+                    <h3>🎓 Vidéos Formation</h3>
+                    <ul>
+                        <li>Capsules 2-3 min: changement lame, affûtage sécurisé</li>
+                        <li>Démonstrations gestes: couper à l'écart, main guide</li>
+                        <li>Choix gants: niveaux ANSI/EN par tâche</li>
+                        <li>Premiers soins: compression hémorragie, antiseptiques</li>
+                        <li>Multilingue: FR, EN, ES (sous-titres + voix)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modules Section -->
+    <section id="modules">
+        <div class="container">
+            <h2>🔧 Modules SafetyGraph</h2>
+            <div class="modules-grid">
+                <div class="module-card fade-in">
+                    <div class="module-icon">👁️</div>
+                    <h3>Multimodal Agent</h3>
+                    <p><strong>Vision AI:</strong> Détection gestes dangereux (couper vers soi, main trajectoire lame). Analyse postures (poignet flexion). Tracking multi-travailleur temps réel.</p>
+                </div>
+                <div class="module-card fade-in">
+                    <div class="module-icon">🎯</div>
+                    <h3>BehaviorX Module 6</h3>
+                    <p><strong>Coaching Comportemental:</strong> Alertes douces audio/visuelles. Feedback positif (gamification). Analyse patterns fatigue. Formation ciblée répétitions écarts.</p>
+                </div>
+                <div class="module-card fade-in">
+                    <div class="module-icon">💬</div>
+                    <h3>SafetyAgent (Conversationnel)</h3>
+                    <p><strong>Assistant IA:</strong> Chatbot GPT-4 + RAG SafetyGraph. Micro-formations adaptatives 2-3 min. Quiz interactifs. Feedback bidirectionnel. Multilingue (FR/EN/ES).</p>
+                </div>
+                <div class="module-card fade-in">
+                    <div class="module-icon">🧠</div>
+                    <h3>SafetyOntology</h3>
+                    <p><strong>Knowledge Graph:</strong> Matrice Outil → Geste Sûr + EPI. Historique 4,523 incidents. Bonnes pratiques contextuelles. Capsules formation par outil.</p>
+                </div>
+                <div class="module-card fade-in">
+                    <div class="module-icon">📊</div>
+                    <h3>Dashboard Formations</h3>
+                    <p><strong>Analytics Formation:</strong> Taux complétion capsules. Scores quiz. Temps formation/travailleur. Corrélation formation ↔ réduction incidents.</p>
+                </div>
+                <div class="module-card fade-in">
+                    <div class="module-icon">🔍</div>
+                    <h3>RiskPredictor</h3>
+                    <p><strong>ML Prédictif:</strong> Patterns fatigue (heures travail). Zones/outils à risque élevé. Prédiction incidents avant survenue. Recommandations préventives.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Standards Section -->
+    <section id="standards">
+        <div class="container">
+            <h2>📜 Standards & Normes Applicables</h2>
+            <div class="standards-grid">
+                <div class="standard-card fade-in">
+                    <h3>🇨🇦 Québec - RSST / CNESST</h3>
+                    <ul>
+                        <li><strong>LSST Art. 51:</strong> Obligation moyens prévention, EPI, entretien outils, formation</li>
+                        <li><strong>RSST (cadre général SST):</strong> Base juridique procédures sécuritaires outils manuels</li>
+                        <li><strong>CNESST - Gants de protection:</strong> Principes sélection/obligation port selon risque (→ SafetyOntology)</li>
+                        <li><strong>CNESST - Sécurité des machines:</strong> Bonnes pratiques protection/entretien outils (règles "défectueux → hors service")</li>
+                        <li><strong>Fiches CNESST Outils manuels:</strong> Guides ergonomie, prévention TMS, choix outils adaptés</li>
+                    </ul>
+                </div>
+                
+                <div class="standard-card fade-in">
+                    <h3>🇨🇦 Canada - Normes CSA</h3>
+                    <ul>
+                        <li><strong>CSA Z1002:</strong> Identification dangers & évaluation risques - Structure KG (tâche/outil → danger → contrôle)</li>
+                        <li><strong>CSA Z1001:</strong> Formation SST - Cadre micro-formations contextuelles, traçabilité (BehaviorX, SafetyAgent)</li>
+                        <li><strong>ANSI/ISEA 105 (référence Canada):</strong> Classement anti-coupure gants (A1-A9) - Base sélection EPI</li>
+                        <li><strong>EN 388 (référence Canada):</strong> Risques mécaniques gants - Niveaux abrasion/coupure/déchirement/perforation</li>
+                        <li><strong>CCOHS - Outils à main:</strong> Fiches pratiques gestes sûrs, entretien, verrouillage/étiquetage local</li>
+                        <li><strong>CCOHS - Lames/Bords tranchants:</strong> Bonnes pratiques manipulation couteaux utilitaires, cisailles, scalpels</li>
+                    </ul>
+                </div>
+                
+                <div class="standard-card fade-in">
+                    <h3>🇺🇸 USA - OSHA Standards</h3>
+                    <ul>
+                        <li><strong>OSHA 29 CFR 1910.242:</strong> Hand & Portable Powered Tools - Employeur responsable état sécuritaire outils</li>
+                        <li><strong>OSHA 1910.242 Subpart P:</strong> Prescriptions protection (air comprimé ≤ 30 psi + écrans, entretien, formation)</li>
+                        <li><strong>OSHA 29 CFR 1910.138:</strong> Hand Protection - Sélection gants selon évaluation risque (coupure, perforation, durée)</li>
+                        <li><strong>OSHA 1910.132:</strong> General Requirements PPE - Obligation évaluation dangers + fourniture EPI adaptés</li>
+                    </ul>
+                </div>
+                
+                <div class="standard-card fade-in">
+                    <h3>🇺🇸 USA - ANSI Standards</h3>
+                    <ul>
+                        <li><strong>ANSI/ISEA 105-2024:</strong> Classes cut/abrasion/puncture - Nouvel étiquetage pentagone (simplifie détection vision)</li>
+                        <li><strong>ANSI/ISEA 105 Niveaux A1-A9:</strong> Résistance coupure croissante (A1: 200-499 grammes → A9: 6000+ grammes)</li>
+                        <li><strong>ANSI Z87.1:</strong> Protection oculaire (si particules volantes lors découpe matériaux durs)</li>
+                    </ul>
+                </div>
+                
+                <div class="standard-card fade-in">
+                    <h3>🌍 Europe - EN Standards (Référence NA)</h3>
+                    <ul>
+                        <li><strong>EN 388:2016 + A1:2018:</strong> Gants protection risques mécaniques - Niveaux A-F coupure (couramment utilisés NA)</li>
+                        <li><strong>EN 388 Classe Coupure:</strong> A (≥2N) → F (≥30N) résistance lame circulaire</li>
+                        <li><strong>EN 420:2003+A1:2009:</strong> Exigences générales gants protection - Confort, dextérité, marquage</li>
+                        <li><strong>EN ISO 13997:</strong> Méthode essai résistance coupure (lame droite) - Complément EN 388</li>
+                    </ul>
+                </div>
+                
+                <div class="standard-card fade-in" style="grid-column: 1 / -1; background: linear-gradient(135deg, rgba(147, 51, 234, 0.15), rgba(236, 72, 153, 0.1));">
+                    <h3>🔗 Mappage Standards → Modules AgenticX5</h3>
+                    <ul style="column-count: 2; column-gap: 40px;">
+                        <li><strong>VISION (gestes/postures + EPI):</strong> Détection geste dangereux (couper vers corps/main trajectoire) → alerte coach (CCOHS, OSHA 1910.242)</li>
+                        <li><strong>VISION (conformité EPI):</strong> Détection gant non-conforme (ANSI 105/EN 388) → alerte + log écart</li>
+                        <li><strong>AGENTIC (maintenance outil):</strong> Outil endommagé → workflow hors service (OSHA 1910.242 + CNESST)</li>
+                        <li><strong>AGENTIC (coaching répétitions):</strong> Écarts répétés → micro-formation Z1001 ciblée (BehaviorX + SafetyAgent)</li>
+                        <li><strong>AGENTIC (rappels posture):</strong> Usage impropre détecté → coaching temps réel posture sûre (CCOHS)</li>
+                        <li><strong>KG (bonnes pratiques):</strong> Tables Outil → Gestes sûrs + EPI mini (ANSI 105, EN 388) + interdits (SafetyOntology)</li>
+                        <li><strong>KG (inspection/entretien):</strong> Fréquences inspection, affûtage, remplacement lames par outil (CNESST + OSHA)</li>
+                        <li><strong>CONVERSATIONNEL (formation):</strong> Capsules 2-3 min CSA Z1001: changer lame, choisir gant, posture neutre poignet, premiers soins</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Quick Reference Table -->
+            <div style="margin-top: 50px; background: rgba(255, 255, 255, 0.03); border-radius: 15px; padding: 40px; border: 1px solid rgba(147, 51, 234, 0.3);">
+                <h3 style="text-align: center; color: #a78bfa; font-size: 2em; margin-bottom: 30px;">📋 Référence Rapide: Outil → Gant Requis (ANSI 105 / EN 388)</h3>
+                <table style="width: 100%; border-collapse: collapse; color: #94a3b8;">
+                    <thead>
+                        <tr style="background: rgba(147, 51, 234, 0.2); border-bottom: 2px solid #a78bfa;">
+                            <th style="padding: 15px; text-align: left; color: #fff;">Outil / Tâche</th>
+                            <th style="padding: 15px; text-align: left; color: #fff;">Niveau Minimum ANSI 105</th>
+                            <th style="padding: 15px; text-align: left; color: #fff;">Équivalent EN 388</th>
+                            <th style="padding: 15px; text-align: left; color: #fff;">Gestes Sûrs</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
+                            <td style="padding: 15px;">Couteau utilitaire (Stanley)</td>
+                            <td style="padding: 15px;"><strong style="color: #10b981;">Cut A3 (1500-2199g)</strong></td>
+                            <td style="padding: 15px;">Classe C</td>
+                            <td style="padding: 15px;">Couper à l'écart corps, lame verrouillée, main guide en arrière</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
+                            <td style="padding: 15px;">Découpe carton / feuillard</td>
+                            <td style="padding: 15px;"><strong style="color: #3b82f6;">Cut A3-A4</strong></td>
+                            <td style="padding: 15px;">Classe C-D</td>
+                            <td style="padding: 15px;">Angle 45°, poignet neutre, pression modérée</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
+                            <td style="padding: 15px;">Cisailles métalliques</td>
+                            <td style="padding: 15px;"><strong style="color: #fbbf24;">Cut A5 (3500-4499g)</strong></td>
+                            <td style="padding: 15px;">Classe D-E</td>
+                            <td style="padding: 15px;">Lames affûtées, jamais forcer, maintien stable pièce</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
+                            <td style="padding: 15px;">Scalpel industriel</td>
+                            <td style="padding: 15px;"><strong style="color: #f59e0b;">Cut A4 (2200-2999g)</strong></td>
+                            <td style="padding: 15px;">Classe C-D</td>
+                            <td style="padding: 15px;">Changement lame fréquent, pince pour retrait, jamais doigts</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
+                            <td style="padding: 15px;">Grattoir / racloir</td>
+                            <td style="padding: 15px;"><strong style="color: #06b6d4;">Cut A2 (500-999g)</strong></td>
+                            <td style="padding: 15px;">Classe B</td>
+                            <td style="padding: 15px;">Pousser (jamais tirer), main opposée hors trajectoire</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 15px;">Sécateur / coupe-câbles</td>
+                            <td style="padding: 15px;"><strong style="color: #8b5cf6;">Cut A4-A5</strong></td>
+                            <td style="padding: 15px;">Classe D</td>
+                            <td style="padding: 15px;">Lames fermées au repos, entretien ressort, éviter surcharge</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <div style="margin-top: 30px; padding: 20px; background: rgba(147, 51, 234, 0.1); border-radius: 10px; border-left: 4px solid #9333ea;">
+                    <h4 style="color: #a78bfa; margin-bottom: 15px; font-size: 1.3em;">📌 Notes Importantes:</h4>
+                    <ul style="list-style: none; padding: 0; color: #94a3b8;">
+                        <li style="margin-bottom: 10px;">✓ <strong>ANSI 105-2024:</strong> Nouveau pentagone étiquetage (simplifie identification visuelle + détection Vision AI)</li>
+                        <li style="margin-bottom: 10px;">✓ <strong>EN 388 Classe F (≥30N):</strong> Maximum résistance coupure (applications extrêmes: verre, tôle tranchante)</li>
+                        <li style="margin-bottom: 10px;">✓ <strong>Règle générale:</strong> Tâche légère (carton) → A2-A3 | Tâche modérée (plastiques, bois) → A4-A5 | Tâche lourde (métal) → A6+</li>
+                        <li style="margin-bottom: 10px;">✓ <strong>Dextérité vs Protection:</strong> Niveau élevé = moins dextérité → choisir minimum requis pour tâche</li>
+                        <li>✓ <strong>Cycle de vie:</strong> Gants anti-coupure perdent efficacité après lavages/usure → remplacement proactif (tracking wearables)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ROI Section -->
+    <section id="roi">
+        <div class="container">
+            <div class="roi-container fade-in">
+                <div class="roi-header">
+                    <h3>💰 ROI & Bénéfices</h3>
+                    <p>Réduction 25% coupures/lacérations | Coût moyen: 5,000$ CAD évité</p>
+                </div>
+                
+                <div class="benefits-grid">
+                    <div class="benefit-item">
+                        <h4>📉 -25% Incidents</h4>
+                        <p>Réduction coupures de 4,523 à 3,392 incidents/an (1,131 incidents évités)</p>
+                    </div>
+                    <div class="benefit-item">
+                        <h4>💵 5.7M$ Économisé</h4>
+                        <p>1,131 incidents évités × 5K$ = 5,655,000$ CAD/an économisés</p>
+                    </div>
+                    <div class="benefit-item">
+                        <h4>🎯 Coaching Proactif</h4>
+                        <p>Alertes temps réel (<1.5s) vs incidents réactifs (après survenue)</p>
+                    </div>
+                    <div class="benefit-item">
+                        <h4>📚 +40% Formation</h4>
+                        <p>Micro-capsules contextuelles: engagement formation +40% vs classique</p>
+                    </div>
+                    <div class="benefit-item">
+                        <h4>🧤 Conformité EPI</h4>
+                        <p>Taux port gants appropriés: 55% → 82% (monitoring wearables + coaching)</p>
+                    </div>
+                    <div class="benefit-item">
+                        <h4>🔧 Maintenance Préventive</h4>
+                        <p>Outils défectueux détectés avant incident (hors service automatique)</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Scenario Section -->
+    <section id="scenario">
+        <div class="container">
+            <div class="scenario-container fade-in">
+                <h2 class="scenario-title">📖 Scénario Concret: Découpe Carton Entrepôt</h2>
+                
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-time">⏰ 14:00 - Début Tâche</div>
+                        <div class="timeline-content">
+                            <p><strong>Contexte:</strong> Travailleur découpe cartons emballage (réception marchandises). Couteau utilitaire Stanley, lame rétractable.</p>
+                            <p>🎥 Vision AI détecte travailleur zone découpe.</p>
+                            <p>🧠 Knowledge Graph: Tâche "découpe carton" → Gant requis ANSI 105 Cut A3 (EN 388 Classe C).</p>
+                            <p>🧤 Wearables: RFID gants détecté → Niveau A2 (insuffisant, requiert A3).</p>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-time">⚠️ 14:02 - Première Alerte EPI</div>
+                        <div class="timeline-content">
+                            <p><strong>Problème:</strong> Gant niveau A2 détecté (inférieur au minimum A3 requis).</p>
+                            <p>🤖 Agent Agentic génère alerte douce (non-bloquante): "⚠️ Gant niveau A3 recommandé pour cette tâche".</p>
+                            <p>📱 Notification superviseur: "Travailleur #287 - EPI sous-optimal Zone Réception".</p>
+                            <p>💬 SafetyAgent (chatbot): "Besoin d'aide pour choisir gants? [Oui/Non]" → Travailleur clique Non.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-time">🚨 14:15 - Détection Geste Dangereux</div>
+                        <div class="timeline-content">
+                            <p><strong>Geste critique:</strong> Vision AI détecte travailleur coupe carton vers corps (main gauche dans trajectoire lame).</p>
+                            <p>🎥 Computer Vision analyse: angle coupe 15° vers torse (seuil alerte: <25°), main opposée 8 cm de lame (seuil: <10cm).</p>
+                            <p>⚡ Agent CoachingSafety déclenche alerte immédiate (audio + visuelle):</p>
+                            <p>🔊 Audio: "Attention - Couper à l'écart de votre corps"</p>
+                            <p>📺 Écran poste: Animation 5s montrant geste sûr (couper à l'écart, main guide derrière).</p>
+                            <p>⏱️ Latence détection → alerte: <strong>1.3 secondes</strong>.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-time">📚 14:16 - Micro-Formation Contextuelle</div>
+                        <div class="timeline-content">
+                            <p><strong>Déclenchement:</strong> Agent FormationContextuelle note 2e geste dangereux en 15 min → déclenche capsule formation.</p>
+                            <p>💬 SafetyAgent: "Pause formation 2 min recommandée - Sécurité couteaux utilitaires [Démarrer]".</p>
+                            <p>🎓 Capsule interactive (CSA Z1001):</p>
+                            <p>• Vidéo 2 min: Gestes sûrs découpe (angle, pression, main guide)</p>
+                            <p>• Quiz 3 questions: "Quelle distance minimum main/lame?" → Réponse: >15cm</p>
+                            <p>• Badge gamification: +15 points SafetyScore (leaderboard mensuel)</p>
+                            <p><strong>Résultat:</strong> Travailleur complète formation, corrige posture immédiatement.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-time">🧤 14:45 - Changement Gants</div>
+                        <div class="timeline-content">
+                            <p><strong>Action:</strong> Superviseur apporte gants ANSI 105 Cut A3 (conformes) au travailleur.</p>
+                            <p>🔄 RFID wearables détecte nouveau gant: Niveau A3 validé.</p>
+                            <p>🟢 Agent Agentic valide conformité EPI → alerte fermée.</p>
+                            <p>📊 Dashboard: Mise à jour taux conformité EPI entrepôt: 78% → 79%.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-time">📊 15:00 - Analyse Post-Intervention</div>
+                        <div class="timeline-content">
+                            <p>🧠 RiskPredictor analyse pattern: Heures 14:00-16:00 (post-lunch) = risque élevé (fatigue, baisse concentration).</p>
+                            <p>📅 Recommandation: Rappels automatiques gestes sûrs après pauses (coaching ciblé 13:00, 14:00).</p>
+                            <p>📈 Metrics:</p>
+                            <p>• Temps formation: 2 min (vs 30 min formation classique)</p>
+                            <p>• Engagement: 95% (vs 60% formation salle)</p>
+                            <p>• Rétention 7 jours: 82% (quiz post-capsule)</p>
+                            <p>• Coût coupure évitée: <strong>5,000$ CAD</strong> (soins + arrêt travail).</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <div class="cta-content">
+                <h2>🚀 Prêt à Réduire Vos Coupures/Lacérations?</h2>
+                <p>
+                    Rejoignez les 200+ entreprises qui ont réduit de 25% leurs incidents outils tranchants 
+                    grâce au coaching intelligent AgenticX5 SafetyGraph. POC gratuit disponible.
+                </p>
+                <div class="cta-buttons">
+                    <a href="#" class="btn btn-primary">📅 Réserver une Démo</a>
+                    <a href="#" class="btn btn-secondary">📄 Télécharger Étude de Cas</a>
+                </div>
+                
+                <div class="stats-bar">
+                    <div class="stat-item">
+                        <div class="number">4,523</div>
+                        <div class="label">Incidents Analysés</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="number">25%</div>
+                        <div class="label">Réduction Coupures</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="number">5.7M$</div>
+                        <div class="label">Économies Projetées</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="number">1.3s</div>
+                        <div class="label">Latence Détection</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p><strong>GenAISafety - AgenticX5 SafetyGraph</strong></p>
+            <p>Intelligence Agentique au Service de la Sécurité au Travail</p>
+            <p style="margin-top: 20px; font-size: 0.9em;">
+                © 2025 GenAISafety | Conforme LSST, RSST, OSHA, CSA Z1002, CSA Z1001, ANSI 105, EN 388
+            </p>
+            <p style="margin-top: 10px; font-size: 0.85em; color: #888;">
+                Document préparé par: Hugo St-Louis, CAISO | SquadrAI Team | Preventera
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // Scroll Animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Smooth Scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

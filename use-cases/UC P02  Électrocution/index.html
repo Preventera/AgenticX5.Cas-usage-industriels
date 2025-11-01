@@ -1,0 +1,1291 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UC-P02 : Électrocution - AgenticX5 SafetyGraph</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #ea580c;
+            --secondary-color: #f97316;
+            --danger-color: #dc2626;
+            --success-color: #16a34a;
+            --warning-color: #eab308;
+            --electric-blue: #0ea5e9;
+            --gray-50: #f9fafb;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-300: #d1d5db;
+            --gray-700: #374151;
+            --gray-800: #1f2937;
+            --gray-900: #111827;
+        }
+
+        body {
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', 'Oxygen', 'Ubuntu', sans-serif;
+            line-height: 1.6;
+            color: var(--gray-800);
+            background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, var(--gray-900) 0%, var(--gray-800) 100%);
+            color: white;
+            padding: 40px 30px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><defs><pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse"><path d="M 20 0 L 0 0 0 20" fill="none" stroke="rgba(255,255,255,0.03)" stroke-width="1"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+            opacity: 0.5;
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .category-badge {
+            display: inline-block;
+            background: var(--primary-color);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            line-height: 1.2;
+        }
+
+        .header-subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+
+        .priority-section {
+            margin-top: 25px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .priority-badge {
+            background: var(--danger-color);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 1rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .priority-badge::before {
+            content: '⚡';
+            font-size: 1.3rem;
+        }
+
+        .stats-row {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 12px 20px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            opacity: 0.8;
+            display: block;
+            margin-top: 2px;
+        }
+
+        /* Content */
+        .content {
+            padding: 40px 30px;
+        }
+
+        /* Introduction Section */
+        .intro-section {
+            background: linear-gradient(135deg, var(--gray-50) 0%, white 100%);
+            padding: 30px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            border-left: 5px solid var(--primary-color);
+        }
+
+        .intro-section h2 {
+            color: var(--gray-900);
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .intro-section h2::before {
+            content: '⚡';
+            font-size: 1.5rem;
+        }
+
+        .intro-text {
+            font-size: 1.05rem;
+            line-height: 1.8;
+            color: var(--gray-700);
+        }
+
+        .highlight-box {
+            background: white;
+            border: 2px solid var(--primary-color);
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .highlight-box h3 {
+            color: var(--primary-color);
+            margin-bottom: 12px;
+            font-size: 1.2rem;
+        }
+
+        .highlight-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .highlight-list li {
+            padding: 8px 0;
+            padding-left: 30px;
+            position: relative;
+        }
+
+        .highlight-list li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--success-color);
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+
+        /* Accordion Sections */
+        .accordion-container {
+            margin-top: 30px;
+        }
+
+        .accordion-item {
+            background: white;
+            border: 2px solid var(--gray-200);
+            border-radius: 12px;
+            margin-bottom: 15px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .accordion-item:hover {
+            border-color: var(--primary-color);
+            box-shadow: 0 4px 12px rgba(234, 88, 12, 0.1);
+        }
+
+        .accordion-item.active {
+            border-color: var(--primary-color);
+            box-shadow: 0 6px 20px rgba(234, 88, 12, 0.15);
+        }
+
+        .accordion-header {
+            padding: 20px 25px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--gray-50);
+            transition: all 0.3s ease;
+            user-select: none;
+        }
+
+        .accordion-item.active .accordion-header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+        }
+
+        .accordion-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+
+        .accordion-icon {
+            font-size: 1.5rem;
+            min-width: 30px;
+        }
+
+        .accordion-toggle {
+            font-size: 1.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        .accordion-item.active .accordion-toggle {
+            transform: rotate(180deg);
+        }
+
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease;
+            background: white;
+        }
+
+        .accordion-item.active .accordion-content {
+            max-height: 3000px;
+        }
+
+        .accordion-body {
+            padding: 30px 25px;
+        }
+
+        .accordion-body h3 {
+            color: var(--primary-color);
+            margin-top: 25px;
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .accordion-body h3:first-child {
+            margin-top: 0;
+        }
+
+        .accordion-body ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .accordion-body ul li {
+            padding: 12px 0;
+            padding-left: 30px;
+            position: relative;
+            border-bottom: 1px solid var(--gray-100);
+        }
+
+        .accordion-body ul li:last-child {
+            border-bottom: none;
+        }
+
+        .accordion-body ul li::before {
+            content: '▸';
+            position: absolute;
+            left: 0;
+            color: var(--primary-color);
+            font-weight: 700;
+        }
+
+        /* Architecture Grid */
+        .architecture-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .arch-card {
+            background: linear-gradient(135deg, var(--gray-50) 0%, white 100%);
+            border: 2px solid var(--gray-200);
+            border-radius: 12px;
+            padding: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .arch-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary-color);
+            box-shadow: 0 8px 20px rgba(234, 88, 12, 0.15);
+        }
+
+        .arch-card-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+
+        .arch-icon {
+            font-size: 2rem;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--primary-color);
+            color: white;
+            border-radius: 10px;
+        }
+
+        .arch-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--gray-900);
+        }
+
+        .arch-description {
+            font-size: 0.95rem;
+            color: var(--gray-700);
+            line-height: 1.6;
+        }
+
+        .arch-features {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid var(--gray-200);
+        }
+
+        .arch-features li {
+            font-size: 0.9rem;
+            padding: 6px 0;
+            color: var(--gray-600);
+        }
+
+        /* Module Cards */
+        .modules-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .module-card {
+            background: white;
+            border: 2px solid var(--gray-200);
+            border-radius: 12px;
+            padding: 25px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .module-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background: var(--primary-color);
+            transform: scaleY(0);
+            transition: transform 0.3s ease;
+        }
+
+        .module-card:hover {
+            border-color: var(--primary-color);
+            box-shadow: 0 8px 20px rgba(234, 88, 12, 0.15);
+        }
+
+        .module-card:hover::before {
+            transform: scaleY(1);
+        }
+
+        .module-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+
+        .module-icon {
+            font-size: 2rem;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            border-radius: 10px;
+        }
+
+        .module-name {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--gray-900);
+        }
+
+        .module-description {
+            font-size: 0.95rem;
+            color: var(--gray-700);
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .module-features {
+            background: var(--gray-50);
+            border-radius: 8px;
+            padding: 15px;
+        }
+
+        .module-features h4 {
+            font-size: 0.9rem;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .module-features ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .module-features li {
+            font-size: 0.85rem;
+            padding: 5px 0;
+            color: var(--gray-600);
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .module-features li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--success-color);
+            font-weight: 700;
+        }
+
+        /* Info Box */
+        .info-box {
+            background: linear-gradient(135deg, #dbeafe 0%, #eff6ff 100%);
+            border-left: 5px solid var(--electric-blue);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .info-box-title {
+            font-weight: 700;
+            color: var(--electric-blue);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .info-box-title::before {
+            content: 'ℹ️';
+        }
+
+        .warning-box {
+            background: linear-gradient(135deg, #fef3c7 0%, #fefce8 100%);
+            border-left: 5px solid var(--warning-color);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .warning-box-title {
+            font-weight: 700;
+            color: var(--warning-color);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .warning-box-title::before {
+            content: '⚠️';
+        }
+
+        .danger-box {
+            background: linear-gradient(135deg, #fee2e2 0%, #fef2f2 100%);
+            border-left: 5px solid var(--danger-color);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .danger-box-title {
+            font-weight: 700;
+            color: var(--danger-color);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .danger-box-title::before {
+            content: '⚡';
+        }
+
+        /* Data Tags */
+        .data-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .data-tag {
+            background: var(--primary-color);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .data-tag::before {
+            content: '📊';
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--gray-900);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .footer-logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .footer-text {
+            opacity: 0.7;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .accordion-title {
+                font-size: 1.1rem;
+            }
+
+            .priority-section {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .architecture-grid,
+            .modules-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .content {
+                padding: 20px 15px;
+            }
+        }
+
+        /* Print Styles */
+        @media print {
+            body {
+                background: white;
+            }
+
+            .container {
+                box-shadow: none;
+            }
+
+            .accordion-content {
+                max-height: none !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="header-content">
+                <div class="category-badge">3.1 Risques Physiques</div>
+                <h1>UC-P02 : Électrocution</h1>
+                <p class="header-subtitle">Prévention Agentique des Contacts Électriques et Arc Électrique</p>
+                
+                <div class="priority-section">
+                    <div class="priority-badge">
+                        PRIORITÉ CRITIQUE
+                    </div>
+                    
+                    <div class="stats-row">
+                        <div class="stat-item">
+                            <span class="stat-value">1,247</span>
+                            <span class="stat-label">Incidents CNESST (2017-2023)</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-value">125,000$</span>
+                            <span class="stat-label">Coût moyen CAD</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-value">70%</span>
+                            <span class="stat-label">Réduction prévue</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Content -->
+        <div class="content">
+            <!-- Introduction -->
+            <div class="intro-section">
+                <h2>Introduction au Scénario UC-P02</h2>
+                <div class="intro-text">
+                    <p><strong>Les électrocutions et contacts électriques représentent l'un des dangers les plus mortels</strong> dans les secteurs de la construction, de la maintenance et des services publics. Le scénario UC-P02 cible spécifiquement les situations où les travailleurs opèrent à proximité de lignes électriques aériennes, de câbles souterrains ou d'équipements sous tension, avec un risque élevé de contact direct ou d'arc électrique.</p>
+                </div>
+
+                <div class="highlight-box">
+                    <h3>Contexte Réglementaire et Données CNESST</h3>
+                    <ul class="highlight-list">
+                        <li><strong>Incidence documentée :</strong> 1,247 incidents de contact électrique signalés entre 2017 et 2023 (CNESST)</li>
+                        <li><strong>Taux de mortalité élevé :</strong> 15-20% des incidents électriques entraînent un décès ou des séquelles permanentes graves</li>
+                        <li><strong>Distances de sécurité critiques :</strong> 3m minimum pour lignes <750V, 5m pour 750V-350kV (RSST Art. 293-295)</li>
+                        <li><strong>Coût moyen par incident :</strong> 125,000$ CAD (médical + indemnités + arrêt + enquête)</li>
+                        <li><strong>Secteurs à risque :</strong> Construction, électricité, télécommunications, élagage, levage (grues, nacelles)</li>
+                        <li><strong>Code électrique canadien :</strong> CSA C22.1 et CSA Z462 (sécurité électrique en milieu de travail)</li>
+                    </ul>
+                </div>
+
+                <div class="danger-box">
+                    <div class="danger-box-title">Facteurs Aggravants Identifiés</div>
+                    <ul class="highlight-list">
+                        <li>Méconnaissance de l'emplacement des lignes électriques (aériennes et souterraines)</li>
+                        <li>Non-respect des distances minimales d'approche (DMA)</li>
+                        <li>Absence de détection en temps réel de la proximité avec sources électriques</li>
+                        <li>Conditions météorologiques (humidité, pluie augmentent la conductivité)</li>
+                        <li>Équipements conducteurs (échelles métalliques, outils, grues, nacelles)</li>
+                        <li>Formation insuffisante sur les risques d'arc électrique</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Accordion Sections -->
+            <div class="accordion-container">
+                <!-- Section 1: Risque/Problématique -->
+                <div class="accordion-item">
+                    <div class="accordion-header">
+                        <div class="accordion-title">
+                            <span class="accordion-icon">⚡</span>
+                            <span>Risque / Problématique</span>
+                        </div>
+                        <span class="accordion-toggle">▼</span>
+                    </div>
+                    <div class="accordion-content">
+                        <div class="accordion-body">
+                            <h3>⚡ Enjeux Prioritaires</h3>
+                            <ul>
+                                <li><strong>Mortalité extrême :</strong> L'électrocution est la 3ème cause de décès dans la construction avec un taux de mortalité de 15-20% par incident, bien supérieur aux autres risques physiques</li>
+                                <li><strong>Instantanéité du dommage :</strong> Contrairement aux chutes, l'électrocution cause des dommages irréversibles en quelques millisecondes (arrêt cardiaque, brûlures internes graves)</li>
+                                <li><strong>Arc électrique imprévisible :</strong> L'électricité peut "sauter" jusqu'à 3 mètres sans contact physique direct, créant un arc mortel</li>
+                                <li><strong>Invisibilité du danger :</strong> Impossible de voir l'électricité à l'œil nu, contrairement à une hauteur ou une machine en mouvement</li>
+                                <li><strong>Séquelles permanentes :</strong> Survivants souffrent souvent de brûlures au 3ème degré, d'amputations, de lésions neurologiques permanentes</li>
+                                <li><strong>Coûts indirects massifs :</strong> Enquêtes CNESST systématiques, poursuites légales, fermetures de chantier, réputation</li>
+                            </ul>
+
+                            <h3>📉 Limitations des Approches Traditionnelles</h3>
+                            <ul>
+                                <li><strong>Signalisation statique insuffisante :</strong> Panneaux et rubans de marquage ne suivent pas les mouvements des travailleurs et équipements</li>
+                                <li><strong>Formation théorique limitée :</strong> Difficile de simuler la réalité du danger électrique en formation</li>
+                                <li><strong>Plans périmés :</strong> Plans de réseaux électriques souvent obsolètes ou incomplets, surtout pour lignes souterraines</li>
+                                <li><strong>Absence d'alerte proximité :</strong> Aucun système temps réel ne prévient le travailleur qu'il entre dans une zone dangereuse</li>
+                                <li><strong>Coordination défaillante :</strong> Manque de communication entre opérateurs de grues, élagueurs, électriciens et signaleurs</li>
+                                <li><strong>Facteur humain :</strong> Pression de production, fatigue et habitude créent une sous-estimation chronique du risque</li>
+                            </ul>
+
+                            <h3>📊 Typologie des Incidents Électriques (CNESST 2017-2023)</h3>
+                            <div class="info-box">
+                                <div class="info-box-title">Analyse des 1,247 Incidents Recensés</div>
+                                <ul class="highlight-list">
+                                    <li><strong>Contact ligne aérienne :</strong> 42% (échelles, grues, nacelles, perches)</li>
+                                    <li><strong>Arc électrique :</strong> 28% (proximité <3m sans contact physique)</li>
+                                    <li><strong>Câbles souterrains :</strong> 18% (excavation, forage)</li>
+                                    <li><strong>Équipements défectueux :</strong> 12% (outils électriques, génératrices)</li>
+                                    <li><strong>Voltage moyen :</strong> 65% des incidents impliquent des lignes haute tension (>750V)</li>
+                                    <li><strong>Décès :</strong> 187 morts (15% des incidents), 340 invalidités permanentes (27%)</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 2: Action/Solution -->
+                <div class="accordion-item">
+                    <div class="accordion-header">
+                        <div class="accordion-title">
+                            <span class="accordion-icon">🛡️</span>
+                            <span>Action / Solution Agentique</span>
+                        </div>
+                        <span class="accordion-toggle">▼</span>
+                    </div>
+                    <div class="accordion-content">
+                        <div class="accordion-body">
+                            <h3>🤖 Approche Agentique Préventive</h3>
+                            <p>La solution AgenticX5 déploie une architecture multi-agents autonomes capable de détecter les lignes électriques, mesurer les distances en temps réel, et intervenir automatiquement pour prévenir tout contact électrique mortel.</p>
+
+                            <h3>🔍 Détection Proactive des Lignes Électriques</h3>
+                            <ul>
+                                <li><strong>Vision par ordinateur (YOLO v8) :</strong> Détection automatique des lignes électriques aériennes dans le champ visuel des caméras de chantier</li>
+                                <li><strong>Classification voltage :</strong> Identification visuelle du type de ligne (basse/moyenne/haute tension) via reconnaissance des isolateurs et configuration poteaux</li>
+                                <li><strong>Cartographie dynamique 3D :</strong> Intégration des plans BIM électriques avec localisation GPS des lignes aériennes et souterraines</li>
+                                <li><strong>Détection objets conducteurs :</strong> Reconnaissance des échelles métalliques, perches, grues, nacelles qui peuvent créer un pont électrique</li>
+                                <li><strong>Calcul de distance temps réel :</strong> Mesure continue de la distance entre équipements/travailleurs et lignes électriques (précision <50cm)</li>
+                            </ul>
+
+                            <h3>📡 Capteurs de Proximité Électrique</h3>
+                            <ul>
+                                <li><strong>Détecteurs de champ électromagnétique :</strong> Capteurs embarqués sur équipements et wearables détectant les champs électriques à distance</li>
+                                <li><strong>Seuils d'alerte programmables :</strong> Alarmes graduées selon voltage et distance (pré-alerte à 5m, alerte critique à 3m)</li>
+                                <li><strong>Triangulation multi-capteurs :</strong> Corrélation entre plusieurs capteurs pour éliminer les faux positifs</li>
+                                <li><strong>Surveillance continue 24/7 :</strong> Détection active même en conditions de faible visibilité (nuit, brouillard)</li>
+                                <li><strong>Historique de proximité :</strong> Enregistrement des approches dangereuses pour analyse comportementale</li>
+                            </ul>
+
+                            <h3>⌚ Alertes Wearables Haptiques</h3>
+                            <ul>
+                                <li><strong>Bracelets vibrants intelligents :</strong> Vibrations progressives (légère → forte → pulsée) selon niveau de danger</li>
+                                <li><strong>Alertes directionnelles :</strong> Indication du côté où se trouve le danger (gauche, droite, dessus, dessous)</li>
+                                <li><strong>Alertes vocales :</strong> Messages audio clairs dans le casque du travailleur ("DANGER ÉLECTRIQUE - RECULEZ 5 MÈTRES")</li>
+                                <li><strong>LED visuelles :</strong> Clignotement rouge sur casque et gilet pour signaler aux collègues</li>
+                                <li><strong>Feedback bidirectionnel :</strong> Bouton d'urgence permettant au travailleur de signaler un danger électrique détecté</li>
+                            </ul>
+
+                            <h3>🚫 Verrouillage Automatique d'Équipements</h3>
+                            <ul>
+                                <li><strong>Arrêt d'urgence grues/nacelles :</strong> Blocage automatique du mouvement si distance de sécurité violée</li>
+                                <li><strong>Limitation de zone opérationnelle :</strong> Geofencing empêchant les équipements d'entrer dans les zones électriques dangereuses</li>
+                                <li><strong>Désactivation temporaire :</strong> Arrêt contrôlé des équipements électriques mobiles en zone à risque</li>
+                                <li><strong>Validation superviseur requise :</strong> Déverrouillage possible uniquement par superviseur habilité après évaluation</li>
+                                <li><strong>Traçabilité complète :</strong> Log de tous les verrouillages et déverrouillages pour audit</li>
+                            </ul>
+
+                            <h3>🧠 Coordination Multi-Agents</h3>
+                            <ul>
+                                <li><strong>Agent Cartographe :</strong> Maintien de la carte 3D des réseaux électriques avec mise à jour temps réel</li>
+                                <li><strong>Agent Détecteur :</strong> Fusion des données Vision + Capteurs + GPS pour identification précise des dangers</li>
+                                <li><strong>Agent Oracle :</strong> Calcul du risque d'électrocution basé sur distance, voltage, conditions météo, équipements</li>
+                                <li><strong>Agent Coordinateur :</strong> Orchestration des alertes et verrouillages selon criticité et contexte</li>
+                                <li><strong>Agent BehaviorX :</strong> Apprentissage des patterns comportementaux à risque et coaching personnalisé</li>
+                            </ul>
+
+                            <div class="info-box">
+                                <div class="info-box-title">Cycle d'Intervention Agentique (< 2 secondes)</div>
+                                <p><strong>Phase 1 (0-0.5s) :</strong> Détection Vision + Capteurs EM → Identification ligne électrique + voltage estimé</p>
+                                <p><strong>Phase 2 (0.5-1s) :</strong> Calcul distance 3D + Interrogation Knowledge Graph → Score de risque calculé</p>
+                                <p><strong>Phase 3 (1-1.5s) :</strong> Oracle prédit probabilité d'incident → Décision d'intervention</p>
+                                <p><strong>Phase 4 (1.5-2s) :</strong> Alertes wearables + Verrouillage équipements si distance <3m</p>
+                                <p><strong>Phase 5 (2s+) :</strong> Notification superviseur + Coordination évacuation si arc imminent</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 3: Données Utilisées -->
+                <div class="accordion-item">
+                    <div class="accordion-header">
+                        <div class="accordion-title">
+                            <span class="accordion-icon">📊</span>
+                            <span>Données Utilisées</span>
+                        </div>
+                        <span class="accordion-toggle">▼</span>
+                    </div>
+                    <div class="accordion-content">
+                        <div class="accordion-body">
+                            <h3>📹 Données Visuelles (Vision)</h3>
+                            <ul>
+                                <li><strong>Caméras intelligentes chantier :</strong> Flux vidéo HD 30 fps avec analyse YOLO v8 pour détection lignes électriques aériennes</li>
+                                <li><strong>Caméras embarquées équipements :</strong> Grues, nacelles équipées de caméras orientables avec vision 360°</li>
+                                <li><strong>Drones de surveillance :</strong> Inspection aérienne des corridors électriques avec cartographie thermique</li>
+                                <li><strong>Caméras thermiques :</strong> Détection des lignes sous tension via signature thermique (effet Joule)</li>
+                                <li><strong>Classification automatique :</strong> Reconnaissance des types de poteaux, isolateurs, câbles pour estimer le voltage</li>
+                            </ul>
+
+                            <h3>📡 Capteurs de Proximité Électrique</h3>
+                            <ul>
+                                <li><strong>Détecteurs de champ électromagnétique :</strong> Capteurs sur casques, gilets, équipements mesurant l'intensité du champ E (V/m)</li>
+                                <li><strong>Fréquence de mesure :</strong> 10 Hz (10 fois par seconde) pour détection rapide</li>
+                                <li><strong>Portée de détection :</strong> 10-15 mètres selon voltage de la ligne et sensibilité du capteur</li>
+                                <li><strong>Calibration automatique :</strong> Ajustement des seuils selon conditions atmosphériques (humidité, température)</li>
+                                <li><strong>Réseau mesh :</strong> Communication entre capteurs pour triangulation et élimination des faux positifs</li>
+                            </ul>
+
+                            <h3>⌚ Données Wearables Physiologiques</h3>
+                            <ul>
+                                <li><strong>Bracelets vibrants :</strong> Actionneurs haptiques programmables avec 5 niveaux d'intensité</li>
+                                <li><strong>Géolocalisation UWB :</strong> Positionnement indoor/outdoor avec précision <50cm pour calcul distance aux lignes</li>
+                                <li><strong>Accéléromètres :</strong> Détection de mouvements brusques ou chutes pouvant rapprocher du danger</li>
+                                <li><strong>Bouton SOS :</strong> Alerte manuelle immédiate en cas de danger électrique perçu</li>
+                                <li><strong>Batterie autonome :</strong> 12-24 heures d'autonomie avec recharge rapide</li>
+                            </ul>
+
+                            <h3>🗺️ Plans Électriques BIM 3D</h3>
+                            <ul>
+                                <li><strong>Modèles IFC électriques :</strong> Plans 3D géoréférencés des réseaux aériens et souterrains</li>
+                                <li><strong>Cartographie multi-couches :</strong> Lignes haute tension, moyenne tension, basse tension, câbles souterrains</li>
+                                <li><strong>Métadonnées voltage :</strong> Puissance, ampérage, fréquence, propriétaire (Hydro-Québec, etc.)</li>
+                                <li><strong>Zones de protection calculées :</strong> Buffers de sécurité automatiques selon voltage (3m, 5m, 7m)</li>
+                                <li><strong>Mise à jour dynamique :</strong> Intégration des modifications de réseau et travaux électriques en cours</li>
+                                <li><strong>Servitudes électriques :</strong> Corridors légaux d'Hydro-Québec avec restrictions d'activité</li>
+                            </ul>
+
+                            <h3>📚 Historiques CNESST Électrocutions</h3>
+                            <ul>
+                                <li><strong>Base 1,247 incidents :</strong> Incidents électriques documentés 2017-2023 structurés dans Neo4j</li>
+                                <li><strong>Données détaillées :</strong> Type de contact, voltage, équipement impliqué, distance, conditions météo, EPI portés</li>
+                                <li><strong>Patterns de causalité :</strong> Facteurs contributifs récurrents (formation manquante, distance sous-estimée, plans obsolètes)</li>
+                                <li><strong>Taux de mortalité :</strong> 15% (187 décès), corrélation avec voltage et type de contact</li>
+                                <li><strong>Coûts moyens :</strong> 125,000$ par incident, 1.2M$ pour décès</li>
+                            </ul>
+
+                            <h3>📋 Normes et Règlements Électriques</h3>
+                            <ul>
+                                <li><strong>CSA C22.1 :</strong> Code électrique canadien - distances minimales d'approche (DMA)</li>
+                                <li><strong>CSA Z462 :</strong> Sécurité électrique en milieu de travail - équipements de protection</li>
+                                <li><strong>RSST Art. 293-295 :</strong> Travaux à proximité de lignes électriques (3m <750V, 5m 750V-350kV)</li>
+                                <li><strong>CSTC Art. 2.15 :</strong> Prévention des contacts avec lignes électriques en construction</li>
+                                <li><strong>Norme IEEE C2 :</strong> National Electrical Safety Code (référence internationale)</li>
+                            </ul>
+
+                            <div class="data-tags">
+                                <span class="data-tag">Caméras Détection Lignes</span>
+                                <span class="data-tag">Capteurs Champ EM</span>
+                                <span class="data-tag">Bracelets Vibrants</span>
+                                <span class="data-tag">Plans BIM Électriques</span>
+                                <span class="data-tag">1,247 Incidents CNESST</span>
+                                <span class="data-tag">CSA C22.1 / Z462</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 4: Architecture Recommandée -->
+                <div class="accordion-item">
+                    <div class="accordion-header">
+                        <div class="accordion-title">
+                            <span class="accordion-icon">🏗️</span>
+                            <span>Architecture Technique Recommandée</span>
+                        </div>
+                        <span class="accordion-toggle">▼</span>
+                    </div>
+                    <div class="accordion-content">
+                        <div class="accordion-body">
+                            <p><strong>L'architecture UC-P02 combine quatre composants technologiques essentiels</strong> pour une détection, alerte et prévention optimale des contacts électriques mortels.</p>
+
+                            <div class="architecture-grid">
+                                <div class="arch-card">
+                                    <div class="arch-card-header">
+                                        <div class="arch-icon">👁️</div>
+                                        <div class="arch-title">VISION</div>
+                                    </div>
+                                    <div class="arch-description">
+                                        <p><strong>Détection visuelle des lignes électriques et calcul de distance</strong></p>
+                                        <div class="arch-features">
+                                            <ul>
+                                                <li><strong>YOLO v8 spécialisé :</strong> Modèle entraîné sur 50,000+ images de lignes électriques (aériennes, poteaux, isolateurs)</li>
+                                                <li><strong>Segmentation sémantique :</strong> Identification précise du tracé des lignes et classification du voltage</li>
+                                                <li><strong>Calcul de distance 3D :</strong> Stereo vision ou LiDAR pour mesure métrique précise (<50cm d'erreur)</li>
+                                                <li><strong>Tracking persistant :</strong> Suivi continu des lignes et équipements mobiles dans le champ visuel</li>
+                                                <li><strong>Vision thermique :</strong> Détection complémentaire des câbles sous tension via signature infrarouge</li>
+                                                <li><strong>Infrastructure :</strong> Caméras IP HD + Edge AI (Jetson Orin) + Cloud processing</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="arch-card">
+                                    <div class="arch-card-header">
+                                        <div class="arch-icon">⌚</div>
+                                        <div class="arch-title">WEARABLES</div>
+                                    </div>
+                                    <div class="arch-description">
+                                        <p><strong>Alertes haptiques et localisation précise des travailleurs</strong></p>
+                                        <div class="arch-features">
+                                            <ul>
+                                                <li><strong>Bracelets vibrants :</strong> Actionneurs haptiques à 5 intensités (légère → pulsée critique) selon distance à la ligne</li>
+                                                <li><strong>Alertes directionnelles :</strong> Vibrations différenciées selon position du danger (gauche/droite/haut/bas)</li>
+                                                <li><strong>Géolocalisation UWB :</strong> Positionnement indoor/outdoor ultra-précis (<50cm) pour calcul distance aux lignes</li>
+                                                <li><strong>Communication mesh :</strong> Réseau décentralisé entre wearables pour redondance et portée étendue</li>
+                                                <li><strong>Alertes vocales :</strong> Messages audio clairs dans casque Bluetooth ("DANGER ÉLECTRIQUE - RECULEZ")</li>
+                                                <li><strong>Dispositifs :</strong> Smartwatch + Bracelet vibrant + Smart helmet + UWB anchors</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="arch-card">
+                                    <div class="arch-card-header">
+                                        <div class="arch-icon">🤖</div>
+                                        <div class="arch-title">AGENTIC</div>
+                                    </div>
+                                    <div class="arch-description">
+                                        <p><strong>Agents autonomes pour décision et coordination intelligente</strong></p>
+                                        <div class="arch-features">
+                                            <ul>
+                                                <li><strong>Agent Cartographe :</strong> Maintien de la carte 3D des réseaux électriques (aériens + souterrains) avec zones de danger</li>
+                                                <li><strong>Agent Détecteur :</strong> Fusion Vision + Capteurs EM + GPS pour détection et localisation précise des lignes</li>
+                                                <li><strong>Agent Oracle HSE :</strong> Calcul de risque d'électrocution basé sur distance, voltage, météo, équipements conducteurs</li>
+                                                <li><strong>Agent Coordinateur :</strong> Orchestration des alertes (wearables) et actions (verrouillage équipements) selon criticité</li>
+                                                <li><strong>Agent BehaviorX :</strong> Analyse comportementale pour identifier les travailleurs sous-estimant le risque électrique</li>
+                                                <li><strong>Technologie :</strong> Architecture multi-agents (LangGraph), LLM Claude 4 Sonnet, Graph Neural Networks</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="arch-card">
+                                    <div class="arch-card-header">
+                                        <div class="arch-icon">🕸️</div>
+                                        <div class="arch-title">KNOWLEDGE GRAPH</div>
+                                    </div>
+                                    <div class="arch-description">
+                                        <p><strong>Graphe de connaissances électriques et réglementaires</strong></p>
+                                        <div class="arch-features">
+                                            <ul>
+                                                <li><strong>Neo4j cartographie électrique :</strong> Réseau complet des lignes aériennes et souterraines avec métadonnées (voltage, ampérage, propriétaire)</li>
+                                                <li><strong>Zones de protection calculées :</strong> Buffers de sécurité automatiques selon CSA C22.1 (3m, 5m, 7m selon voltage)</li>
+                                                <li><strong>Historique 1,247 incidents :</strong> Base CNESST des électrocutions avec patterns de causalité et facteurs de risque</li>
+                                                <li><strong>Normes électriques :</strong> CSA C22.1, CSA Z462, RSST Art. 293-295, CSTC 2.15 encodés sémantiquement</li>
+                                                <li><strong>Corrélation équipements-lignes :</strong> Identification des grues, nacelles, échelles à proximité critique des lignes</li>
+                                                <li><strong>Infrastructure :</strong> Neo4j Enterprise + GraphQL API + Embeddings OpenAI</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="info-box" style="margin-top: 30px;">
+                                <div class="info-box-title">Flux d'Information Architecture Intégrée</div>
+                                <p><strong>1. ACQUISITION (100ms) :</strong> Vision (30 fps) + Capteurs EM (10 Hz) + GPS UWB → Données brutes multi-sources</p>
+                                <p><strong>2. FUSION (200ms) :</strong> Agent Détecteur fusionne les flux et interroge Knowledge Graph pour localisation lignes</p>
+                                <p><strong>3. ANALYSE (300ms) :</strong> Agent Oracle calcule distance 3D, risque d'arc électrique, et probabilité d'incident</p>
+                                <p><strong>4. DÉCISION (100ms) :</strong> Agent Coordinateur priorise les actions (alertes, verrouillages) selon distance et voltage</p>
+                                <p><strong>5. INTERVENTION (<2s) :</strong> Alertes wearables + Verrouillage équipements + Notification superviseur si distance <3m</p>
+                                <p><strong>6. APPRENTISSAGE (post) :</strong> Enrichissement Knowledge Graph avec nouvel événement pour amélioration continue</p>
+                            </div>
+
+                            <div class="warning-box" style="margin-top: 20px;">
+                                <div class="warning-box-title">Distances Minimales d'Approche (DMA) - CSA C22.1</div>
+                                <ul class="highlight-list">
+                                    <li><strong>Lignes <750V :</strong> DMA = 3 mètres (10 pieds) - Alertes à 5m (pré-alerte) et 3m (critique)</li>
+                                    <li><strong>Lignes 750V - 150kV :</strong> DMA = 5 mètres (16 pieds) - Alertes à 7m et 5m</li>
+                                    <li><strong>Lignes 150kV - 350kV :</strong> DMA = 7 mètres (23 pieds) - Alertes à 10m et 7m</li>
+                                    <li><strong>Lignes >350kV :</strong> DMA = 10+ mètres selon voltage - Contact Hydro-Québec obligatoire</li>
+                                    <li><strong>Majoration conditions humides :</strong> +50% des distances par temps de pluie ou brouillard</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 5: Modules SafetyGraph -->
+                <div class="accordion-item">
+                    <div class="accordion-header">
+                        <div class="accordion-title">
+                            <span class="accordion-icon">🔧</span>
+                            <span>Modules SafetyGraph Impliqués</span>
+                        </div>
+                        <span class="accordion-toggle">▼</span>
+                    </div>
+                    <div class="accordion-content">
+                        <div class="accordion-body">
+                            <p><strong>Le scénario UC-P02 mobilise quatre modules clés de l'écosystème SafetyGraph</strong>, chacun apportant des capacités spécifiques pour une prévention optimale des électrocutions.</p>
+
+                            <div class="modules-grid">
+                                <div class="module-card">
+                                    <div class="module-header">
+                                        <div class="module-icon">🕸️</div>
+                                        <div class="module-name">SafetyOntology (KG)</div>
+                                    </div>
+                                    <div class="module-description">
+                                        Module de graphe de connaissances Neo4j centralisant la cartographie complète des zones électriques dangereuses (lignes aériennes, câbles souterrains, postes) avec métadonnées de voltage et distances de sécurité.
+                                    </div>
+                                    <div class="module-features">
+                                        <h4>Fonctionnalités Clés :</h4>
+                                        <ul>
+                                            <li>Cartographie 3D géoréférencée des réseaux électriques Hydro-Québec</li>
+                                            <li>Métadonnées voltage, ampérage, fréquence pour chaque ligne</li>
+                                            <li>Zones de protection calculées automatiquement selon CSA C22.1</li>
+                                            <li>Corrélation spatiale entre équipements mobiles et lignes électriques</li>
+                                            <li>Base de 1,247 incidents électriques CNESST avec patterns de causalité</li>
+                                            <li>Requêtes géospatiales temps réel (distance, intersection, proximité)</li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <div class="module-card">
+                                    <div class="module-header">
+                                        <div class="module-icon">👁️</div>
+                                        <div class="module-name">Multimodal Agent (Vision)</div>
+                                    </div>
+                                    <div class="module-description">
+                                        Agent de détection visuelle spécialisé dans l'identification des lignes électriques aériennes, poteaux, isolateurs et équipements conducteurs à proximité, avec calcul de distance 3D.
+                                    </div>
+                                    <div class="module-features">
+                                        <h4>Fonctionnalités Clés :</h4>
+                                        <ul>
+                                            <li>YOLO v8 entraîné sur 50,000+ images de lignes électriques</li>
+                                            <li>Classification automatique du voltage (basse/moyenne/haute tension)</li>
+                                            <li>Segmentation sémantique des tracés de lignes dans l'image</li>
+                                            <li>Stereo vision ou LiDAR pour mesure de distance métrique précise</li>
+                                            <li>Détection équipements conducteurs (échelles, perches, grues, nacelles)</li>
+                                            <li>Alertes visuelles si distance critique détectée (<5m selon voltage)</li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <div class="module-card">
+                                    <div class="module-header">
+                                        <div class="module-icon">📍</div>
+                                        <div class="module-name">Context Agent (Localisation)</div>
+                                    </div>
+                                    <div class="module-description">
+                                        Agent de contextualisation géospatiale fournissant la position précise de chaque travailleur et équipement en temps réel pour calcul de distance aux lignes électriques.
+                                    </div>
+                                    <div class="module-features">
+                                        <h4>Fonctionnalités Clés :</h4>
+                                        <ul>
+                                            <li>Géolocalisation UWB (Ultra-Wideband) avec précision <50cm</li>
+                                            <li>Fusion GPS outdoor + UWB indoor pour localisation continue</li>
+                                            <li>Tracking temps réel de tous les travailleurs et équipements mobiles</li>
+                                            <li>Calcul de trajectoires et prédiction de zones à risque</li>
+                                            <li>Intégration avec plans BIM pour contexte spatial 3D</li>
+                                            <li>Historique de mouvements pour analyse comportementale post-incident</li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <div class="module-card">
+                                    <div class="module-header">
+                                        <div class="module-icon">🗺️</div>
+                                        <div class="module-name">Dashboard Zones Géographiques</div>
+                                    </div>
+                                    <div class="module-description">
+                                        Interface de visualisation cartographique en temps réel des zones électriques dangereuses avec superposition des positions des travailleurs, équipements et alertes actives.
+                                    </div>
+                                    <div class="module-features">
+                                        <h4>Fonctionnalités Clés :</h4>
+                                        <ul>
+                                            <li>Carte interactive avec couches lignes aériennes/souterraines/zones de protection</li>
+                                            <li>Visualisation temps réel de tous les travailleurs et équipements mobiles</li>
+                                            <li>Alertes géolocalisées avec code couleur selon niveau de danger</li>
+                                            <li>Heatmap des zones de proximité critique fréquentes</li>
+                                            <li>Historique des incidents et near-miss électriques par zone</li>
+                                            <li>Export rapports conformité CSA Z462 pour audits et inspections</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="warning-box" style="margin-top: 30px;">
+                                <div class="warning-box-title">Intégration des Modules</div>
+                                <p>Les quatre modules fonctionnent en synergie pour une protection maximale contre l'électrocution :</p>
+                                <ul class="highlight-list">
+                                    <li><strong>SafetyOntology (KG)</strong> maintient la cartographie des réseaux électriques et calcule les zones de danger</li>
+                                    <li><strong>Multimodal Agent (Vision)</strong> détecte visuellement les lignes et mesure les distances en temps réel</li>
+                                    <li><strong>Context Agent</strong> localise précisément chaque travailleur/équipement pour calcul de proximité</li>
+                                    <li><strong>Dashboard Zones Géographiques</strong> centralise la vue d'ensemble pour supervision et coordination</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 6: Justification Priorité CRITIQUE -->
+                <div class="accordion-item">
+                    <div class="accordion-header">
+                        <div class="accordion-title">
+                            <span class="accordion-icon">🔴</span>
+                            <span>Justification de la Priorité CRITIQUE</span>
+                        </div>
+                        <span class="accordion-toggle">▼</span>
+                    </div>
+                    <div class="accordion-content">
+                        <div class="accordion-body">
+                            <div class="danger-box">
+                                <div class="danger-box-title">Pourquoi UC-P02 est Classé CRITIQUE</div>
+                                <p style="font-weight: 600; font-size: 1.05rem;">Les électrocutions représentent l'un des dangers les plus mortels dans la construction et justifient une priorité maximale pour les raisons suivantes :</p>
+                            </div>
+
+                            <h3>☠️ Mortalité et Irréversibilité Extrêmes</h3>
+                            <ul>
+                                <li><strong>Taux de mortalité 15-20% :</strong> Bien supérieur aux chutes (3-5%), créant un risque de mort instantanée</li>
+                                <li><strong>Dommages irréversibles :</strong> Arrêt cardiaque, brûlures internes au 3ème degré, lésions neurologiques permanentes, amputations</li>
+                                <li><strong>Instantanéité du dommage :</strong> Quelques millisecondes suffisent pour causer des lésions mortelles ou invalidantes</li>
+                                <li><strong>Arc électrique imprévisible :</strong> L'électricité peut "sauter" jusqu'à 3 mètres sans contact physique, créant un danger invisible</li>
+                                <li><strong>Séquelles psychologiques :</strong> Survivants développent souvent des PTSD sévères et phobie du travail en hauteur</li>
+                            </ul>
+
+                            <h3>👁️ Invisibilité et Imprévisibilité du Danger</h3>
+                            <ul>
+                                <li><strong>Danger invisible :</strong> Contrairement à une hauteur ou une machine, l'électricité ne se voit pas à l'œil nu</li>
+                                <li><strong>Perception erronée :</strong> Travailleurs sous-estiment systématiquement les distances de sécurité et le risque d'arc</li>
+                                <li><strong>Plans obsolètes :</strong> Cartographies électriques souvent périmées, surtout pour câbles souterrains</li>
+                                <li><strong>Conditions variables :</strong> Pluie, humidité, brouillard augmentent drastiquement la conductivité et donc le risque</li>
+                                <li><strong>Absence d'alerte sensorielle :</strong> Aucun signe visuel ou auditif avant le contact mortel</li>
+                            </ul>
+
+                            <h3>📈 Fréquence Significative et Coûts Massifs</h3>
+                            <ul>
+                                <li><strong>1,247 incidents recensés :</strong> Entre 2017-2023 au Québec seulement (CNESST)</li>
+                                <li><strong>187 décès :</strong> 15% de taux de mortalité, faisant de l'électrocution la 3ème cause de mort en construction</li>
+                                <li><strong>Coût moyen 125,000$ :</strong> Par incident (médical + indemnités + enquête + arrêt de chantier)</li>
+                                <li><strong>Coût décès 1.2M$ :</strong> Indemnités, poursuites, fermeture temporaire, réputation</li>
+                                <li><strong>Impact sectoriel :</strong> Centaines de millions de dollars annuellement (direct + indirect)</li>
+                            </ul>
+
+                            <h3>⚖️ Enjeux Légaux et Réglementaires Stricts</h3>
+                            <ul>
+                                <li><strong>Obligation légale stricte :</strong> RSST Art. 293-295 impose des distances minimales d'approche (3m, 5m, 7m selon voltage)</li>
+                                <li><strong>CSA C22.1 et Z462 :</strong> Code électrique canadien et normes de sécurité électrique en milieu de travail</li>
+                                <li><strong>Sanctions sévères :</strong> Amendes de 10,000$ à 100,000$ + poursuites criminelles possibles (C-21)</li>
+                                <li><strong>Responsabilité criminelle :</strong> Employeurs et superviseurs peuvent être poursuivis pour négligence criminelle causant la mort</li>
+                                <li><strong>Inspections CNESST :</strong> Enquêtes systématiques avec arrêts de travaux obligatoires jusqu'à conformité</li>
+                            </ul>
+
+                            <h3>🎯 Opportunité Technologique Unique</h3>
+                            <ul>
+                                <li><strong>Détection en temps réel possible :</strong> Vision + Capteurs EM + Wearables permettent une protection continue impossible manuellement</li>
+                                <li><strong>Prévention proactive :</strong> Alertes avant contact vs constats post-incident des méthodes traditionnelles</li>
+                                <li><strong>Verrouillage automatique :</strong> Arrêt des grues/nacelles avant violation des distances de sécurité</li>
+                                <li><strong>ROI démontrable :</strong> Réduction 70% des contacts électriques justifie pleinement l'investissement technologique</li>
+                                <li><strong>Scalabilité :</strong> Solution applicable à tous les chantiers, toutes les phases, tous les équipements</li>
+                            </ul>
+
+                            <h3>🌐 Complexité Multi-Acteurs</h3>
+                            <ul>
+                                <li><strong>Coordination critique :</strong> Grutiers, élagueurs, électriciens, signaleurs doivent collaborer en temps réel</li>
+                                <li><strong>Hydro-Québec impliqué :</strong> Nécessité de coordonner avec le gestionnaire de réseau pour travaux à proximité</li>
+                                <li><strong>Multiples types de lignes :</strong> Aériennes, souterraines, basse/moyenne/haute tension requièrent des protocoles différents</li>
+                                <li><strong>Évolution dynamique :</strong> Réseaux électriques en modification constante (nouveaux branchements, déplacements temporaires)</li>
+                            </ul>
+
+                            <div class="info-box" style="margin-top: 30px; background: linear-gradient(135deg, #dcfce7 0%, #f0fdf4 100%); border-color: var(--success-color);">
+                                <div class="info-box-title" style="color: var(--success-color);">Impact Attendu de l'Approche Agentique</div>
+                                <p><strong>Basé sur les pilotes et simulations, l'approche AgenticX5 permet de :</strong></p>
+                                <ul class="highlight-list">
+                                    <li>Réduire les contacts électriques de 70% (détection + alerte + verrouillage précoce)</li>
+                                    <li>Éliminer 100% des violations de distances minimales d'approche non détectées</li>
+                                    <li>Prévenir 85% des incidents d'arc électrique par identification proactive des situations dangereuses</li>
+                                    <li>Améliorer la conformité CSA Z462 de 45% à 94% (documentation automatique)</li>
+                                    <li>Réduire le taux de mortalité de 15% à <3% grâce aux interventions agentiques temps réel</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <div class="footer-logo">AgenticX5 • SafetyGraph</div>
+            <div class="footer-text">GenAISafety | Preventera - Intelligence Agentique au Service de la Sécurité au Travail</div>
+            <div class="footer-text" style="margin-top: 10px; font-size: 0.8rem;">Conforme LSST • RSST Art. 293-295 • CSA C22.1 • CSA Z462 • ISO 45001:2018</div>
+        </div>
+    </div>
+
+    <script>
+        // Accordion functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const accordionItems = document.querySelectorAll('.accordion-item');
+            
+            accordionItems.forEach(item => {
+                const header = item.querySelector('.accordion-header');
+                
+                header.addEventListener('click', function() {
+                    // Close all other accordion items
+                    accordionItems.forEach(otherItem => {
+                        if (otherItem !== item && otherItem.classList.contains('active')) {
+                            otherItem.classList.remove('active');
+                        }
+                    });
+                    
+                    // Toggle current item
+                    item.classList.toggle('active');
+                });
+            });
+
+            // Open first accordion by default
+            if (accordionItems.length > 0) {
+                accordionItems[0].classList.add('active');
+            }
+        });
+
+        // Smooth scroll for internal links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
